@@ -482,8 +482,11 @@ namespace Be.HexEditor
             this.hexBox.BuiltInContextMenu.PasteMenuItemText = resources.GetString("hexBox.BuiltInContextMenu.PasteMenuItemText");
             this.hexBox.BuiltInContextMenu.SelectAllMenuItemText = resources.GetString("hexBox.BuiltInContextMenu.SelectAllMenuItemText");
             this.hexBox.ColumnInfoVisible = true;
+            this.hexBox.EnableCut = false;
+            this.hexBox.EnableDelete = false;
+            this.hexBox.EnableOverwritePaste = true;
+            this.hexBox.EnablePaste = true;
             this.hexBox.HexCasing = Be.Windows.Forms.HexCasing.Lower;
-            this.hexBox.InfoForeColor = System.Drawing.Color.Gray;
             this.hexBox.LineInfoVisible = true;
             this.hexBox.Name = "hexBox";
             this.hexBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));

@@ -26,7 +26,7 @@ namespace Be.HexEditor
 
             hexBox.Font = new Font(SystemFonts.MessageBoxFont.FontFamily, SystemFonts.MessageBoxFont.Size, SystemFonts.MessageBoxFont.Style);
 
-			this.toolStrip.Renderer.RenderToolStripBorder += new ToolStripRenderEventHandler(Renderer_RenderToolStripBorder);
+			toolStrip.Renderer.RenderToolStripBorder += new ToolStripRenderEventHandler(Renderer_RenderToolStripBorder);
         }
 
 		/// <summary>
@@ -36,8 +36,7 @@ namespace Be.HexEditor
 		/// <param name="e">the event args</param>
 		void Renderer_RenderToolStripBorder(object sender, ToolStripRenderEventArgs e)
 		{
-			if (e.ToolStrip.GetType() != typeof(ToolStrip))
-				return;
+			if (e.ToolStrip.GetType() != typeof(ToolStrip)) return;
 
 			e.Graphics.DrawLine(new Pen(new SolidBrush(SystemColors.Control)), new Point(toolStrip.Width - 1, 0),
 				new Point(toolStrip.Width - 1, toolStrip.Height));
@@ -88,10 +87,8 @@ namespace Be.HexEditor
         /// </summary>
         void UpdateFileSizeStatus()
         {
-            if (this.hexBox.ByteProvider == null)
-                this.fileSizeToolStripStatusLabel.Text = string.Empty;
-            else
-                this.fileSizeToolStripStatusLabel.Text = Util.GetDisplayBytes(this.hexBox.ByteProvider.Length);
+            if (hexBox.ByteProvider == null) fileSizeToolStripStatusLabel.Text = string.Empty;
+            else fileSizeToolStripStatusLabel.Text = Util.GetDisplayBytes(hexBox.ByteProvider.Length);
         }
 
         /// <summary>
@@ -103,15 +100,11 @@ namespace Be.HexEditor
             if (_fileName != null && _fileName.Length > 0)
             {
                 string textFormat = "{0}{1} - {2}";
-                string readOnly = ((DynamicFileByteProvider)hexBox.ByteProvider).ReadOnly
-                    ? strings.Readonly : "";
+                string readOnly = ((DynamicFileByteProvider)hexBox.ByteProvider).ReadOnly ? strings.Readonly : "";
                 string text = Path.GetFileName(_fileName);
-                this.Text = string.Format(textFormat, text, readOnly, Program.SoftwareName);
+                Text = string.Format(textFormat, text, readOnly, Program.SoftwareName);
             }
-            else
-            {
-                this.Text = Program.SoftwareName;
-            }
+            else Text = Program.SoftwareName;
         }
 
         /// <summary>
@@ -148,8 +141,7 @@ namespace Be.HexEditor
         /// </summary>
         void ManageAbilityForCopyAndPaste()
         {
-            copyHexStringToolStripMenuItem.Enabled = 
-                copyToolStripSplitButton.Enabled = copyToolStripMenuItem.Enabled = hexBox.CanCopy();
+            copyHexStringToolStripMenuItem.Enabled = copyToolStripSplitButton.Enabled = copyToolStripMenuItem.Enabled = hexBox.CanCopy();
 
             cutToolStripButton.Enabled = cutToolStripMenuItem.Enabled = hexBox.CanCut();
             pasteToolStripSplitButton.Enabled = pasteToolStripMenuItem.Enabled = hexBox.CanPaste();
@@ -161,10 +153,7 @@ namespace Be.HexEditor
         /// </summary>
         void OpenFile()
         {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                OpenFile(openFileDialog.FileName);
-            }
+            if (openFileDialog.ShowDialog() == DialogResult.OK) OpenFile(openFileDialog.FileName);
         }
 
         /// <summary>
@@ -238,8 +227,7 @@ namespace Be.HexEditor
         /// </summary>
         void SaveFile()
         {
-            if (hexBox.ByteProvider == null)
-                return;
+            if (hexBox.ByteProvider == null) return;
 
             try
             {
@@ -262,8 +250,7 @@ namespace Be.HexEditor
         /// <returns>OK, if the current file was closed.</returns>
         DialogResult CloseFile()
         {
-            if (hexBox.ByteProvider == null)
-                return DialogResult.OK;
+            if (hexBox.ByteProvider == null) return DialogResult.OK;
 
             try
 
@@ -280,14 +267,8 @@ namespace Be.HexEditor
                         SaveFile();
                         CleanUp();
                     }
-                    else if (res == DialogResult.No)
-                    {
-                        CleanUp();
-                    }
-                    else if (res == DialogResult.Cancel)
-                    {
-                        return res;
-                    }
+                    else if (res == DialogResult.No) CleanUp();
+                    else if (res == DialogResult.Cancel) return res;
 
                     return res;
                 }
@@ -308,8 +289,8 @@ namespace Be.HexEditor
             if (hexBox.ByteProvider != null)
             {
                 IDisposable byteProvider = hexBox.ByteProvider as IDisposable;
-                if (byteProvider != null)
-                    byteProvider.Dispose();
+                if (byteProvider != null) byteProvider.Dispose();
+
                 hexBox.ByteProvider = null;
             }
             _fileName = null;
@@ -333,7 +314,7 @@ namespace Be.HexEditor
 			if (_formFind == null || _formFind.IsDisposed)
 			{
 				_formFind = new FormFind();
-				_formFind.HexBox = this.hexBox;
+				_formFind.HexBox = hexBox;
 				_formFind.FindOptions = _findOptions;
 				_formFind.Show(this);
 			}
@@ -390,10 +371,7 @@ namespace Be.HexEditor
         {
             object oFileNames = e.Data.GetData(DataFormats.FileDrop);
             string[] fileNames = (string[])oFileNames;
-            if (fileNames.Length == 1)
-            {
-                OpenFile(fileNames[0]);
-            }
+            if (fileNames.Length == 1) OpenFile(fileNames[0]);
         }
 
         void hexBox_Copied(object sender, EventArgs e)
@@ -418,7 +396,7 @@ namespace Be.HexEditor
 
         void Position_Changed(object sender, EventArgs e)
         {
-            this.toolStripStatusLabel.Text = string.Format("Ln {0}    Col {1}",
+            toolStripStatusLabel.Text = string.Format("Ln {0}    Col {1}",
                 hexBox.CurrentLine, hexBox.CurrentPositionInLine);
 
 			string bitPresentation = string.Empty;
@@ -438,9 +416,9 @@ namespace Be.HexEditor
 					);
 			}
 
-			this.bitToolStripStatusLabel.Text = bitPresentation;
+			bitToolStripStatusLabel.Text = bitPresentation;
 
-			this.bitControl1.BitInfo = bitInfo;
+			bitControl1.BitInfo = bitInfo;
         }
 
         void byteProvider_Changed(object sender, EventArgs e)
@@ -465,52 +443,52 @@ namespace Be.HexEditor
 
         void cut_Click(object sender, EventArgs e)
         {
-            this.hexBox.Cut();
+            hexBox.Cut();
         }
 
         private void copy_Click(object sender, EventArgs e)
         {
-            this.hexBox.Copy();
+            hexBox.Copy();
         }
 
         void paste_Click(object sender, EventArgs e)
         {
-            this.hexBox.Paste();
+            hexBox.Paste();
         }
 
         private void copyHex_Click(object sender, EventArgs e)
         {
-            this.hexBox.CopyHex();
+            hexBox.CopyHex();
         }
 
         private void pasteHex_Click(object sender, EventArgs e)
         {
-            this.hexBox.PasteHex();
+            hexBox.PasteHex();
         }
 
         void find_Click(object sender, EventArgs e)
         {
-            this.Find();
+            Find();
         }
 
         void findNext_Click(object sender, EventArgs e)
         {
-            this.FindNext();
+            FindNext();
         }
 
         void goTo_Click(object sender, EventArgs e)
         {
-            this.Goto();
+            Goto();
         }
 
         void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.hexBox.SelectAll();
+            hexBox.SelectAll();
         }
 
         void exit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         void about_Click(object sender, EventArgs e)
@@ -521,7 +499,7 @@ namespace Be.HexEditor
         void recentFiles_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             RecentFileHandler.FileMenuItem fmi = (RecentFileHandler.FileMenuItem)e.ClickedItem;
-            this.OpenFile(fmi.FileName);
+            OpenFile(fmi.FileName);
         }
 
         void options_Click(object sender, EventArgs e)
@@ -532,8 +510,7 @@ namespace Be.HexEditor
         void FormHexEditor_FormClosing(object sender, FormClosingEventArgs e)
         {
             var result = CloseFile();
-            if (result == DialogResult.Cancel)
-                e.Cancel = true;
+            if (result == DialogResult.Cancel) e.Cancel = true;
 		}
 
 		void toolStripEncoding_SelectedIndexChanged(object sender, EventArgs e)
@@ -551,8 +528,7 @@ namespace Be.HexEditor
 
 		void UpdateBitControlVisibility()
 		{
-            if (Util.DesignMode)
-                return;
+            if (Util.DesignMode) return;
 			//if (this.bitControl1.Visible == bitsToolStripMenuItem.Checked)
 			//{
 			//    return;
@@ -587,7 +563,7 @@ namespace Be.HexEditor
 
         void UpdateFormWidth()
         {
-            this.Width = this.hexBox.RequiredWidth + 70;
+            Width = hexBox.RequiredWidth + 70;
         }
 	}
 }

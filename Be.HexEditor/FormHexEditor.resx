@@ -129,13 +129,13 @@
     <value>Ctrl+O</value>
   </data>
   <data name="openToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+    <value>151, 22</value>
   </data>
   <data name="openToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Open</value>
   </data>
   <data name="toolStripSeparator.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 6</value>
+    <value>148, 6</value>
   </data>
   <data name="saveToolStripMenuItem.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -144,35 +144,35 @@
     <value>Ctrl+S</value>
   </data>
   <data name="saveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+    <value>151, 22</value>
   </data>
   <data name="saveToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Save</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 6</value>
+    <value>148, 6</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="recentFilesToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="recentFilesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+    <value>151, 22</value>
   </data>
   <data name="recentFilesToolStripMenuItem.Text" xml:space="preserve">
     <value>Recent Files</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 6</value>
+    <value>148, 6</value>
   </data>
   <data name="exitToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 22</value>
+    <value>151, 22</value>
   </data>
   <data name="exitToolStripMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
   </data>
   <data name="fileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
+    <value>38, 20</value>
   </data>
   <data name="fileToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;File</value>
@@ -184,7 +184,7 @@
     <value>Ctrl+X</value>
   </data>
   <data name="cutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="cutToolStripMenuItem.Text" xml:space="preserve">
     <value>Cu&amp;t</value>
@@ -196,7 +196,7 @@
     <value>Ctrl+C</value>
   </data>
   <data name="copyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="copyToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Copy</value>
@@ -208,19 +208,19 @@
     <value>Ctrl+V</value>
   </data>
   <data name="pasteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="pasteToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Paste</value>
   </data>
   <data name="toolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 6</value>
+    <value>203, 6</value>
   </data>
   <data name="copyHexStringToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+C</value>
   </data>
   <data name="copyHexStringToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="copyHexStringToolStripMenuItem.Text" xml:space="preserve">
     <value>Copy Hex</value>
@@ -229,19 +229,19 @@
     <value>Ctrl+Shift+V</value>
   </data>
   <data name="pasteHexToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="pasteHexToolStripMenuItem.Text" xml:space="preserve">
     <value>Paste Hex</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 6</value>
+    <value>203, 6</value>
   </data>
   <data name="findToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+F</value>
   </data>
   <data name="findToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="findToolStripMenuItem.Text" xml:space="preserve">
     <value>Find</value>
@@ -250,7 +250,7 @@
     <value>F3</value>
   </data>
   <data name="findNextToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="findNextToolStripMenuItem.Text" xml:space="preserve">
     <value>Find Next</value>
@@ -259,67 +259,67 @@
     <value>Ctrl+G</value>
   </data>
   <data name="goToToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="goToToolStripMenuItem.Text" xml:space="preserve">
     <value>Go To</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>196, 6</value>
+    <value>203, 6</value>
   </data>
   <data name="selectAllToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+A</value>
   </data>
   <data name="selectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 22</value>
+    <value>206, 22</value>
   </data>
   <data name="selectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>Select &amp;All</value>
   </data>
   <data name="editToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>39, 20</value>
+    <value>41, 20</value>
   </data>
   <data name="editToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Edit</value>
   </data>
   <data name="encodingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="encodingToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Encoding</value>
   </data>
   <data name="bitsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>124, 22</value>
+    <value>128, 22</value>
   </data>
   <data name="bitsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Bits</value>
   </data>
   <data name="viewToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+    <value>46, 20</value>
   </data>
   <data name="viewToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;View</value>
   </data>
   <data name="optionsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 22</value>
+    <value>119, 22</value>
   </data>
   <data name="optionsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Options</value>
   </data>
   <data name="toolsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 20</value>
+    <value>50, 20</value>
   </data>
   <data name="toolsToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Tools</value>
   </data>
   <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 22</value>
+    <value>118, 22</value>
   </data>
   <data name="aboutToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;About...</value>
   </data>
   <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
+    <value>46, 20</value>
   </data>
   <data name="helpToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Help</value>
@@ -343,7 +343,7 @@
     <value>menuStrip</value>
   </data>
   <data name="&gt;&gt;menuStrip.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.MenuStripEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.MenuStripEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;menuStrip.Parent" xml:space="preserve">
     <value>$this</value>
@@ -388,13 +388,13 @@
     <value>Cut</value>
   </data>
   <data name="copyToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
+    <value>129, 22</value>
   </data>
   <data name="copyToolStripMenuItem1.Text" xml:space="preserve">
     <value>Copy</value>
   </data>
   <data name="copyHexToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
+    <value>129, 22</value>
   </data>
   <data name="copyHexToolStripMenuItem1.Text" xml:space="preserve">
     <value>Copy Hex</value>
@@ -409,13 +409,13 @@
     <value>Copy</value>
   </data>
   <data name="pasteToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
+    <value>129, 22</value>
   </data>
   <data name="pasteToolStripMenuItem1.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
   <data name="pasteHexToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 22</value>
+    <value>129, 22</value>
   </data>
   <data name="pasteHexToolStripMenuItem1.Text" xml:space="preserve">
     <value>Paste Hex</value>
@@ -460,7 +460,7 @@
     <value>toolStrip</value>
   </data>
   <data name="&gt;&gt;toolStrip.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStrip.Parent" xml:space="preserve">
     <value>$this</value>
@@ -544,7 +544,7 @@
     <value>hexBox</value>
   </data>
   <data name="&gt;&gt;hexBox.Type" xml:space="preserve">
-    <value>Be.Windows.Forms.HexBox, Be.Windows.Forms.HexBox, Version=1.5.0.27123, Culture=neutral, PublicKeyToken=e0e5adf0ebc99863</value>
+    <value>Be.Windows.Forms.HexBox, Be.Windows.Forms.HexBox, Version=1.6.1.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hexBox.Parent" xml:space="preserve">
     <value>bodyPanel</value>
@@ -571,7 +571,7 @@
     <value>bitControl1</value>
   </data>
   <data name="&gt;&gt;bitControl1.Type" xml:space="preserve">
-    <value>Be.HexEditor.BitControl, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.BitControl, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;bitControl1.Parent" xml:space="preserve">
     <value>bodyPanel</value>
@@ -2078,13 +2078,13 @@
     <value>fileToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;fileToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;openToolStripMenuItem.Name" xml:space="preserve">
     <value>openToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;openToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator.Name" xml:space="preserve">
     <value>toolStripSeparator</value>
@@ -2096,7 +2096,7 @@
     <value>saveToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;saveToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
     <value>toolStripSeparator2</value>
@@ -2108,7 +2108,7 @@
     <value>recentFilesToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;recentFilesToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
     <value>toolStripSeparator1</value>
@@ -2120,31 +2120,31 @@
     <value>exitToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;exitToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;editToolStripMenuItem.Name" xml:space="preserve">
     <value>editToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;editToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;cutToolStripMenuItem.Name" xml:space="preserve">
     <value>cutToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;cutToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;copyToolStripMenuItem.Name" xml:space="preserve">
     <value>copyToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;copyToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pasteToolStripMenuItem.Name" xml:space="preserve">
     <value>pasteToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;pasteToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
     <value>toolStripSeparator3</value>
@@ -2156,13 +2156,13 @@
     <value>copyHexStringToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;copyHexStringToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pasteHexToolStripMenuItem.Name" xml:space="preserve">
     <value>pasteHexToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;pasteHexToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator4.Name" xml:space="preserve">
     <value>toolStripSeparator4</value>
@@ -2174,19 +2174,19 @@
     <value>findToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;findToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;findNextToolStripMenuItem.Name" xml:space="preserve">
     <value>findNextToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;findNextToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;goToToolStripMenuItem.Name" xml:space="preserve">
     <value>goToToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;goToToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator5.Name" xml:space="preserve">
     <value>toolStripSeparator5</value>
@@ -2198,61 +2198,61 @@
     <value>selectAllToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;selectAllToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;viewToolStripMenuItem.Name" xml:space="preserve">
     <value>viewToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;viewToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;encodingToolStripMenuItem.Name" xml:space="preserve">
     <value>encodingToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;encodingToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;bitsToolStripMenuItem.Name" xml:space="preserve">
     <value>bitsToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;bitsToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolsToolStripMenuItem.Name" xml:space="preserve">
     <value>toolsToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;toolsToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;optionsToolStripMenuItem.Name" xml:space="preserve">
     <value>optionsToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;optionsToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;helpToolStripMenuItem.Name" xml:space="preserve">
     <value>helpToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;helpToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;aboutToolStripMenuItem.Name" xml:space="preserve">
     <value>aboutToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;aboutToolStripMenuItem.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;openToolStripButton.Name" xml:space="preserve">
     <value>openToolStripButton</value>
   </data>
   <data name="&gt;&gt;openToolStripButton.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripButtonEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripButtonEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;saveToolStripButton.Name" xml:space="preserve">
     <value>saveToolStripButton</value>
   </data>
   <data name="&gt;&gt;saveToolStripButton.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripButtonEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripButtonEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator6.Name" xml:space="preserve">
     <value>toolStripSeparator6</value>
@@ -2264,43 +2264,43 @@
     <value>cutToolStripButton</value>
   </data>
   <data name="&gt;&gt;cutToolStripButton.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripButtonEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripButtonEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;copyToolStripSplitButton.Name" xml:space="preserve">
     <value>copyToolStripSplitButton</value>
   </data>
   <data name="&gt;&gt;copyToolStripSplitButton.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripSplitButtonEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripSplitButtonEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;copyToolStripMenuItem1.Name" xml:space="preserve">
     <value>copyToolStripMenuItem1</value>
   </data>
   <data name="&gt;&gt;copyToolStripMenuItem1.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;copyHexToolStripMenuItem1.Name" xml:space="preserve">
     <value>copyHexToolStripMenuItem1</value>
   </data>
   <data name="&gt;&gt;copyHexToolStripMenuItem1.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pasteToolStripSplitButton.Name" xml:space="preserve">
     <value>pasteToolStripSplitButton</value>
   </data>
   <data name="&gt;&gt;pasteToolStripSplitButton.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripSplitButtonEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripSplitButtonEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pasteToolStripMenuItem1.Name" xml:space="preserve">
     <value>pasteToolStripMenuItem1</value>
   </data>
   <data name="&gt;&gt;pasteToolStripMenuItem1.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pasteHexToolStripMenuItem1.Name" xml:space="preserve">
     <value>pasteHexToolStripMenuItem1</value>
   </data>
   <data name="&gt;&gt;pasteHexToolStripMenuItem1.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.ToolStripMenuItemEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;encodingToolStripComboBox.Name" xml:space="preserve">
     <value>encodingToolStripComboBox</value>
@@ -2336,12 +2336,12 @@
     <value>RecentFileHandler</value>
   </data>
   <data name="&gt;&gt;RecentFileHandler.Type" xml:space="preserve">
-    <value>Be.HexEditor.RecentFileHandler, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.RecentFileHandler, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FormHexEditor</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.FormEx, Be.HexEditor, Version=1.5.0.28158, Culture=neutral, PublicKeyToken=01fb039ca8b8c445</value>
+    <value>Be.HexEditor.Core.FormEx, Be.HexEditor, Version=1.6.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
