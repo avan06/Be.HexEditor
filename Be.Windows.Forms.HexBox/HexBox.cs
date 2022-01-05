@@ -1070,10 +1070,6 @@ namespace Be.Windows.Forms
 		/// </summary>
 		long _scrollVmax;
 		/// <summary>
-		/// Contains the scroll bars current position
-		/// </summary>
-		long _scrollVpos;
-		/// <summary>
 		/// Contains a vertical scroll
 		/// </summary>
 		VScrollBar _vScrollBar;
@@ -1094,15 +1090,15 @@ namespace Be.Windows.Forms
 		/// </summary>
 		int _lastThumbtrack;
 		/// <summary>
-		/// Contains the border愀 left shift
+		/// Contains the border's left shift
 		/// </summary>
 		int _recBorderLeft = SystemInformation.Border3DSize.Width;
 		/// <summary>
-		/// Contains the border愀 right shift
+		/// Contains the border's right shift
 		/// </summary>
 		int _recBorderRight = SystemInformation.Border3DSize.Width;
 		/// <summary>
-		/// Contains the border愀 top shift
+		/// Contains the border's top shift
 		/// </summary>
 		int _recBorderTop = SystemInformation.Border3DSize.Height;
 		/// <summary>
@@ -1378,7 +1374,7 @@ namespace Be.Windows.Forms
 					break;
 			}
 
-			e.NewValue = ToScrollPos(_scrollVpos);
+			e.NewValue = ToScrollPos(ScrollVpos);
 		}
 
 		/// <summary>
@@ -1406,17 +1402,17 @@ namespace Be.Windows.Forms
 				if (scrollmax < _scrollVmax)
 				{
 					/* Data size has been decreased. */
-					if (_scrollVpos == _scrollVmax)
+					if (ScrollVpos == _scrollVmax)
 						/* Scroll one line up if we at bottom. */
 						PerformScrollLineUp();
 				}
 
-				if (scrollmax == _scrollVmax && scrollpos == _scrollVpos)
+				if (scrollmax == _scrollVmax && scrollpos == ScrollVpos)
 					return;
 
 				_scrollVmin = 0;
 				_scrollVmax = scrollmax;
-				_scrollVpos = Math.Min(scrollpos, scrollmax);
+				ScrollVpos = Math.Min(scrollpos, scrollmax);
 				UpdateVScroll();
 			}
 			else if (VScrollBarVisible)
@@ -1424,7 +1420,7 @@ namespace Be.Windows.Forms
 				// disable scroll bar
 				_scrollVmin = 0;
 				_scrollVmax = 0;
-				_scrollVpos = 0;
+				ScrollVpos = 0;
 				UpdateVScroll();
 			}
 		}
@@ -1439,7 +1435,7 @@ namespace Be.Windows.Forms
 			{
 				_vScrollBar.Minimum = 0;
 				_vScrollBar.Maximum = max;
-				_vScrollBar.Value = ToScrollPos(_scrollVpos);
+				_vScrollBar.Value = ToScrollPos(ScrollVpos);
 				_vScrollBar.Visible = true;
 			}
 			else
@@ -1488,29 +1484,16 @@ namespace Be.Windows.Forms
 				return (int)value;
 		}
 
-		void PerformScrollToLine(long pos)
-		{
-			if (pos < _scrollVmin || pos > _scrollVmax || pos == _scrollVpos)
-				return;
-
-			_scrollVpos = pos;
-
-			UpdateVScroll();
-			UpdateVisibilityBytes();
-			UpdateCaret();
-			Invalidate();
-		}
-
 		void PerformScrollLines(int lines)
 		{
 			long pos;
 			if (lines > 0)
 			{
-				pos = Math.Min(_scrollVmax, _scrollVpos + lines);
+				pos = Math.Min(_scrollVmax, ScrollVpos + lines);
 			}
 			else if (lines < 0)
 			{
-				pos = Math.Max(_scrollVmin, _scrollVpos + lines);
+				pos = Math.Max(_scrollVmin, ScrollVpos + lines);
 			}
 			else
 			{
@@ -1551,6 +1534,27 @@ namespace Be.Windows.Forms
 
 
 			PerformScrollToLine(pos);
+		}
+
+		/// <summary>
+		/// Contains the scroll bars current position
+		/// </summary>
+		public long ScrollVpos { get; private set; }
+
+		/// <summary>
+		/// perform scroll to line
+		/// </summary>
+		public void PerformScrollToLine(long pos)
+		{
+			if (pos < _scrollVmin || pos > _scrollVmax || pos == ScrollVpos)
+				return;
+
+			ScrollVpos = pos;
+
+			UpdateVScroll();
+			UpdateVisibilityBytes();
+			UpdateCaret();
+			Invalidate();
 		}
 
 		/// <summary>
@@ -2623,7 +2627,7 @@ namespace Be.Windows.Forms
 		{
 			if (_byteProvider == null || _byteProvider.Length == 0) return;
 
-			_startByte = (_scrollVpos + 1) * _iHexMaxHBytes - _iHexMaxHBytes;
+			_startByte = (ScrollVpos + 1) * _iHexMaxHBytes - _iHexMaxHBytes;
 			_endByte = (long)Math.Min(_byteProvider.Length - 1, _startByte + _iHexMaxBytes);
 		}
 		#endregion
@@ -3023,7 +3027,7 @@ namespace Be.Windows.Forms
 				CheckCurrentLineChanged();
 				CheckCurrentPositionInLineChanged();
 
-				_scrollVpos = 0;
+				ScrollVpos = 0;
 
 				UpdateVisibilityBytes();
 				UpdateRectanglePositioning();
