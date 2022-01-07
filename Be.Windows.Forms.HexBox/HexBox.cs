@@ -159,8 +159,7 @@ namespace Be.Windows.Forms
             {
                 System.Diagnostics.Debug.WriteLine("BeginMouseSelection()", "KeyInterpreter");
 
-                if (e.Button != MouseButtons.Left)
-                    return;
+                if (e.Button != MouseButtons.Left) return;
 
                 _mouseDown = true;
 
@@ -177,8 +176,7 @@ namespace Be.Windows.Forms
 
             void UpdateMouseSelection(object sender, MouseEventArgs e)
             {
-                if (!_mouseDown)
-                    return;
+                if (!_mouseDown) return;
 
                 _bpi = GetBytePositionInfo(new Point(e.X, e.Y));
                 long selEnd = _bpi.Index;
@@ -258,8 +256,7 @@ namespace Be.Windows.Forms
                 if (!(pos == 0 && cPos == 0))
                 {
                     pos = Math.Max(-1, pos - _hexBox._iHexMaxHBytes);
-                    if (pos == -1)
-                        return true;
+                    if (pos == -1) return true;
 
                     _hexBox.SetPosition(pos);
 
@@ -689,10 +686,7 @@ namespace Be.Windows.Forms
                     _hexBox.Invalidate();
                     return true;
                 }
-                else
-                {
-                    return _hexBox.BasePreProcessMessage(ref m);
-                }
+                else return _hexBox.BasePreProcessMessage(ref m);
             }
 
             protected bool RaiseKeyPress(char keyChar)
@@ -716,8 +710,7 @@ namespace Be.Windows.Forms
                 {
                     case Keys.ShiftKey:
                     case Keys.Insert:
-                        if (RaiseKeyUp(keyData))
-                            return true;
+                        if (RaiseKeyUp(keyData)) return true;
                         break;
                 }
 
@@ -930,8 +923,7 @@ namespace Be.Windows.Forms
                 {
                     case Keys.Tab | Keys.Shift:
                     case Keys.Tab:
-                        if (RaiseKeyDown(keyData))
-                            return true;
+                        if (RaiseKeyDown(keyData)) return true;
                         break;
                 }
 
@@ -1161,10 +1153,6 @@ namespace Be.Windows.Forms
         /// Contains true, if the find (Find method) should be aborted.
         /// </summary>
         bool _abortFind;
-        /// <summary>
-        /// Contains a value of the current finding position.
-        /// </summary>
-        long _findingPos;
 
         /// <summary>
         /// Contains a state value about Insert or Write mode. When this value is true and the ByteProvider SupportsInsert is true bytes are inserted instead of overridden.
@@ -1299,7 +1287,6 @@ namespace Be.Windows.Forms
         #endregion
 
         #region Ctors
-
         /// <summary>
         /// Initializes a new instance of a HexBox class.
         /// </summary>
@@ -1310,7 +1297,7 @@ namespace Be.Windows.Forms
             _vScrollBar = new VScrollBar();
             _vScrollBar.Scroll += new ScrollEventHandler(_vScrollBar_Scroll);
 
-            _builtInContextMenu = new BuiltInContextMenu(this);
+            BuiltInContextMenu = new BuiltInContextMenu(this);
 
             BackColor = Color.White;
             Font = SystemFonts.MessageBoxFont;
@@ -1327,7 +1314,6 @@ namespace Be.Windows.Forms
             _thumbTrackTimer.Interval = 50;
             _thumbTrackTimer.Tick += new EventHandler(PerformScrollThumbTrack);
         }
-
         #endregion
 
         #region Scroll methods
@@ -1357,8 +1343,7 @@ namespace Be.Windows.Forms
                     break;
                 case ScrollEventType.ThumbTrack:
                     // to avoid performance problems use a refresh delay implemented with a timer
-                    if (_thumbTrackTimer.Enabled) // stop old timer
-                        _thumbTrackTimer.Enabled = false;
+                    if (_thumbTrackTimer.Enabled) _thumbTrackTimer.Enabled = false;// stop old timer
 
                     // perform scroll immediately only if last refresh is very old
                     int currentThumbTrack = System.Environment.TickCount;
@@ -1407,13 +1392,10 @@ namespace Be.Windows.Forms
                 if (scrollmax < _scrollVmax)
                 {
                     /* Data size has been decreased. */
-                    if (ScrollVpos == _scrollVmax)
-                        /* Scroll one line up if we at bottom. */
-                        PerformScrollLineUp();
+                    if (ScrollVpos == _scrollVmax) PerformScrollLineUp(); /* Scroll one line up if we at bottom. */
                 }
 
-                if (scrollmax == _scrollVmax && scrollpos == ScrollVpos)
-                    return;
+                if (scrollmax == _scrollVmax && scrollpos == ScrollVpos) return;
 
                 _scrollVmin = 0;
                 _scrollVmax = scrollmax;
@@ -1443,18 +1425,14 @@ namespace Be.Windows.Forms
                 _vScrollBar.Value = ToScrollPos(ScrollVpos);
                 _vScrollBar.Visible = true;
             }
-            else
-            {
-                _vScrollBar.Visible = false;
-            }
+            else _vScrollBar.Visible = false;
         }
 
         int ToScrollPos(long value)
         {
             int max = 65535;
 
-            if (_scrollVmax < max)
-                return (int)value;
+            if (_scrollVmax < max) return (int)value;
             else
             {
                 double valperc = (double)value / (double)_scrollVmax * (double)100;
@@ -1468,10 +1446,7 @@ namespace Be.Windows.Forms
         long FromScrollPos(int value)
         {
             int max = 65535;
-            if (_scrollVmax < max)
-            {
-                return (long)value;
-            }
+            if (_scrollVmax < max) return (long)value;
             else
             {
                 double valperc = (double)value / (double)max * (double)100;
@@ -1483,27 +1458,16 @@ namespace Be.Windows.Forms
         int ToScrollMax(long value)
         {
             long max = 65535;
-            if (value > max)
-                return (int)max;
-            else
-                return (int)value;
+            if (value > max) return (int)max;
+            else return (int)value;
         }
 
         void PerformScrollLines(int lines)
         {
             long pos;
-            if (lines > 0)
-            {
-                pos = Math.Min(_scrollVmax, ScrollVpos + lines);
-            }
-            else if (lines < 0)
-            {
-                pos = Math.Max(_scrollVmin, ScrollVpos + lines);
-            }
-            else
-            {
-                return;
-            }
+            if (lines > 0) pos = Math.Min(_scrollVmax, ScrollVpos + lines);
+            else if (lines < 0) pos = Math.Max(_scrollVmin, ScrollVpos + lines);
+            else return;
 
             PerformScrollToLine(pos);
         }
@@ -1537,22 +1501,15 @@ namespace Be.Windows.Forms
                 pos = _scrollVmax;
             // End Bug fix
 
-
             PerformScrollToLine(pos);
         }
-
-        /// <summary>
-        /// Contains the scroll bars current position
-        /// </summary>
-        public long ScrollVpos { get; private set; }
 
         /// <summary>
         /// perform scroll to line
         /// </summary>
         public void PerformScrollToLine(long pos)
         {
-            if (pos < _scrollVmin || pos > _scrollVmax || pos == ScrollVpos)
-                return;
+            if (pos < _scrollVmin || pos > _scrollVmax || pos == ScrollVpos) return;
 
             ScrollVpos = pos;
 
@@ -1580,8 +1537,7 @@ namespace Be.Windows.Forms
         {
             System.Diagnostics.Debug.WriteLine("ScrollByteIntoView(long index)", "HexBox");
 
-            if (_byteProvider == null || _keyInterpreter == null)
-                return;
+            if (_byteProvider == null || _keyInterpreter == null) return;
 
             if (index < _startByte)
             {
@@ -1654,10 +1610,8 @@ namespace Be.Windows.Forms
             long selLen = length;
             int cPos = 0;
 
-            if (selLen > 0 && _caretVisible)
-                DestroyCaret();
-            else if (selLen == 0 && !_caretVisible)
-                CreateCaret();
+            if (selLen > 0 && _caretVisible) DestroyCaret();
+            else if (selLen == 0 && !_caretVisible) CreateCaret();
 
             SetPosition(pos, cPos);
             SetSelectionLength(selLen);
@@ -1713,8 +1667,8 @@ namespace Be.Windows.Forms
             System.Diagnostics.Debug.WriteLine("CreateCaret()", "HexBox");
 
             // define the caret width depending on InsertActive mode
-            int caretWidth = (InsertActive) ? 1 : (int)_charSize.Width;
-            int caretHeight = (int)_charSize.Height;
+            int caretWidth = (InsertActive) ? 1 : (int)CharSize.Width;
+            int caretHeight = (int)CharSize.Height;
             Caret.Create(Handle, IntPtr.Zero, caretWidth, caretHeight);
 
             UpdateCaret();
@@ -1732,7 +1686,7 @@ namespace Be.Windows.Forms
 
             long byteIndex = _bytePos - _startByte;
             PointF p = _keyInterpreter.GetCaretPointF(byteIndex);
-            p.X += _byteCharacterPos * _charSize.Width;
+            p.X += _byteCharacterPos * CharSize.Width;
             Caret.SetPos((int)p.X, (int)p.Y);
         }
 
@@ -1788,8 +1742,8 @@ namespace Be.Windows.Forms
             long bytePos;
             int byteCharaterPos;
 
-            float x = ((float)(p.X - _recHex.X) / _charSize.Width);
-            float y = ((float)(p.Y - _recHex.Y) / _charSize.Height);
+            float x = ((float)(p.X - _recHex.X) / CharSize.Width);
+            float y = ((float)(p.Y - _recHex.Y) / CharSize.Height);
             int iX = (int)x;
             int iY = (int)y;
 
@@ -1814,8 +1768,8 @@ namespace Be.Windows.Forms
             long bytePos;
             int byteCharacterPos;
 
-            float x = ((float)(p.X - _recStringView.X) / _charSize.Width);
-            float y = ((float)(p.Y - _recStringView.Y) / _charSize.Height);
+            float x = ((float)(p.X - _recStringView.X) / CharSize.Width);
+            float y = ((float)(p.Y - _recStringView.Y) / CharSize.Height);
             int iX = (int)x;
             int iY = (int)y;
 
@@ -1853,10 +1807,7 @@ namespace Be.Windows.Forms
             }
         }
 
-        bool BasePreProcessMessage(ref Message m)
-        {
-            return base.PreProcessMessage(ref m);
-        }
+        bool BasePreProcessMessage(ref Message m) { return base.PreProcessMessage(ref m); }
         #endregion
 
         #region Find methods
@@ -1876,26 +1827,21 @@ namespace Be.Windows.Forms
             byte[] buffer2 = null;
             if (options.Type == FindType.Text && options.MatchCase)
             {
-                if (options.FindBuffer == null || options.FindBuffer.Length == 0)
-                    throw new ArgumentException("FindBuffer can not be null when Type: Text and MatchCase: false");
+                if (options.FindBuffer == null || options.FindBuffer.Length == 0) throw new ArgumentException("FindBuffer can not be null when Type: Text and MatchCase: false");
                 buffer1 = options.FindBuffer;
             }
             else if (options.Type == FindType.Text && !options.MatchCase)
             {
-                if (options.FindBufferLowerCase == null || options.FindBufferLowerCase.Length == 0)
-                    throw new ArgumentException("FindBufferLowerCase can not be null when Type is Text and MatchCase is true");
-                if (options.FindBufferUpperCase == null || options.FindBufferUpperCase.Length == 0)
-                    throw new ArgumentException("FindBufferUpperCase can not be null when Type is Text and MatchCase is true");
-                if (options.FindBufferLowerCase.Length != options.FindBufferUpperCase.Length)
-                    throw new ArgumentException("FindBufferUpperCase and FindBufferUpperCase must have the same size when Type is Text and MatchCase is true");
+                if (options.FindBufferLowerCase == null || options.FindBufferLowerCase.Length == 0) throw new ArgumentException("FindBufferLowerCase can not be null when Type is Text and MatchCase is true");
+                if (options.FindBufferUpperCase == null || options.FindBufferUpperCase.Length == 0) throw new ArgumentException("FindBufferUpperCase can not be null when Type is Text and MatchCase is true");
+                if (options.FindBufferLowerCase.Length != options.FindBufferUpperCase.Length) throw new ArgumentException("FindBufferUpperCase and FindBufferUpperCase must have the same size when Type is Text and MatchCase is true");
                 buffer1 = options.FindBufferLowerCase;
                 buffer2 = options.FindBufferUpperCase;
 
             }
             else if (options.Type == FindType.Hex)
             {
-                if (options.Hex == null || options.Hex.Length == 0)
-                    throw new ArgumentException("Hex can not be null when Type is Hex");
+                if (options.Hex == null || options.Hex.Length == 0) throw new ArgumentException("Hex can not be null when Type is Hex");
                 buffer1 = options.Hex;
             }
 
@@ -1905,11 +1851,9 @@ namespace Be.Windows.Forms
 
             for (long pos = startIndex; pos < _byteProvider.Length; pos++)
             {
-                if (_abortFind)
-                    return -2;
+                if (_abortFind) return -2;
 
-                if (pos % 1000 == 0) // for performance reasons: DoEvents only 1 times per 1000 loops
-                    Application.DoEvents();
+                if (pos % 1000 == 0) Application.DoEvents(); // for performance reasons: DoEvents only 1 times per 1000 loops
 
                 byte compareByte = _byteProvider.ReadByte(pos);
                 bool buffer1Match = compareByte == buffer1[match];
@@ -1920,7 +1864,7 @@ namespace Be.Windows.Forms
                 {
                     pos -= match;
                     match = 0;
-                    _findingPos = pos;
+                    CurrentFindingPosition = pos;
                     continue;
                 }
 
@@ -1943,22 +1887,7 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Aborts a working Find method.
         /// </summary>
-        public void AbortFind()
-        {
-            _abortFind = true;
-        }
-
-        /// <summary>
-        /// Gets a value that indicates the current position during Find method execution.
-        /// </summary>
-        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public long CurrentFindingPosition
-        {
-            get
-            {
-                return _findingPos;
-            }
-        }
+        public void AbortFind() { _abortFind = true; }
         #endregion
 
         #region Copy, Cut and Paste methods
@@ -2173,8 +2102,6 @@ namespace Be.Windows.Forms
 
             OnCopiedHex(EventArgs.Empty);
         }
-
-
         #endregion
 
         #region Paint methods
@@ -2187,55 +2114,49 @@ namespace Be.Windows.Forms
             switch (_borderStyle)
             {
                 case BorderStyle.Fixed3D:
+                    if (TextBoxRenderer.IsSupported)
                     {
-                        if (TextBoxRenderer.IsSupported)
+                        VisualStyleElement state = VisualStyleElement.TextBox.TextEdit.Normal;
+                        Color backColor = BackColor;
+
+                        if (Enabled)
                         {
-                            VisualStyleElement state = VisualStyleElement.TextBox.TextEdit.Normal;
-                            Color backColor = BackColor;
-
-                            if (Enabled)
-                            {
-                                if (ReadOnly) state = VisualStyleElement.TextBox.TextEdit.ReadOnly;
-                                else if (Focused) state = VisualStyleElement.TextBox.TextEdit.Focused;
-                            }
-                            else
-                            {
-                                state = VisualStyleElement.TextBox.TextEdit.Disabled;
-                                backColor = BackColorDisabled;
-                            }
-
-                            VisualStyleRenderer vsr = new VisualStyleRenderer(state);
-                            vsr.DrawBackground(e.Graphics, ClientRectangle);
-
-                            Rectangle rectContent = vsr.GetBackgroundContentRectangle(e.Graphics, ClientRectangle);
-                            e.Graphics.FillRectangle(new SolidBrush(backColor), rectContent);
+                            if (ReadOnly) state = VisualStyleElement.TextBox.TextEdit.ReadOnly;
+                            else if (Focused) state = VisualStyleElement.TextBox.TextEdit.Focused;
                         }
                         else
                         {
-                            // draw background
-                            e.Graphics.FillRectangle(new SolidBrush(BackColor), ClientRectangle);
-
-                            // draw default border
-                            ControlPaint.DrawBorder3D(e.Graphics, ClientRectangle, Border3DStyle.Sunken);
+                            state = VisualStyleElement.TextBox.TextEdit.Disabled;
+                            backColor = BackColorDisabled;
                         }
 
-                        break;
+                        VisualStyleRenderer vsr = new VisualStyleRenderer(state);
+                        vsr.DrawBackground(e.Graphics, ClientRectangle);
+
+                        Rectangle rectContent = vsr.GetBackgroundContentRectangle(e.Graphics, ClientRectangle);
+                        e.Graphics.FillRectangle(new SolidBrush(backColor), rectContent);
                     }
-                case BorderStyle.FixedSingle:
+                    else
                     {
                         // draw background
                         e.Graphics.FillRectangle(new SolidBrush(BackColor), ClientRectangle);
 
-                        // draw fixed single border
-                        ControlPaint.DrawBorder(e.Graphics, ClientRectangle, Color.Black, ButtonBorderStyle.Solid);
-                        break;
+                        // draw default border
+                        ControlPaint.DrawBorder3D(e.Graphics, ClientRectangle, Border3DStyle.Sunken);
                     }
+
+                    break;
+                case BorderStyle.FixedSingle:
+                    // draw background
+                    e.Graphics.FillRectangle(new SolidBrush(BackColor), ClientRectangle);
+
+                    // draw fixed single border
+                    ControlPaint.DrawBorder(e.Graphics, ClientRectangle, Color.Black, ButtonBorderStyle.Solid);
+                    break;
                 default:
-                    {
-                        // draw background
-                        e.Graphics.FillRectangle(new SolidBrush(BackColor), ClientRectangle);
-                        break;
-                    }
+                    // draw background
+                    e.Graphics.FillRectangle(new SolidBrush(BackColor), ClientRectangle);
+                    break;
             }
         }
 
@@ -2248,8 +2169,7 @@ namespace Be.Windows.Forms
         {
             base.OnPaint(e);
 
-            if (_byteProvider == null)
-                return;
+            if (_byteProvider == null) return;
 
             System.Diagnostics.Debug.WriteLine("OnPaint " + DateTime.Now.ToString(), "HexBox");
 
@@ -2260,24 +2180,16 @@ namespace Be.Windows.Forms
 
             UpdateVisibilityBytes();
 
+            if (_lineInfoVisible) PaintLineInfo(e.Graphics, _startByte, _endByte);
 
-            if (_lineInfoVisible)
-                PaintLineInfo(e.Graphics, _startByte, _endByte);
-
-            if (!_stringViewVisible)
-            {
-                PaintHex(e.Graphics, _startByte, _endByte);
-            }
+            if (!_stringViewVisible) PaintHex(e.Graphics, _startByte, _endByte);
             else
             {
                 PaintHexAndStringView(e.Graphics, _startByte, _endByte);
-                if (_shadowSelectionVisible)
-                    PaintCurrentBytesSign(e.Graphics);
+                if (_shadowSelectionVisible) PaintCurrentBytesSign(e.Graphics);
             }
-            if (_columnInfoVisible)
-                PaintHeaderRow(e.Graphics);
-            if (_groupSeparatorVisible)
-                PaintColumnSeparator(e.Graphics);
+            if (_columnInfoVisible) PaintHeaderRow(e.Graphics);
+            if (_groupSeparatorVisible) PaintColumnSeparator(e.Graphics);
         }
 
 
@@ -2299,14 +2211,8 @@ namespace Be.Windows.Forms
                 string info = firstLineByte.ToString(_hexStringFormat, System.Threading.Thread.CurrentThread.CurrentCulture);
                 int nulls = LineInfoOffsetLength - info.Length;
                 string formattedInfo;
-                if (nulls > -1)
-                {
-                    formattedInfo = new string('0', LineInfoOffsetLength - info.Length) + info;
-                }
-                else
-                {
-                    formattedInfo = new string('~', LineInfoOffsetLength);
-                }
+                if (nulls > -1) formattedInfo = new string('0', LineInfoOffsetLength - info.Length) + info;
+                else formattedInfo = new string('~', LineInfoOffsetLength);
 
                 g.DrawString(formattedInfo, Font, brush, new PointF(_recLineInfo.X, bytePointF.Y), _stringFormat);
             }
@@ -2315,10 +2221,7 @@ namespace Be.Windows.Forms
         void PaintHeaderRow(Graphics g)
         {
             Brush brush = new SolidBrush(InfoForeColor);
-            for (int col = 0; col < _iHexMaxHBytes; col++)
-            {
-                PaintColumnInfo(g, (byte)col, brush, col);
-            }
+            for (int col = 0; col < _iHexMaxHBytes; col++) PaintColumnInfo(g, (byte)col, brush, col);
         }
 
         void PaintColumnSeparator(Graphics g)
@@ -2327,14 +2230,13 @@ namespace Be.Windows.Forms
             {
                 var pen = new Pen(new SolidBrush(InfoForeColor), 1);
                 PointF headerPointF = GetColumnInfoPointF(col);
-                headerPointF.X -= _charSize.Width / 2;
+                headerPointF.X -= CharSize.Width / 2;
                 g.DrawLine(pen, headerPointF, new PointF(headerPointF.X, headerPointF.Y + _recColumnInfo.Height + _recHex.Height));
-                if (StringViewVisible)
-                {
-                    PointF byteStringPointF = GetByteStringPointF(new Point(col, 0));
-                    headerPointF.X -= 2;
-                    g.DrawLine(pen, new PointF(byteStringPointF.X, byteStringPointF.Y), new PointF(byteStringPointF.X, byteStringPointF.Y + _recHex.Height));
-                }
+                if (!StringViewVisible) continue;
+
+                PointF byteStringPointF = GetByteStringPointF(new Point(col, 0));
+                headerPointF.X -= 2;
+                g.DrawLine(pen, new PointF(byteStringPointF.X, byteStringPointF.Y), new PointF(byteStringPointF.X, byteStringPointF.Y + _recHex.Height));
             }
         }
 
@@ -2375,7 +2277,7 @@ namespace Be.Windows.Forms
             string sB = ConvertByteToHex(b);
 
             g.DrawString(sB.Substring(0, 1), Font, brush, bytePointF, _stringFormat);
-            bytePointF.X += _charSize.Width;
+            bytePointF.X += CharSize.Width;
             g.DrawString(sB.Substring(1, 1), Font, brush, bytePointF, _stringFormat);
         }
 
@@ -2386,7 +2288,7 @@ namespace Be.Windows.Forms
             string sB = ConvertByteToHex(b);
 
             g.DrawString(sB.Substring(0, 1), Font, brush, headerPointF, _stringFormat);
-            headerPointF.X += _charSize.Width;
+            headerPointF.X += CharSize.Width;
             g.DrawString(sB.Substring(1, 1), Font, brush, headerPointF, _stringFormat);
         }
 
@@ -2398,11 +2300,11 @@ namespace Be.Windows.Forms
             PointF bytePointF = GetBytePointF(gridPoint);
 
             bool isLastLineChar = (gridPoint.X + 1 == _iHexMaxHBytes);
-            float bcWidth = (isLastLineChar) ? _charSize.Width * 2 : _charSize.Width * 3;
+            float bcWidth = (isLastLineChar) ? CharSize.Width * 2 : CharSize.Width * 3;
 
-            g.FillRectangle(brushBack, bytePointF.X, bytePointF.Y, bcWidth, _charSize.Height);
+            g.FillRectangle(brushBack, bytePointF.X, bytePointF.Y, bcWidth, CharSize.Height);
             g.DrawString(sB.Substring(0, 1), Font, brush, bytePointF, _stringFormat);
-            bytePointF.X += _charSize.Width;
+            bytePointF.X += CharSize.Width;
             g.DrawString(sB.Substring(1, 1), Font, brush, bytePointF, _stringFormat);
         }
 
@@ -2440,7 +2342,7 @@ namespace Be.Windows.Forms
 
                 if (isSelectedByte && isStringKeyInterpreterActive)
                 {
-                    g.FillRectangle(selBrushBack, byteStringPointF.X, byteStringPointF.Y, _charSize.Width, _charSize.Height);
+                    g.FillRectangle(selBrushBack, byteStringPointF.X, byteStringPointF.Y, CharSize.Width, CharSize.Height);
                     g.DrawString(s, Font, selBrush, byteStringPointF, _stringFormat);
                 }
                 else g.DrawString(s, Font, brush, byteStringPointF, _stringFormat);
@@ -2449,160 +2351,157 @@ namespace Be.Windows.Forms
 
         void PaintCurrentBytesSign(Graphics g)
         {
-            if (_keyInterpreter != null && _bytePos != -1 && Enabled)
+            if (_keyInterpreter == null || _bytePos == -1 || !Enabled) return;
+            if (_keyInterpreter.GetType() == typeof(KeyInterpreter))
             {
-                if (_keyInterpreter.GetType() == typeof(KeyInterpreter))
+                if (_selectionLength == 0)
                 {
-                    if (_selectionLength == 0)
+                    Point gp = GetGridBytePoint(_bytePos - _startByte);
+                    PointF pf = GetByteStringPointF(gp);
+                    Size s = new Size((int)CharSize.Width, (int)CharSize.Height);
+                    Rectangle r = new Rectangle((int)pf.X, (int)pf.Y, s.Width, s.Height);
+                    if (r.IntersectsWith(_recStringView))
                     {
-                        Point gp = GetGridBytePoint(_bytePos - _startByte);
-                        PointF pf = GetByteStringPointF(gp);
-                        Size s = new Size((int)_charSize.Width, (int)_charSize.Height);
-                        Rectangle r = new Rectangle((int)pf.X, (int)pf.Y, s.Width, s.Height);
-                        if (r.IntersectsWith(_recStringView))
-                        {
-                            r.Intersect(_recStringView);
-                            PaintCurrentByteSign(g, r);
-                        }
-                    }
-                    else
-                    {
-                        int lineWidth = (int)(_recStringView.Width - _charSize.Width);
-
-                        Point startSelGridPoint = GetGridBytePoint(_bytePos - _startByte);
-                        PointF startSelPointF = GetByteStringPointF(startSelGridPoint);
-
-                        Point endSelGridPoint = GetGridBytePoint(_bytePos - _startByte + _selectionLength - 1);
-                        PointF endSelPointF = GetByteStringPointF(endSelGridPoint);
-
-                        int multiLine = endSelGridPoint.Y - startSelGridPoint.Y;
-                        if (multiLine == 0)
-                        {
-
-                            Rectangle singleLine = new Rectangle(
-                                (int)startSelPointF.X,
-                                (int)startSelPointF.Y,
-                                (int)(endSelPointF.X - startSelPointF.X + _charSize.Width),
-                                (int)_charSize.Height);
-                            if (singleLine.IntersectsWith(_recStringView))
-                            {
-                                singleLine.Intersect(_recStringView);
-                                PaintCurrentByteSign(g, singleLine);
-                            }
-                        }
-                        else
-                        {
-                            Rectangle firstLine = new Rectangle(
-                                (int)startSelPointF.X,
-                                (int)startSelPointF.Y,
-                                (int)(_recStringView.X + lineWidth - startSelPointF.X + _charSize.Width),
-                                (int)_charSize.Height);
-                            if (firstLine.IntersectsWith(_recStringView))
-                            {
-                                firstLine.Intersect(_recStringView);
-                                PaintCurrentByteSign(g, firstLine);
-                            }
-
-                            if (multiLine > 1)
-                            {
-                                Rectangle betweenLines = new Rectangle(
-                                    _recStringView.X,
-                                    (int)(startSelPointF.Y + _charSize.Height),
-                                    (int)(_recStringView.Width),
-                                    (int)(_charSize.Height * (multiLine - 1)));
-                                if (betweenLines.IntersectsWith(_recStringView))
-                                {
-                                    betweenLines.Intersect(_recStringView);
-                                    PaintCurrentByteSign(g, betweenLines);
-                                }
-
-                            }
-
-                            Rectangle lastLine = new Rectangle(
-                                _recStringView.X,
-                                (int)endSelPointF.Y,
-                                (int)(endSelPointF.X - _recStringView.X + _charSize.Width),
-                                (int)_charSize.Height);
-                            if (lastLine.IntersectsWith(_recStringView))
-                            {
-                                lastLine.Intersect(_recStringView);
-                                PaintCurrentByteSign(g, lastLine);
-                            }
-                        }
+                        r.Intersect(_recStringView);
+                        PaintCurrentByteSign(g, r);
                     }
                 }
                 else
                 {
-                    if (_selectionLength == 0)
+                    int lineWidth = (int)(_recStringView.Width - CharSize.Width);
+
+                    Point startSelGridPoint = GetGridBytePoint(_bytePos - _startByte);
+                    PointF startSelPointF = GetByteStringPointF(startSelGridPoint);
+
+                    Point endSelGridPoint = GetGridBytePoint(_bytePos - _startByte + _selectionLength - 1);
+                    PointF endSelPointF = GetByteStringPointF(endSelGridPoint);
+
+                    int multiLine = endSelGridPoint.Y - startSelGridPoint.Y;
+                    if (multiLine == 0)
                     {
-                        Point gp = GetGridBytePoint(_bytePos - _startByte);
-                        PointF pf = GetBytePointF(gp);
-                        Size s = new Size((int)_charSize.Width * 2, (int)_charSize.Height);
-                        Rectangle r = new Rectangle((int)pf.X, (int)pf.Y, s.Width, s.Height);
-                        PaintCurrentByteSign(g, r);
+                        Rectangle singleLine = new Rectangle(
+                            (int)startSelPointF.X,
+                            (int)startSelPointF.Y,
+                            (int)(endSelPointF.X - startSelPointF.X + CharSize.Width),
+                            (int)CharSize.Height);
+                        if (singleLine.IntersectsWith(_recStringView))
+                        {
+                            singleLine.Intersect(_recStringView);
+                            PaintCurrentByteSign(g, singleLine);
+                        }
                     }
                     else
                     {
-                        int lineWidth = (int)(_recHex.Width - _charSize.Width * 5);
-
-                        Point startSelGridPoint = GetGridBytePoint(_bytePos - _startByte);
-                        PointF startSelPointF = GetBytePointF(startSelGridPoint);
-
-                        Point endSelGridPoint = GetGridBytePoint(_bytePos - _startByte + _selectionLength - 1);
-                        PointF endSelPointF = GetBytePointF(endSelGridPoint);
-
-                        int multiLine = endSelGridPoint.Y - startSelGridPoint.Y;
-                        if (multiLine == 0)
+                        Rectangle firstLine = new Rectangle(
+                            (int)startSelPointF.X,
+                            (int)startSelPointF.Y,
+                            (int)(_recStringView.X + lineWidth - startSelPointF.X + CharSize.Width),
+                            (int)CharSize.Height);
+                        if (firstLine.IntersectsWith(_recStringView))
                         {
-                            Rectangle singleLine = new Rectangle(
-                                (int)startSelPointF.X,
-                                (int)startSelPointF.Y,
-                                (int)(endSelPointF.X - startSelPointF.X + _charSize.Width * 2),
-                                (int)_charSize.Height);
-                            if (singleLine.IntersectsWith(_recHex))
-                            {
-                                singleLine.Intersect(_recHex);
-                                PaintCurrentByteSign(g, singleLine);
-                            }
+                            firstLine.Intersect(_recStringView);
+                            PaintCurrentByteSign(g, firstLine);
                         }
-                        else
+
+                        if (multiLine > 1)
                         {
-                            Rectangle firstLine = new Rectangle(
-                                (int)startSelPointF.X,
-                                (int)startSelPointF.Y,
-                                (int)(_recHex.X + lineWidth - startSelPointF.X + _charSize.Width * 2),
-                                (int)_charSize.Height);
-                            if (firstLine.IntersectsWith(_recHex))
+                            Rectangle betweenLines = new Rectangle(
+                                _recStringView.X,
+                                (int)(startSelPointF.Y + CharSize.Height),
+                                (int)(_recStringView.Width),
+                                (int)(CharSize.Height * (multiLine - 1)));
+                            if (betweenLines.IntersectsWith(_recStringView))
                             {
-                                firstLine.Intersect(_recHex);
-                                PaintCurrentByteSign(g, firstLine);
+                                betweenLines.Intersect(_recStringView);
+                                PaintCurrentByteSign(g, betweenLines);
                             }
 
-                            if (multiLine > 1)
-                            {
-                                Rectangle betweenLines = new Rectangle(
-                                    _recHex.X,
-                                    (int)(startSelPointF.Y + _charSize.Height),
-                                    (int)(lineWidth + _charSize.Width * 2),
-                                    (int)(_charSize.Height * (multiLine - 1)));
-                                if (betweenLines.IntersectsWith(_recHex))
-                                {
-                                    betweenLines.Intersect(_recHex);
-                                    PaintCurrentByteSign(g, betweenLines);
-                                }
+                        }
 
-                            }
+                        Rectangle lastLine = new Rectangle(
+                            _recStringView.X,
+                            (int)endSelPointF.Y,
+                            (int)(endSelPointF.X - _recStringView.X + CharSize.Width),
+                            (int)CharSize.Height);
+                        if (lastLine.IntersectsWith(_recStringView))
+                        {
+                            lastLine.Intersect(_recStringView);
+                            PaintCurrentByteSign(g, lastLine);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (_selectionLength == 0)
+                {
+                    Point gp = GetGridBytePoint(_bytePos - _startByte);
+                    PointF pf = GetBytePointF(gp);
+                    Size s = new Size((int)CharSize.Width * 2, (int)CharSize.Height);
+                    Rectangle r = new Rectangle((int)pf.X, (int)pf.Y, s.Width, s.Height);
+                    PaintCurrentByteSign(g, r);
+                }
+                else
+                {
+                    int lineWidth = (int)(_recHex.Width - CharSize.Width * 5);
 
-                            Rectangle lastLine = new Rectangle(
+                    Point startSelGridPoint = GetGridBytePoint(_bytePos - _startByte);
+                    PointF startSelPointF = GetBytePointF(startSelGridPoint);
+
+                    Point endSelGridPoint = GetGridBytePoint(_bytePos - _startByte + _selectionLength - 1);
+                    PointF endSelPointF = GetBytePointF(endSelGridPoint);
+
+                    int multiLine = endSelGridPoint.Y - startSelGridPoint.Y;
+                    if (multiLine == 0)
+                    {
+                        Rectangle singleLine = new Rectangle(
+                            (int)startSelPointF.X,
+                            (int)startSelPointF.Y,
+                            (int)(endSelPointF.X - startSelPointF.X + CharSize.Width * 2),
+                            (int)CharSize.Height);
+                        if (singleLine.IntersectsWith(_recHex))
+                        {
+                            singleLine.Intersect(_recHex);
+                            PaintCurrentByteSign(g, singleLine);
+                        }
+                    }
+                    else
+                    {
+                        Rectangle firstLine = new Rectangle(
+                            (int)startSelPointF.X,
+                            (int)startSelPointF.Y,
+                            (int)(_recHex.X + lineWidth - startSelPointF.X + CharSize.Width * 2),
+                            (int)CharSize.Height);
+                        if (firstLine.IntersectsWith(_recHex))
+                        {
+                            firstLine.Intersect(_recHex);
+                            PaintCurrentByteSign(g, firstLine);
+                        }
+
+                        if (multiLine > 1)
+                        {
+                            Rectangle betweenLines = new Rectangle(
                                 _recHex.X,
-                                (int)endSelPointF.Y,
-                                (int)(endSelPointF.X - _recHex.X + _charSize.Width * 2),
-                                (int)_charSize.Height);
-                            if (lastLine.IntersectsWith(_recHex))
+                                (int)(startSelPointF.Y + CharSize.Height),
+                                (int)(lineWidth + CharSize.Width * 2),
+                                (int)(CharSize.Height * (multiLine - 1)));
+                            if (betweenLines.IntersectsWith(_recHex))
                             {
-                                lastLine.Intersect(_recHex);
-                                PaintCurrentByteSign(g, lastLine);
+                                betweenLines.Intersect(_recHex);
+                                PaintCurrentByteSign(g, betweenLines);
                             }
+
+                        }
+
+                        Rectangle lastLine = new Rectangle(
+                            _recHex.X,
+                            (int)endSelPointF.Y,
+                            (int)(endSelPointF.X - _recHex.X + CharSize.Width * 2),
+                            (int)CharSize.Height);
+                        if (lastLine.IntersectsWith(_recHex))
+                        {
+                            lastLine.Intersect(_recHex);
+                            PaintCurrentByteSign(g, lastLine);
                         }
                     }
                 }
@@ -2619,19 +2518,14 @@ namespace Be.Windows.Forms
 
             SolidBrush greenBrush = new SolidBrush(_shadowSelectionColor);
 
-            bitmapGraphics.FillRectangle(greenBrush, 0,
-                0, rec.Width, rec.Height);
+            bitmapGraphics.FillRectangle(greenBrush, 0, 0, rec.Width, rec.Height);
 
             g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.GammaCorrected;
 
             g.DrawImage(myBitmap, rec.Left, rec.Top);
         }
 
-        Color GetDefaultForeColor()
-        {
-            if (Enabled) return ForeColor;
-            else return Color.Gray;
-        }
+        Color GetDefaultForeColor() { return Enabled ? ForeColor : Color.Gray; }
         void UpdateVisibilityBytes()
         {
             if (_byteProvider == null || _byteProvider.Length == 0) return;
@@ -2648,12 +2542,11 @@ namespace Be.Windows.Forms
             SizeF charSize;
             using (var graphics = CreateGraphics())
             {
-                charSize = CreateGraphics().MeasureString("A", Font, 100, _stringFormat);
+                charSize = graphics.MeasureString("A", Font, 100, _stringFormat);
             }
             CharSize = new SizeF((float)Math.Ceiling(charSize.Width), (float)Math.Ceiling(charSize.Height));
 
             int requiredWidth = 0;
-
             // calc content bounds
             _recContent = ClientRectangle;
             _recContent.X += _recBorderLeft;
@@ -2671,14 +2564,10 @@ namespace Be.Windows.Forms
             }
 
             int marginLeft = 4;
-
             // calc line info bounds
             if (_lineInfoVisible)
             {
-                _recLineInfo = new Rectangle(_recContent.X + marginLeft,
-                    _recContent.Y,
-                    (int)(_charSize.Width * LineInfoOffsetLength),
-                    _recContent.Height);
+                _recLineInfo = new Rectangle(_recContent.X + marginLeft, _recContent.Y, (int)(CharSize.Width * LineInfoOffsetLength), _recContent.Height);
                 requiredWidth += _recLineInfo.Width;
             }
             else
@@ -2695,26 +2584,19 @@ namespace Be.Windows.Forms
                 _recLineInfo.Y += (int)charSize.Height + 4;
                 _recLineInfo.Height -= (int)charSize.Height + 4;
             }
-            else
-            {
-                _recColumnInfo.Height = 0;
-            }
+            else _recColumnInfo.Height = 0;
 
             // calc hex bounds and grid
-            _recHex = new Rectangle(_recLineInfo.X + _recLineInfo.Width,
-                _recLineInfo.Y,
-                _recContent.Width - _recLineInfo.Width,
-                _recContent.Height - _recColumnInfo.Height);
-
+            _recHex = new Rectangle(_recLineInfo.X + _recLineInfo.Width, _recLineInfo.Y, _recContent.Width - _recLineInfo.Width, _recContent.Height - _recColumnInfo.Height);
             if (UseFixedBytesPerLine)
             {
                 SetHorizontalByteCount(_bytesPerLine);
-                _recHex.Width = (int)Math.Floor(((double)_iHexMaxHBytes) * _charSize.Width * 3 + (2 * _charSize.Width));
+                _recHex.Width = (int)Math.Floor(((double)_iHexMaxHBytes) * CharSize.Width * 3 + (2 * CharSize.Width));
                 requiredWidth += _recHex.Width;
             }
             else
             {
-                int hmax = (int)Math.Floor((double)_recHex.Width / (double)_charSize.Width);
+                int hmax = (int)Math.Floor((double)_recHex.Width / (double)CharSize.Width);
                 if (_stringViewVisible)
                 {
                     hmax -= 2;
@@ -2726,26 +2608,20 @@ namespace Be.Windows.Forms
                     if (hmax > 1) SetHorizontalByteCount((int)Math.Floor((double)hmax / 3));
                     else SetHorizontalByteCount(1);
                 }
-                _recHex.Width = (int)Math.Floor(((double)_iHexMaxHBytes) * _charSize.Width * 3 + (2 * _charSize.Width));
+                _recHex.Width = (int)Math.Floor(((double)_iHexMaxHBytes) * CharSize.Width * 3 + (2 * CharSize.Width));
                 requiredWidth += _recHex.Width;
             }
 
             if (_stringViewVisible)
             {
-                _recStringView = new Rectangle(_recHex.X + _recHex.Width,
-                    _recHex.Y,
-                    (int)(_charSize.Width * _iHexMaxHBytes),
-                    _recHex.Height);
+                _recStringView = new Rectangle(_recHex.X + _recHex.Width,  _recHex.Y, (int)(CharSize.Width * _iHexMaxHBytes), _recHex.Height);
                 requiredWidth += _recStringView.Width;
             }
-            else
-            {
-                _recStringView = Rectangle.Empty;
-            }
+            else _recStringView = Rectangle.Empty;
 
             RequiredWidth = requiredWidth;
 
-            int vmax = (int)Math.Floor((double)_recHex.Height / (double)_charSize.Height);
+            int vmax = (int)Math.Floor((double)_recHex.Height / (double)CharSize.Height);
             SetVerticalByteCount(vmax);
 
             _iHexMaxBytes = _iHexMaxHBytes * _iHexMaxVBytes;
@@ -2762,15 +2638,15 @@ namespace Be.Windows.Forms
 
         PointF GetBytePointF(Point gp)
         {
-            float x = (3 * _charSize.Width) * gp.X + _recHex.X;
-            float y = (gp.Y + 1) * _charSize.Height - _charSize.Height + _recHex.Y;
+            float x = (3 * CharSize.Width) * gp.X + _recHex.X;
+            float y = (gp.Y + 1) * CharSize.Height - CharSize.Height + _recHex.Y;
 
             return new PointF(x, y);
         }
         PointF GetColumnInfoPointF(int col)
         {
             Point gp = GetGridBytePoint(col);
-            float x = (3 * _charSize.Width) * gp.X + _recColumnInfo.X;
+            float x = (3 * CharSize.Width) * gp.X + _recColumnInfo.X;
             float y = _recColumnInfo.Y;
 
             return new PointF(x, y);
@@ -2778,8 +2654,8 @@ namespace Be.Windows.Forms
 
         PointF GetByteStringPointF(Point gp)
         {
-            float x = (_charSize.Width) * gp.X + _recStringView.X;
-            float y = (gp.Y + 1) * _charSize.Height - _charSize.Height + _recStringView.Y;
+            float x = (CharSize.Width) * gp.X + _recStringView.X;
+            float y = (gp.Y + 1) * CharSize.Height - CharSize.Height + _recStringView.Y;
 
             return new PointF(x, y);
         }
@@ -2831,14 +2707,8 @@ namespace Be.Windows.Forms
         [DefaultValue(typeof(Color), "White")]
         public override Color BackColor
         {
-            get
-            {
-                return base.BackColor;
-            }
-            set
-            {
-                base.BackColor = value;
-            }
+            get { return base.BackColor; }
+            set { base.BackColor = value; }
         }
 
         /// <summary>
@@ -2846,14 +2716,10 @@ namespace Be.Windows.Forms
         /// </summary>
         public override Font Font
         {
-            get
-            {
-                return base.Font;
-            }
+            get { return base.Font; }
             set
             {
-                if (value == null)
-                    return;
+                if (value == null) return;
 
                 base.Font = value;
                 UpdateRectanglePositioning();
@@ -2867,14 +2733,8 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never), Bindable(false)]
         public override string Text
         {
-            get
-            {
-                return base.Text;
-            }
-            set
-            {
-                base.Text = value;
-            }
+            get { return base.Text; }
+            set { base.Text = value; }
         }
 
         /// <summary>
@@ -2883,14 +2743,8 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never), Bindable(false)]
         public override RightToLeft RightToLeft
         {
-            get
-            {
-                return base.RightToLeft;
-            }
-            set
-            {
-                base.RightToLeft = value;
-            }
+            get { return base.RightToLeft; }
+            set { base.RightToLeft = value; }
         }
         #endregion
 
@@ -2898,19 +2752,8 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets or sets the background color for the disabled control.
         /// </summary>
-        [Category("Appearance"), DefaultValue(typeof(Color), "WhiteSmoke")]
-        public Color BackColorDisabled
-        {
-            get
-            {
-                return _backColorDisabled;
-            }
-            set
-            {
-                _backColorDisabled = value;
-            }
-        }
-        Color _backColorDisabled = Color.FromName("WhiteSmoke");
+        [Category("HexAppearance"), Description("Gets or sets the background color for the disabled control."), DefaultValue(typeof(Color), "WhiteSmoke")]
+        public Color BackColorDisabled { get; set; } = Color.FromName("WhiteSmoke");
 
         /// <summary>
         /// Get or set whether to make the HexEditor readonly.
@@ -2918,7 +2761,7 @@ namespace Be.Windows.Forms
         /// <remarks>
         /// Disable edit, cut, paste, delete behavior when set to true.
         /// </remarks>
-        [DefaultValue(false), Category("Hex"), Description("Get or set whether to make the HexEditor readonly.")]
+        [Category("HexBehavior"), Description("Get or set whether to make the HexEditor readonly."), DefaultValue(false)]
         public bool ReadOnly
         {
             get { return _readOnly; }
@@ -2939,14 +2782,13 @@ namespace Be.Windows.Forms
         /// <remarks>
         /// UseFixedBytesPerLine property no longer has to be set to true for this to work
         /// </remarks>
-        [DefaultValue(16), Category("Hex"), Description("Gets or sets the maximum count of bytes in one line.")]
+        [Category("HexBehavior"), Description("Gets or sets the maximum count of bytes in one line."), DefaultValue(16)]
         public int BytesPerLine
         {
             get { return _bytesPerLine; }
             set
             {
-                if (_bytesPerLine == value)
-                    return;
+                if (_bytesPerLine == value) return;
 
                 _bytesPerLine = value;
                 OnBytesPerLineChanged(EventArgs.Empty);
@@ -2963,14 +2805,13 @@ namespace Be.Windows.Forms
         /// <remarks>
         /// GroupSeparatorVisible property must set to true
         /// </remarks>
-        [DefaultValue(4), Category("Hex"), Description("Gets or sets the byte-count between group separators (if visible).")]
+        [Category("HexBehavior"), Description("Gets or sets the byte-count between group separators (if visible)."), DefaultValue(4)]
         public int GroupSize
         {
             get { return _groupSize; }
             set
             {
-                if (_groupSize == value)
-                    return;
+                if (_groupSize == value) return;
 
                 _groupSize = value;
                 OnGroupSizeChanged(EventArgs.Empty);
@@ -2980,20 +2821,20 @@ namespace Be.Windows.Forms
             }
         }
         int _groupSize = 4;
+
         /// <summary>
         /// Gets or sets if the count of bytes in one line is fix.
         /// </summary>
         /// <remarks>
         /// When set to True, BytesPerLine property determine the maximum count of bytes in one line.
         /// </remarks>
-        [DefaultValue(false), Category("Hex"), Description("Gets or sets if the count of bytes in one line is fix.")]
+        [Category("HexBehavior"), Description("Gets or sets if the count of bytes in one line is fix."), DefaultValue(false)]
         public bool UseFixedBytesPerLine
         {
             get { return _useFixedBytesPerLine; }
             set
             {
-                if (_useFixedBytesPerLine == value)
-                    return;
+                if (_useFixedBytesPerLine == value) return;
 
                 _useFixedBytesPerLine = value;
                 OnUseFixedBytesPerLineChanged(EventArgs.Empty);
@@ -3007,21 +2848,18 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets or sets the visibility of a vertical scroll bar.
         /// </summary>
-        [DefaultValue(false), Category("Hex"), Description("Gets or sets the visibility of a vertical scroll bar.")]
+        [Category("HexBehavior"), Description("Gets or sets the visibility of a vertical scroll bar."), DefaultValue(false)]
         public bool VScrollBarVisible
         {
             get { return _vScrollBarVisible; }
             set
             {
-                if (_vScrollBarVisible == value)
-                    return;
+                if (_vScrollBarVisible == value) return;
 
                 _vScrollBarVisible = value;
 
-                if (_vScrollBarVisible)
-                    Controls.Add(_vScrollBar);
-                else
-                    Controls.Remove(_vScrollBar);
+                if (_vScrollBarVisible) Controls.Add(_vScrollBar);
+                else Controls.Remove(_vScrollBar);
 
                 UpdateRectanglePositioning();
                 UpdateScrollSize();
@@ -3032,63 +2870,9 @@ namespace Be.Windows.Forms
         bool _vScrollBarVisible;
 
         /// <summary>
-        /// Gets or sets the ByteProvider.
-        /// </summary>
-        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IByteProvider ByteProvider
-        {
-            get { return _byteProvider; }
-            set
-            {
-                if (_byteProvider == value) return;
-
-                if (value == null) ActivateEmptyKeyInterpreter();
-                else ActivateKeyInterpreter();
-
-                if (_byteProvider != null) _byteProvider.LengthChanged -= new EventHandler(_byteProvider_LengthChanged);
-
-                _byteProvider = value;
-                if (_byteProvider != null) _byteProvider.LengthChanged += new EventHandler(_byteProvider_LengthChanged);
-
-                if (!EnableRetainChangedPos && changedPosSet != null) changedPosSet.Clear();
-                if (!EnableRetainChangedFinishPos && changedFinishPosSet != null) changedFinishPosSet.Clear();
-
-                OnByteProviderChanged(EventArgs.Empty);
-
-                if (value == null) // do not raise events if value is null
-                {
-                    _bytePos = -1;
-                    _byteCharacterPos = 0;
-                    _selectionLength = 0;
-
-                    DestroyCaret();
-                }
-                else
-                {
-                    SetPosition(0, 0);
-                    SetSelectionLength(0);
-
-                    if (_caretVisible && Focused) UpdateCaret();
-                    else CreateCaret();
-                }
-
-                CheckCurrentLineChanged();
-                CheckCurrentPositionInLineChanged();
-
-                ScrollVpos = 0;
-
-                UpdateVisibilityBytes();
-                UpdateRectanglePositioning();
-
-                Invalidate();
-            }
-        }
-
-        IByteProvider _byteProvider;
-        /// <summary>
         /// Gets or sets the visibility of the group separator.
         /// </summary>
-        [DefaultValue(false), Category("Hex"), Description("Gets or sets the visibility of a separator vertical line.")]
+        [Category("HexBehavior"), Description("Gets or sets the visibility of a separator vertical line."), DefaultValue(false)]
         public bool GroupSeparatorVisible
         {
             get { return _groupSeparatorVisible; }
@@ -3108,7 +2892,7 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets or sets the visibility of the column info
         /// </summary>
-        [DefaultValue(false), Category("Hex"), Description("Gets or sets the visibility of header row.")]
+        [Category("HexBehavior"), Description("Gets or sets the visibility of header row."), DefaultValue(false)]
         public bool ColumnInfoVisible
         {
             get { return _columnInfoVisible; }
@@ -3128,7 +2912,7 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets or sets the visibility of a line info.
         /// </summary>
-        [DefaultValue(false), Category("Hex"), Description("Gets or sets the visibility of a line info.")]
+        [Category("HexBehavior"), Description("Gets or sets the visibility of a line info."), DefaultValue(false)]
         public bool LineInfoVisible
         {
             get { return _lineInfoVisible; }
@@ -3148,7 +2932,7 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets or sets the offset of a line info.
         /// </summary>
-        [DefaultValue((long)0), Category("Hex"), Description("Gets or sets the offset of the line info.")]
+        [Category("HexBehavior"), Description("Gets or sets the offset of the line info."), DefaultValue((long)0)]
         public long LineInfoOffset
         {
             get { return _lineInfoOffset; }
@@ -3166,7 +2950,7 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets or sets the hex box's border style.
         /// </summary>
-        [DefaultValue(typeof(BorderStyle), "Fixed3D"), Category("Hex"), Description("Gets or sets the hex box's border style.")]
+        [Category("HexAppearance"), Description("Gets or sets the hex box's border style."), DefaultValue(typeof(BorderStyle), "Fixed3D")]
         public BorderStyle BorderStyle
         {
             get { return _borderStyle; }
@@ -3200,7 +2984,7 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets or sets the visibility of the string view.
         /// </summary>
-        [DefaultValue(false), Category("Hex"), Description("Gets or sets the visibility of the string view.")]
+        [Category("HexBehavior"), Description("Gets or sets the visibility of the string view."), DefaultValue(false)]
         public bool StringViewVisible
         {
             get { return _stringViewVisible; }
@@ -3220,19 +3004,13 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets or sets whether the HexBox control displays the hex characters in upper or lower case.
         /// </summary>
-        [DefaultValue(typeof(HexCasing), "Upper"), Category("Hex"), Description("Gets or sets whether the HexBox control displays the hex characters in upper or lower case.")]
+        [Category("HexBehavior"), Description("Gets or sets whether the HexBox control displays the hex characters in upper or lower case."), DefaultValue(typeof(HexCasing), "Upper")]
         public HexCasing HexCasing
         {
-            get
-            {
-                if (_hexStringFormat == "X") return HexCasing.Upper;
-                else return HexCasing.Lower;
-            }
+            get { return _hexStringFormat == "X" ? HexCasing.Upper : HexCasing.Lower; }
             set
             {
-                string format;
-                if (value == HexCasing.Upper) format = "X";
-                else format = "x";
+                string format = value == HexCasing.Upper ? "X" : "x";
 
                 if (_hexStringFormat == format) return;
 
@@ -3242,6 +3020,239 @@ namespace Be.Windows.Forms
                 Invalidate();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the info color used for column info and line info. When this property is null, then ForeColor property is used.
+        /// </summary>
+        [Category("HexAppearance"), Description("Gets or sets the line info color. When this property is null, then ForeColor property is used."), DefaultValue(typeof(Color), "Gray")]
+        public Color InfoForeColor
+        {
+            get { return _infoForeColor; }
+            set { _infoForeColor = value; Invalidate(); }
+        }
+        Color _infoForeColor = Color.Gray;
+
+        /// <summary>
+        /// Gets or sets the background color for the selected bytes.
+        /// </summary>
+        [Category("HexAppearance"), Description("Gets or sets the background color for the selected bytes."), DefaultValue(typeof(Color), "Blue")]
+        public Color SelectionBackColor
+        {
+            get { return _selectionBackColor; }
+            set { _selectionBackColor = value; Invalidate(); }
+        }
+        Color _selectionBackColor = Color.Blue;
+
+        /// <summary>
+        /// Gets or sets the foreground color for the selected bytes.
+        /// </summary>
+        [Category("HexAppearance"), Description("Gets or sets the foreground color for the selected bytes."), DefaultValue(typeof(Color), "White")]
+        public Color SelectionForeColor
+        {
+            get { return _selectionForeColor; }
+            set { _selectionForeColor = value; Invalidate(); }
+        }
+        Color _selectionForeColor = Color.White;
+
+        /// <summary>
+        /// Gets or sets the visibility of a shadow selection.
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets the visibility of a shadow selection."), DefaultValue(true)]
+        public bool ShadowSelectionVisible
+        {
+            get { return _shadowSelectionVisible; }
+            set
+            {
+                if (_shadowSelectionVisible == value) return;
+                _shadowSelectionVisible = value;
+                Invalidate();
+            }
+        }
+        bool _shadowSelectionVisible = true;
+
+        /// <summary>
+        /// Gets or sets the color of the shadow selection. 
+        /// </summary>
+        /// <remarks>
+        /// A alpha component must be given! 
+        /// Default alpha = 100
+        /// </remarks>
+        [Category("HexAppearance"), Description("Gets or sets the color of the shadow selection.")]
+        public Color ShadowSelectionColor
+        {
+            get { return _shadowSelectionColor; }
+            set { _shadowSelectionColor = value; Invalidate(); }
+        }
+        Color _shadowSelectionColor = Color.FromArgb(100, 60, 188, 255);
+
+        /// <summary>
+        /// Gets or sets the maximum size of line info offset support length. Sets range is 8(32bit)~16(64bit).
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets the maximum size of line info offset support length. Sets range is 8(32bit)~16(64bit)."), DefaultValue(8)]
+        public int LineInfoOffsetLength
+        {
+            get { return _lineInfoOffsetLength; }
+            set
+            {
+                value = value < 8 ? 8 : (value > 16 ? 16 : value);
+                _lineInfoOffsetLength = value;
+            }
+        }
+        int _lineInfoOffsetLength = 8;
+
+        /// <summary>
+        /// Gets or sets the foreground color for the position of changed bytes.
+        /// </summary>
+        [Category("HexAppearance"), Description("Gets or sets the foreground color for the position of changed bytes."), DefaultValue(typeof(Color), "Red")]
+        public Color ChangedForeColor
+        {
+            get { return _changedForeColor; }
+            set { _changedForeColor = value; Invalidate(); }
+        }
+        Color _changedForeColor = Color.Red;
+
+        /// <summary>
+        /// Gets or sets the foreground color for the position of finish changed.
+        /// After perform the ChangedPosSetFinish method, the changed position setting will be finish.
+        /// </summary>
+        [Category("HexAppearance"), Description("Gets or sets the foreground color for the position of finish changed.\n" +
+            "After perform the ChangedPosSetFinish method, the changed position setting will be finish."), DefaultValue(typeof(Color), "SteelBlue")]
+        public Color ChangedFinishForeColor
+        {
+            get { return _changedFinishForeColor; }
+            set { _changedFinishForeColor = value; Invalidate(); }
+        }
+        Color _changedFinishForeColor = Color.LimeGreen;
+
+        /// <summary>
+        /// Gets or sets the foreground color for the zero bytes.
+        /// </summary>
+        [Category("HexAppearance"), Description("Gets or sets the foreground color for the zero bytes."), DefaultValue(typeof(Color), "Silver")]
+        public Color ZeroBytesForeColor
+        {
+            get { return _zeroBytesForeColor; }
+            set { _zeroBytesForeColor = value; Invalidate(); }
+        }
+        Color _zeroBytesForeColor = Color.Silver;
+
+        /// <summary>
+        /// Gets or sets whether you can cut bytes data.
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets whether you can cut bytes data.")]
+        public bool EnableCut { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets whether you can delete bytes data.
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets whether you can delete bytes data.")]
+        public bool EnableDelete { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets whether you can paste bytes data.
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets whether you can paste bytes data.")]
+        public bool EnablePaste { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets whether to enable the overwrite mode when pasting hex data.
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets whether to enable the overwrite mode when pasting hex data.")]
+        public bool EnableOverwritePaste { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets whether to retain the position of changed when ByteProvider Changed.
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets whether to retain the position of changed when ByteProvider changed.")]
+        public bool EnableRetainChangedPos { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets whether to retain the position of finish changed when ByteProvider Changed.
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets whether to retain the position of finish changed when ByteProvider changed.")]
+        public bool EnableRetainChangedFinishPos { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets whether auto perform the ChangedPosSetFinish method when ByteProvider changed.
+        /// </summary>
+        [Category("HexBehavior"), Description("Gets or sets whether auto perform the ChangedPosSetFinish method when ByteProvider changed.")]
+        public bool EnableAutoChangedPosSetFinish { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the built-in context menu.
+        /// </summary>
+        [Category("HexBehavior"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content), Description("Gets or sets the built-in context menu.")]
+        public BuiltInContextMenu BuiltInContextMenu { get; } //Only constructor can set values
+        #endregion
+
+        #region Visibility Hidden Properties
+        /// <summary>
+        /// Gets or sets the ByteProvider.
+        /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IByteProvider ByteProvider
+        {
+            get { return _byteProvider; }
+            set
+            {
+                if (_byteProvider == value) return;
+
+                if (value == null) ActivateEmptyKeyInterpreter();
+                else ActivateKeyInterpreter();
+
+                if (_byteProvider != null) _byteProvider.LengthChanged -= new EventHandler(_byteProvider_LengthChanged);
+
+                _byteProvider = value;
+                if (_byteProvider != null) _byteProvider.LengthChanged += new EventHandler(_byteProvider_LengthChanged);
+
+                if (!EnableRetainChangedPos && changedPosSet != null) changedPosSet.Clear();
+                if (!EnableRetainChangedFinishPos && changedFinishPosSet != null) changedFinishPosSet.Clear();
+                if (EnableAutoChangedPosSetFinish) ChangedPosSetFinish();
+
+                OnByteProviderChanged(EventArgs.Empty);
+
+                if (value == null) // do not raise events if value is null
+                {
+                    _bytePos = -1;
+                    _byteCharacterPos = 0;
+                    _selectionLength = 0;
+
+                    DestroyCaret();
+                }
+                else
+                {
+                    SetPosition(0, 0);
+                    SetSelectionLength(0);
+
+                    if (_caretVisible && Focused) UpdateCaret();
+                    else CreateCaret();
+                }
+
+                CheckCurrentLineChanged();
+                CheckCurrentPositionInLineChanged();
+
+                ScrollVpos = 0;
+
+                UpdateVisibilityBytes();
+                UpdateRectanglePositioning();
+
+                Invalidate();
+            }
+        }
+        IByteProvider _byteProvider;
+
+        /// <summary>
+        /// Contains the scroll bars current position.
+        /// </summary>
+        /// 
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public long ScrollVpos { get; private set; }
+
+        /// <summary>
+        /// Gets a value that indicates the current position during Find method execution.
+        /// Contains a value of the current finding position.
+        /// </summary>
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public long CurrentFindingPosition { get; private set; }
 
         /// <summary>
         /// Gets and sets the starting point of the bytes selected in the hex box.
@@ -3274,75 +3285,10 @@ namespace Be.Windows.Forms
         }
         long _selectionLength;
 
-
         /// <summary>
-        /// Gets or sets the info color used for column info and line info. When this property is null, then ForeColor property is used.
+        /// Contains the size of a single character in pixel.
         /// </summary>
-        [DefaultValue(typeof(Color), "Gray"), Category("Hex"), Description("Gets or sets the line info color. When this property is null, then ForeColor property is used.")]
-        public Color InfoForeColor
-        {
-            get { return _infoForeColor; }
-            set { _infoForeColor = value; Invalidate(); }
-        }
-        Color _infoForeColor = Color.Gray;
-
-        /// <summary>
-        /// Gets or sets the background color for the selected bytes.
-        /// </summary>
-        [DefaultValue(typeof(Color), "Blue"), Category("Hex"), Description("Gets or sets the background color for the selected bytes.")]
-        public Color SelectionBackColor
-        {
-            get { return _selectionBackColor; }
-            set { _selectionBackColor = value; Invalidate(); }
-        }
-        Color _selectionBackColor = Color.Blue;
-
-        /// <summary>
-        /// Gets or sets the foreground color for the selected bytes.
-        /// </summary>
-        [DefaultValue(typeof(Color), "White"), Category("Hex"), Description("Gets or sets the foreground color for the selected bytes.")]
-        public Color SelectionForeColor
-        {
-            get { return _selectionForeColor; }
-            set { _selectionForeColor = value; Invalidate(); }
-        }
-        Color _selectionForeColor = Color.White;
-
-        /// <summary>
-        /// Gets or sets the visibility of a shadow selection.
-        /// </summary>
-        [DefaultValue(true), Category("Hex"), Description("Gets or sets the visibility of a shadow selection.")]
-        public bool ShadowSelectionVisible
-        {
-            get { return _shadowSelectionVisible; }
-            set
-            {
-                if (_shadowSelectionVisible == value) return;
-                _shadowSelectionVisible = value;
-                Invalidate();
-            }
-        }
-        bool _shadowSelectionVisible = true;
-
-        /// <summary>
-        /// Gets or sets the color of the shadow selection. 
-        /// </summary>
-        /// <remarks>
-        /// A alpha component must be given! 
-        /// Default alpha = 100
-        /// </remarks>
-        [Category("Hex"), Description("Gets or sets the color of the shadow selection.")]
-        public Color ShadowSelectionColor
-        {
-            get { return _shadowSelectionColor; }
-            set { _shadowSelectionColor = value; Invalidate(); }
-        }
-        Color _shadowSelectionColor = Color.FromArgb(100, 60, 188, 255);
-
-        /// <summary>
-        /// Contains the size of a single character in pixel
-        /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SizeF CharSize
         {
             get { return _charSize; }
@@ -3356,9 +3302,9 @@ namespace Be.Windows.Forms
         SizeF _charSize;
 
         /// <summary>
-        /// Gets the width required for the content
+        /// Gets the width required for the content.
         /// </summary>
-        [DefaultValue(0), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(0)]
         public int RequiredWidth
         {
             get { return _requiredWidth; }
@@ -3375,39 +3321,25 @@ namespace Be.Windows.Forms
         /// Gets the number bytes drawn horizontally.
         /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int HorizontalByteCount
-        {
-            get { return _iHexMaxHBytes; }
-        }
+        public int HorizontalByteCount { get { return _iHexMaxHBytes; } }
 
         /// <summary>
         /// Gets the number bytes drawn vertically.
         /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int VerticalByteCount
-        {
-            get { return _iHexMaxVBytes; }
-        }
+        public int VerticalByteCount { get { return _iHexMaxVBytes; } }
 
         /// <summary>
         /// Gets the current line
         /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public long CurrentLine
-        {
-            get { return _currentLine; }
-        }
-        long _currentLine;
+        public long CurrentLine { get; private set; }
 
         /// <summary>
         /// Gets the current position in the current line
         /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public long CurrentPositionInLine
-        {
-            get { return _currentPositionInLine; }
-        }
-        int _currentPositionInLine;
+        public long CurrentPositionInLine { get; private set; }
 
         /// <summary>
         /// Gets the a value if insertion mode is active or not.
@@ -3432,17 +3364,6 @@ namespace Be.Windows.Forms
         }
 
         /// <summary>
-        /// Gets or sets the built-in context menu.
-        /// </summary>
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public BuiltInContextMenu BuiltInContextMenu
-        {
-            get { return _builtInContextMenu; }
-        }
-        BuiltInContextMenu _builtInContextMenu;
-
-
-        /// <summary>
         /// Gets or sets the converter that will translate between byte and character values.
         /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -3455,102 +3376,12 @@ namespace Be.Windows.Forms
             }
             set
             {
-                if (value != null && value != _byteCharConverter)
-                {
-                    _byteCharConverter = value;
-                    Invalidate();
-                }
+                if (value == null || value == _byteCharConverter) return;
+                _byteCharConverter = value;
+                Invalidate();
             }
         }
         IByteCharConverter _byteCharConverter;
-
-        /// <summary>
-        /// Gets or sets the maximum size of line info offset support length. Sets range is 8(32bit)~16(64bit).
-        /// </summary>
-        [DefaultValue(8), Category("Hex"), Description("Gets or sets the maximum size of line info offset support length. Sets range is 8(32bit)~16(64bit).")]
-        public int LineInfoOffsetLength
-        {
-            get { return _lineInfoOffsetLength; }
-            set
-            {
-                if (value < 8) value = 8;
-                else if (value > 16) value = 16;
-
-                _lineInfoOffsetLength = value;
-            }
-        }
-        int _lineInfoOffsetLength = 8;
-
-        /// <summary>
-        /// Gets or sets the foreground color for the position of changed bytes.
-        /// </summary>
-        [DefaultValue(typeof(Color), "Red"), Category("Hex"), Description("Gets or sets the foreground color for the position of changed bytes.")]
-        public Color ChangedForeColor
-        {
-            get { return _changedForeColor; }
-            set { _changedForeColor = value; Invalidate(); }
-        }
-        Color _changedForeColor = Color.Red;
-
-        /// <summary>
-        /// Gets or sets the foreground color for the position of finish changed.
-        /// After perform the ChangedPosSetFinish method, the changed position setting will be finish.
-        /// </summary>
-        [DefaultValue(typeof(Color), "SteelBlue"), Category("Hex"), Description("Gets or sets the foreground color for the position of finish changed.\n" +
-            "After perform the ChangedPosSetFinish method, the changed position setting will be finish.")]
-        public Color ChangedFinishForeColor
-        {
-            get { return _changedFinishForeColor; }
-            set { _changedFinishForeColor = value; Invalidate(); }
-        }
-        Color _changedFinishForeColor = Color.LimeGreen;
-
-        /// <summary>
-        /// Gets or sets the foreground color for the zero bytes.
-        /// </summary>
-        [DefaultValue(typeof(Color), "Silver"), Category("Hex"), Description("Gets or sets the foreground color for the zero bytes.")]
-        public Color ZeroBytesForeColor
-        {
-            get { return _zeroBytesForeColor; }
-            set { _zeroBytesForeColor = value; Invalidate(); }
-        }
-        Color _zeroBytesForeColor = Color.Silver;
-
-        /// <summary>
-        /// Gets or sets whether you can cut bytes data.
-        /// </summary>
-        [Category("Hex"), Description("Gets or sets whether you can cut bytes data.")]
-        public bool EnableCut { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets whether you can delete bytes data.
-        /// </summary>
-        [Category("Hex"), Description("Gets or sets whether you can delete bytes data.")]
-        public bool EnableDelete { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets whether you can paste bytes data.
-        /// </summary>
-        [Category("Hex"), Description("Gets or sets whether you can paste bytes data.")]
-        public bool EnablePaste { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets whether to enable the overwrite mode when pasting hex data.
-        /// </summary>
-        [Category("Hex"), Description("Gets or sets whether to enable the overwrite mode when pasting hex data.")]
-        public bool EnableOverwritePaste { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets whether to retain the position of changed when ByteProvider Changed.
-        /// </summary>
-        [Category("Hex"), Description("Gets or sets whether to retain the position of changed when ByteProvider changed.")]
-        public bool EnableRetainChangedPos { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets whether to retain the position of finish changed when ByteProvider Changed.
-        /// </summary>
-        [Category("Hex"), Description("Gets or sets whether to retain the position of finish changed when ByteProvider changed.")]
-        public bool EnableRetainChangedFinishPos { get; set; } = false;
         #endregion
 
         #region Misc
@@ -3664,14 +3495,14 @@ namespace Be.Windows.Forms
         {
             long currentLine = (long)Math.Floor((double)_bytePos / (double)_iHexMaxHBytes) + 1;
 
-            if (_byteProvider == null && _currentLine != 0)
+            if (_byteProvider == null && CurrentLine != 0)
             {
-                _currentLine = 0;
+                CurrentLine = 0;
                 OnCurrentLineChanged(EventArgs.Empty);
             }
-            else if (currentLine != _currentLine)
+            else if (currentLine != CurrentLine)
             {
-                _currentLine = currentLine;
+                CurrentLine = currentLine;
                 OnCurrentLineChanged(EventArgs.Empty);
             }
         }
@@ -3681,14 +3512,14 @@ namespace Be.Windows.Forms
             Point gb = GetGridBytePoint(_bytePos);
             int currentPositionInLine = gb.X + 1;
 
-            if (_byteProvider == null && _currentPositionInLine != 0)
+            if (_byteProvider == null && CurrentPositionInLine != 0)
             {
-                _currentPositionInLine = 0;
+                CurrentPositionInLine = 0;
                 OnCurrentPositionInLineChanged(EventArgs.Empty);
             }
-            else if (currentPositionInLine != _currentPositionInLine)
+            else if (currentPositionInLine != CurrentPositionInLine)
             {
-                _currentPositionInLine = currentPositionInLine;
+                CurrentPositionInLine = currentPositionInLine;
                 OnCurrentPositionInLineChanged(EventArgs.Empty);
             }
         }

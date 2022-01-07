@@ -1,4 +1,4 @@
-Be.HexEditor
+﻿Be.HexEditor
 ============
 
 This repository mirrors source code of [Be.HexEditor](http://sourceforge.net/projects/hexbox/) project created by Bernhard Elbl.
@@ -8,9 +8,18 @@ ___
 # Table of Contents
 
 - [Properties](#properties)
-  * [Appearance](#appearance)
+  * [HexAppearance](#hexappearance)
     + [BackColorDisabled(Color)](#backcolordisabledcolor)
-  * [Hex](#hex)
+    + [BorderStyle(BorderStyle)](#borderstyleborderstyle)
+    + [InfoForeColor(Color)](#infoforecolorcolor)
+    + [SelectionBackColor(Color)](#selectionbackcolorcolor)
+    + [SelectionForeColor(Color)](#selectionforecolorcolor)
+    + [ShadowSelectionColor(Color)](#shadowselectioncolorcolor)
+    + [ChangedForeColor(Color) `*New`](#changedforecolorcolor-new)
+    + [ChangedFinishForeColor(Color) `*New`](#changedfinishforecolorcolor-new)
+    + [ZeroBytesForeColor(Color) `*New`](#zerobytesforecolorcolor-new)
+
+  * [HexBehavior](#hexbehavior)
     + [ReadOnly(bool)](#readonlybool)
     + [BytesPerLine(int)](#bytesperlineint)
     + [GroupSize(int)](#groupsizeint)
@@ -20,30 +29,27 @@ ___
     + [ColumnInfoVisible(bool)](#columninfovisiblebool)
     + [LineInfoVisible(bool)](#lineinfovisiblebool)
     + [LineInfoOffset(long)](#lineinfooffsetlong)
-    + [BorderStyle(BorderStyle)](#borderstyleborderstyle)
     + [StringViewVisible(bool)](#stringviewvisiblebool)
     + [HexCasing](#hexcasing)
-    + [InfoForeColor(Color)](#infoforecolorcolor)
-    + [SelectionBackColor(Color)](#selectionbackcolorcolor)
-    + [SelectionForeColor(Color)](#selectionforecolorcolor)
     + [ShadowSelectionVisible(bool)](#shadowselectionvisiblebool)
-    + [ShadowSelectionColor(Color)](#shadowselectioncolorcolor)
     + [LineInfoOffsetLength(int) `*New`](#lineinfooffsetlengthint-new)
-    + [ChangedForeColor(Color) `*New`](#changedforecolorcolor-new)
-    + [ChangedFinishForeColor(Color) `*New`](#changedfinishforecolorcolor-new)
-    + [ZeroBytesForeColor(Color) `*New`](#zerobytesforecolorcolor-new)
     + [EnableCut(bool) `*New`](#enablecutbool-new)
     + [EnableDelete(bool) `*New`](#enabledeletebool-new)
     + [EnablePaste(bool) `*New`](#enablepastebool-new)
     + [EnableOverwritePaste(bool) `*New`](#enableoverwritepastebool-new)
     + [EnableRetainChangedPos(bool) `*New`](#enableretainchangedposbool-new)
     + [EnableRetainChangedFinishPos(bool) `*New`](#enableretainchangedfinishposbool-new)
-  * [Content](#content)
+    + [EnableAutoChangedPosSetFinish(bool) `*New`](#enableautochangedpossetfinishbool-new)
     + [BuiltInContextMenu(BuiltInContextMenu)](#builtincontextmenubuiltincontextmenu)
+
   * [Hidden](#hidden)
     + [ByteProvider(IByteProvider)](#byteprovideribyteprovider)
+    + [ScrollVpos(long)](#scrollvposlong)
+    + [CurrentFindingPosition(long)](#currentfindingpositionlong)
     + [SelectionStart(long)](#selectionstartlong)
     + [SelectionLength(long)](#selectionlengthlong)
+    + [CharSize(CharSize)](#charsizecharsize)
+    + [RequiredWidth(int)](#requiredwidthint)
     + [HorizontalByteCount(int)](#horizontalbytecountint)
     + [VerticalByteCount(int)](#verticalbytecountint)
     + [CurrentLine(long)](#currentlinelong)
@@ -59,14 +65,50 @@ ___
 # Properties
 
 
-## Appearance
+## HexAppearance
 
 ### BackColorDisabled(Color)
 > Gets or sets the background color for the disabled control.
 > DefaultValue: WhiteSmoke Color
 
+### BorderStyle(BorderStyle)
+> Gets or sets the hex box's border style.
+> DefaultValue: Fixed3D BorderStyle
 
-## Hex
+### InfoForeColor(Color)
+> Gets or sets the info color used for column info and line info. When this property is null, then ForeColor property is used.
+> Gets or sets the line info color. When this property is null, then ForeColor property is used.
+> DefaultValue: Gray Color
+
+### SelectionBackColor(Color)
+> Gets or sets the background color for the selected bytes.
+> DefaultValue: Blue Color
+
+### SelectionForeColor(Color)
+> Gets or sets the foreground color for the selected bytes.
+> DefaultValue: White Color
+
+### ShadowSelectionColor(Color)
+> Gets or sets the color of the shadow selection. 
+> A alpha component must be given! 
+> Default ARGB(100, 60, 188, 255)
+
+### ChangedForeColor(Color) `*New`
+> Gets or sets the foreground color for the position of changed bytes.
+> DefaultValue: Red Color
+
+### ChangedFinishForeColor(Color) `*New`
+> Gets or sets the foreground color for the position of finish changed.
+> After perform the ChangedPosSetFinish method, the changed position setting will be finish.
+> DefaultValue: LimeGreen
+
+### ZeroBytesForeColor(Color) `*New`
+> Gets or sets the foreground color for the zero bytes.
+> DefaultValue: Silver Color
+
+#########################
+
+## HexBehavior
 
 ### ReadOnly(bool)
 > Get or set whether to make the HexEditor readonly.
@@ -111,10 +153,6 @@ ___
 > Gets or sets the offset of the line info.
 > DefaultValue: (long)0
 
-### BorderStyle(BorderStyle)
-> Gets or sets the hex box's border style.
-> DefaultValue: Fixed3D BorderStyle
-
 ### StringViewVisible(bool)
 > Gets or sets the visibility of the string view.
 > DefaultValue: false
@@ -123,44 +161,13 @@ ___
 > Gets or sets whether the HexBox control displays the hex characters in upper or lower case.
 > DefaultValue: Upper HexCasing
 
-### InfoForeColor(Color)
-> Gets or sets the info color used for column info and line info. When this property is null, then ForeColor property is used.
-> Gets or sets the line info color. When this property is null, then ForeColor property is used.
-> DefaultValue: Gray Color
-
-### SelectionBackColor(Color)
-> Gets or sets the background color for the selected bytes.
-> DefaultValue: Blue Color
-
-### SelectionForeColor(Color)
-> Gets or sets the foreground color for the selected bytes.
-> DefaultValue: White Color
-
 ### ShadowSelectionVisible(bool)
 > Gets or sets the visibility of a shadow selection.
 > DefaultValue: true
 
-### ShadowSelectionColor(Color)
-> Gets or sets the color of the shadow selection. 
-> A alpha component must be given! 
-> Default ARGB(100, 60, 188, 255)
-
 ### LineInfoOffsetLength(int) `*New`
 > Gets or sets the maximum size of line info offset support length. Sets range is 8(32bit)~16(64bit).
 > DefaultValue: 8
-
-### ChangedForeColor(Color) `*New`
-> Gets or sets the foreground color for the position of changed bytes.
-> DefaultValue: Red Color
-
-### ChangedFinishForeColor(Color) `*New`
-> Gets or sets the foreground color for the position of finish changed.
-> After perform the ChangedPosSetFinish method, the changed position setting will be finish.
-> DefaultValue: LimeGreen
-
-### ZeroBytesForeColor(Color) `*New`
-> Gets or sets the foreground color for the zero bytes.
-> DefaultValue: Silver Color
 
 ### EnableCut(bool) `*New`
 > Gets or sets whether you can cut bytes data.
@@ -186,7 +193,9 @@ ___
 > Gets or sets whether to retain the position of finish changed when ByteProvider changed.
 > DefaultValue: false
 
-## Content
+### EnableAutoChangedPosSetFinish(bool) `*New`
+> Gets or sets whether auto perform the ChangedPosSetFinish method when ByteProvider changed. DefaultValue: false.
+> DefaultValue: false
 
 ### BuiltInContextMenu(BuiltInContextMenu)
 > Gets or sets the built-in context menu.
@@ -197,11 +206,24 @@ ___
 ### ByteProvider(IByteProvider)
 > Gets or sets the ByteProvider.
 
+### ScrollVpos(long)
+> Contains the scroll bars current position.
+
+### CurrentFindingPosition(long)
+> Gets a value that indicates the current position during Find method execution.
+> Contains a value of the current finding position.
+
 ### SelectionStart(long)
 > Gets and sets the starting point of the bytes selected in the hex box.
 
 ### SelectionLength(long)
 > Gets and sets the number of bytes selected in the hex box.
+
+### CharSize(SizeF)
+> Contains the size of a single character in pixel.
+
+### RequiredWidth(int)
+> Gets the width required for the content.
 
 ### HorizontalByteCount(int)
 > Gets the number bytes drawn horizontally.
