@@ -30,6 +30,10 @@ namespace Be.Windows.Forms
         /// </summary>
         ToolStripMenuItem _copyToolStripMenuItem;
         /// <summary>
+        /// Contains the "CopyHex"-ToolStripMenuItem object.
+        /// </summary>
+        ToolStripMenuItem _copyHexToolStripMenuItem;
+        /// <summary>
         /// Contains the "Paste"-ToolStripMenuItem object.
         /// </summary>
         ToolStripMenuItem _pasteToolStripMenuItem;
@@ -67,8 +71,17 @@ namespace Be.Windows.Forms
                 ContextMenuStrip cms = new ContextMenuStrip();
                 _cutToolStripMenuItem = new ToolStripMenuItem(CutMenuItemTextInternal, CutMenuItemImage, new EventHandler(CutMenuItem_Click));
                 cms.Items.Add(_cutToolStripMenuItem);
+
+                cms.Items.Add(new ToolStripSeparator());
+
                 _copyToolStripMenuItem = new ToolStripMenuItem(CopyMenuItemTextInternal, CopyMenuItemImage, new EventHandler(CopyMenuItem_Click));
                 cms.Items.Add(_copyToolStripMenuItem);
+
+                _copyHexToolStripMenuItem = new ToolStripMenuItem(CopyHexMenuItemTextInternal, CopyMenuItemImage, new EventHandler(CopyHexMenuItem_Click));
+                cms.Items.Add(_copyHexToolStripMenuItem);
+
+                cms.Items.Add(new ToolStripSeparator());
+
                 _pasteToolStripMenuItem = new ToolStripMenuItem(PasteMenuItemTextInternal, PasteMenuItemImage, new EventHandler(PasteMenuItem_Click));
                 cms.Items.Add(_pasteToolStripMenuItem);
 
@@ -111,6 +124,12 @@ namespace Be.Windows.Forms
         /// <param name="e">the event data</param>
         void CopyMenuItem_Click(object sender, EventArgs e) { this._hexBox.Copy(); }
         /// <summary>
+        /// The handler for the "CopyHex"-Click event
+        /// </summary>
+        /// <param name="sender">the sender object</param>
+        /// <param name="e">the event data</param>
+        void CopyHexMenuItem_Click(object sender, EventArgs e) { this._hexBox.CopyHex(); }
+        /// <summary>
         /// The handler for the "Paste"-Click event
         /// </summary>
         /// <param name="sender">the sender object</param>
@@ -131,6 +150,16 @@ namespace Be.Windows.Forms
             get { return _copyMenuItemText; }
             set { _copyMenuItemText = value; }
         } string _copyMenuItemText;
+        /// <summary>
+        /// Gets or sets the custom text of the "CopyHex" ContextMenuStrip item.
+        /// </summary>
+        [Category("BuiltIn-ContextMenu"), DefaultValue(null), Localizable(true)]
+        public string CopyHexMenuItemText
+        {
+            get { return _copyHexMenuItemText; }
+            set { _copyHexMenuItemText = value; }
+        }
+        string _copyHexMenuItemText;
 
         /// <summary>
         /// Gets or sets the custom text of the "Cut" ContextMenuStrip item.
@@ -170,6 +199,10 @@ namespace Be.Windows.Forms
         /// Gets the text of the "Copy" ContextMenuStrip item.
         /// </summary>
         internal string CopyMenuItemTextInternal { get { return !string.IsNullOrEmpty(CopyMenuItemText) ? CopyMenuItemText : "Copy"; } }
+        /// <summary>
+        /// Gets the text of the "CopyHex" ContextMenuStrip item.
+        /// </summary>
+        internal string CopyHexMenuItemTextInternal { get { return !string.IsNullOrEmpty(CopyHexMenuItemText) ? CopyHexMenuItemText : "Copy Hex"; } }
         /// <summary>
         /// Gets the text of the "Paste" ContextMenuStrip item.
         /// </summary>
