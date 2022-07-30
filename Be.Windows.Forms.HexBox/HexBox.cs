@@ -2209,6 +2209,8 @@ namespace Be.Windows.Forms
 
                 PointF bytePointF = GetBytePointF(new Point(0, 0 + i));
                 string info = firstLineByte.ToString(_hexStringFormat, System.Threading.Thread.CurrentThread.CurrentCulture);
+                if (info.Length > LineInfoOffsetLength) info = info.Substring(info.Length - LineInfoOffsetLength);
+
                 int nulls = LineInfoOffsetLength - info.Length;
                 string formattedInfo;
                 if (nulls > -1) formattedInfo = new string('0', LineInfoOffsetLength - info.Length) + info;
