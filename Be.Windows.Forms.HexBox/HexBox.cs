@@ -65,27 +65,19 @@ namespace Be.Windows.Forms
         {
             HexBox _hexBox;
 
-            public EmptyKeyInterpreter(HexBox hexBox)
-            {
-                _hexBox = hexBox;
-            }
+            public EmptyKeyInterpreter(HexBox hexBox) => _hexBox = hexBox;
 
             #region IKeyInterpreter Members
             public void Activate() { }
             public void Deactivate() { }
 
-            public bool PreProcessWmKeyUp(ref Message m)
-            { return _hexBox.BasePreProcessMessage(ref m); }
+            public bool PreProcessWmKeyUp(ref Message m) => _hexBox.BasePreProcessMessage(ref m);
 
-            public bool PreProcessWmChar(ref Message m)
-            { return _hexBox.BasePreProcessMessage(ref m); }
+            public bool PreProcessWmChar(ref Message m) => _hexBox.BasePreProcessMessage(ref m);
 
-            public bool PreProcessWmKeyDown(ref Message m)
-            { return _hexBox.BasePreProcessMessage(ref m); }
+            public bool PreProcessWmKeyDown(ref Message m) => _hexBox.BasePreProcessMessage(ref m);
 
-            public PointF GetCaretPointF(long byteIndex)
-            { return new PointF(); }
-
+            public PointF GetCaretPointF(long byteIndex) => new PointF();
             #endregion
         }
         #endregion
@@ -132,10 +124,7 @@ namespace Be.Windows.Forms
             #endregion
 
             #region Ctors
-            public KeyInterpreter(HexBox hexBox)
-            {
-                _hexBox = hexBox;
-            }
+            public KeyInterpreter(HexBox hexBox) => _hexBox = hexBox;
             #endregion
 
             #region Activate, Deactive methods
@@ -206,10 +195,7 @@ namespace Be.Windows.Forms
                 }
             }
 
-            void EndMouseSelection(object sender, MouseEventArgs e)
-            {
-                _mouseDown = false;
-            }
+            void EndMouseSelection(object sender, MouseEventArgs e) => _mouseDown = false;
             #endregion
 
             #region PrePrcessWmKeyDown methods
@@ -243,10 +229,7 @@ namespace Be.Windows.Forms
                 return e.Handled;
             }
 
-            protected virtual bool PreProcessWmKeyDown_Left(ref Message m)
-            {
-                return PerformPosMoveLeft();
-            }
+            protected virtual bool PreProcessWmKeyDown_Left(ref Message m) => PerformPosMoveLeft();
 
             protected virtual bool PreProcessWmKeyDown_Up(ref Message m)
             {
@@ -275,10 +258,7 @@ namespace Be.Windows.Forms
                 return true;
             }
 
-            protected virtual bool PreProcessWmKeyDown_Right(ref Message m)
-            {
-                return PerformPosMoveRight();
-            }
+            protected virtual bool PreProcessWmKeyDown_Right(ref Message m) => PerformPosMoveRight();
 
             protected virtual bool PreProcessWmKeyDown_Down(ref Message m)
             {
@@ -1158,6 +1138,7 @@ namespace Be.Windows.Forms
         /// Contains a state value about Insert or Write mode. When this value is true and the ByteProvider SupportsInsert is true bytes are inserted instead of overridden.
         /// </summary>
         bool _insertActive;
+
         /// <summary>
         /// Record the position of the changed bytes value.
         /// </summary>
@@ -1472,25 +1453,13 @@ namespace Be.Windows.Forms
             PerformScrollToLine(pos);
         }
 
-        void PerformScrollLineDown()
-        {
-            PerformScrollLines(1);
-        }
+        void PerformScrollLineDown() => PerformScrollLines(1);
 
-        void PerformScrollLineUp()
-        {
-            PerformScrollLines(-1);
-        }
+        void PerformScrollLineUp() => PerformScrollLines(-1);
 
-        void PerformScrollPageDown()
-        {
-            PerformScrollLines(_iHexMaxVBytes);
-        }
+        void PerformScrollPageDown() => PerformScrollLines(_iHexMaxVBytes);
 
-        void PerformScrollPageUp()
-        {
-            PerformScrollLines(-_iHexMaxVBytes);
-        }
+        void PerformScrollPageUp() => PerformScrollLines(-_iHexMaxVBytes);
 
         void PerformScrollThumpPosition(long pos)
         {
@@ -1807,7 +1776,7 @@ namespace Be.Windows.Forms
             }
         }
 
-        bool BasePreProcessMessage(ref Message m) { return base.PreProcessMessage(ref m); }
+        bool BasePreProcessMessage(ref Message m) => base.PreProcessMessage(ref m);
         #endregion
 
         #region Find methods
@@ -1887,7 +1856,7 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Aborts a working Find method.
         /// </summary>
-        public void AbortFind() { _abortFind = true; }
+        public void AbortFind() => _abortFind = true;
         #endregion
 
         #region Copy, Cut and Paste methods
@@ -2709,8 +2678,8 @@ namespace Be.Windows.Forms
         [DefaultValue(typeof(Color), "White")]
         public override Color BackColor
         {
-            get { return base.BackColor; }
-            set { base.BackColor = value; }
+            get => base.BackColor;
+            set => base.BackColor = value;
         }
 
         /// <summary>
@@ -2718,7 +2687,7 @@ namespace Be.Windows.Forms
         /// </summary>
         public override Font Font
         {
-            get { return base.Font; }
+            get => base.Font;
             set
             {
                 if (value == null) return;
@@ -2735,8 +2704,8 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never), Bindable(false)]
         public override string Text
         {
-            get { return base.Text; }
-            set { base.Text = value; }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         /// <summary>
@@ -2745,8 +2714,8 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), EditorBrowsable(EditorBrowsableState.Never), Bindable(false)]
         public override RightToLeft RightToLeft
         {
-            get { return base.RightToLeft; }
-            set { base.RightToLeft = value; }
+            get => base.RightToLeft;
+            set => base.RightToLeft = value;
         }
         #endregion
 
@@ -2766,7 +2735,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Get or set whether to make the HexEditor readonly."), DefaultValue(false)]
         public bool ReadOnly
         {
-            get { return _readOnly; }
+            get => _readOnly;
             set
             {
                 if (_readOnly == value) return;
@@ -2787,7 +2756,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the maximum count of bytes in one line."), DefaultValue(16)]
         public int BytesPerLine
         {
-            get { return _bytesPerLine; }
+            get => _bytesPerLine;
             set
             {
                 if (_bytesPerLine == value) return;
@@ -2810,7 +2779,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the byte-count between group separators (if visible)."), DefaultValue(4)]
         public int GroupSize
         {
-            get { return _groupSize; }
+            get => _groupSize;
             set
             {
                 if (_groupSize == value) return;
@@ -2833,7 +2802,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets if the count of bytes in one line is fix."), DefaultValue(false)]
         public bool UseFixedBytesPerLine
         {
-            get { return _useFixedBytesPerLine; }
+            get => _useFixedBytesPerLine;
             set
             {
                 if (_useFixedBytesPerLine == value) return;
@@ -2853,7 +2822,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the visibility of a vertical scroll bar."), DefaultValue(false)]
         public bool VScrollBarVisible
         {
-            get { return _vScrollBarVisible; }
+            get => _vScrollBarVisible;
             set
             {
                 if (_vScrollBarVisible == value) return;
@@ -2877,7 +2846,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the visibility of a separator vertical line."), DefaultValue(false)]
         public bool GroupSeparatorVisible
         {
-            get { return _groupSeparatorVisible; }
+            get => _groupSeparatorVisible;
             set
             {
                 if (_groupSeparatorVisible == value) return;
@@ -2897,7 +2866,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the visibility of header row."), DefaultValue(false)]
         public bool ColumnInfoVisible
         {
-            get { return _columnInfoVisible; }
+            get => _columnInfoVisible;
             set
             {
                 if (_columnInfoVisible == value) return;
@@ -2917,7 +2886,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the visibility of a line info."), DefaultValue(false)]
         public bool LineInfoVisible
         {
-            get { return _lineInfoVisible; }
+            get => _lineInfoVisible;
             set
             {
                 if (_lineInfoVisible == value) return;
@@ -2937,7 +2906,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the offset of the line info."), DefaultValue((long)0)]
         public long LineInfoOffset
         {
-            get { return _lineInfoOffset; }
+            get => _lineInfoOffset;
             set
             {
                 if (_lineInfoOffset == value) return;
@@ -2955,7 +2924,7 @@ namespace Be.Windows.Forms
         [Category("HexAppearance"), Description("Gets or sets the hex box's border style."), DefaultValue(typeof(BorderStyle), "Fixed3D")]
         public BorderStyle BorderStyle
         {
-            get { return _borderStyle; }
+            get => _borderStyle;
             set
             {
                 if (_borderStyle == value) return;
@@ -2989,7 +2958,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the visibility of the string view."), DefaultValue(false)]
         public bool StringViewVisible
         {
-            get { return _stringViewVisible; }
+            get => _stringViewVisible;
             set
             {
                 if (_stringViewVisible == value) return;
@@ -3009,7 +2978,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets whether the HexBox control displays the hex characters in upper or lower case."), DefaultValue(typeof(HexCasing), "Upper")]
         public HexCasing HexCasing
         {
-            get { return _hexStringFormat == "X" ? HexCasing.Upper : HexCasing.Lower; }
+            get => _hexStringFormat == "X" ? HexCasing.Upper : HexCasing.Lower;
             set
             {
                 string format = value == HexCasing.Upper ? "X" : "x";
@@ -3029,7 +2998,7 @@ namespace Be.Windows.Forms
         [Category("HexAppearance"), Description("Gets or sets the line info color. When this property is null, then ForeColor property is used."), DefaultValue(typeof(Color), "Gray")]
         public Color InfoForeColor
         {
-            get { return _infoForeColor; }
+            get => _infoForeColor;
             set { _infoForeColor = value; Invalidate(); }
         }
         Color _infoForeColor = Color.Gray;
@@ -3040,7 +3009,7 @@ namespace Be.Windows.Forms
         [Category("HexAppearance"), Description("Gets or sets the background color for the selected bytes."), DefaultValue(typeof(Color), "Blue")]
         public Color SelectionBackColor
         {
-            get { return _selectionBackColor; }
+            get => _selectionBackColor;
             set { _selectionBackColor = value; Invalidate(); }
         }
         Color _selectionBackColor = Color.Blue;
@@ -3051,7 +3020,7 @@ namespace Be.Windows.Forms
         [Category("HexAppearance"), Description("Gets or sets the foreground color for the selected bytes."), DefaultValue(typeof(Color), "White")]
         public Color SelectionForeColor
         {
-            get { return _selectionForeColor; }
+            get => _selectionForeColor;
             set { _selectionForeColor = value; Invalidate(); }
         }
         Color _selectionForeColor = Color.White;
@@ -3062,7 +3031,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the visibility of a shadow selection."), DefaultValue(true)]
         public bool ShadowSelectionVisible
         {
-            get { return _shadowSelectionVisible; }
+            get => _shadowSelectionVisible;
             set
             {
                 if (_shadowSelectionVisible == value) return;
@@ -3082,7 +3051,7 @@ namespace Be.Windows.Forms
         [Category("HexAppearance"), Description("Gets or sets the color of the shadow selection.")]
         public Color ShadowSelectionColor
         {
-            get { return _shadowSelectionColor; }
+            get => _shadowSelectionColor;
             set { _shadowSelectionColor = value; Invalidate(); }
         }
         Color _shadowSelectionColor = Color.FromArgb(100, 60, 188, 255);
@@ -3093,7 +3062,7 @@ namespace Be.Windows.Forms
         [Category("HexBehavior"), Description("Gets or sets the maximum size of line info offset support length. Sets range is 8(32bit)~16(64bit)."), DefaultValue(8)]
         public int LineInfoOffsetLength
         {
-            get { return _lineInfoOffsetLength; }
+            get => _lineInfoOffsetLength;
             set
             {
                 value = value < 8 ? 8 : (value > 16 ? 16 : value);
@@ -3108,7 +3077,7 @@ namespace Be.Windows.Forms
         [Category("HexAppearance"), Description("Gets or sets the foreground color for the position of changed bytes."), DefaultValue(typeof(Color), "Red")]
         public Color ChangedForeColor
         {
-            get { return _changedForeColor; }
+            get => _changedForeColor;
             set { _changedForeColor = value; Invalidate(); }
         }
         Color _changedForeColor = Color.Red;
@@ -3121,7 +3090,7 @@ namespace Be.Windows.Forms
             "After perform the ChangedPosSetFinish method, the changed position setting will be finish."), DefaultValue(typeof(Color), "SteelBlue")]
         public Color ChangedFinishForeColor
         {
-            get { return _changedFinishForeColor; }
+            get => _changedFinishForeColor;
             set { _changedFinishForeColor = value; Invalidate(); }
         }
         Color _changedFinishForeColor = Color.LimeGreen;
@@ -3132,7 +3101,7 @@ namespace Be.Windows.Forms
         [Category("HexAppearance"), Description("Gets or sets the foreground color for the zero bytes."), DefaultValue(typeof(Color), "Silver")]
         public Color ZeroBytesForeColor
         {
-            get { return _zeroBytesForeColor; }
+            get => _zeroBytesForeColor;
             set { _zeroBytesForeColor = value; Invalidate(); }
         }
         Color _zeroBytesForeColor = Color.Silver;
@@ -3193,7 +3162,7 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IByteProvider ByteProvider
         {
-            get { return _byteProvider; }
+            get => _byteProvider;
             set
             {
                 if (_byteProvider == value) return;
@@ -3202,13 +3171,13 @@ namespace Be.Windows.Forms
                 else ActivateKeyInterpreter();
 
                 if (_byteProvider != null) _byteProvider.LengthChanged -= new EventHandler(_byteProvider_LengthChanged);
-
                 _byteProvider = value;
                 if (_byteProvider != null) _byteProvider.LengthChanged += new EventHandler(_byteProvider_LengthChanged);
 
                 if (!EnableRetainChangedPos && changedPosSet != null) changedPosSet.Clear();
                 if (!EnableRetainChangedFinishPos && changedFinishPosSet != null) changedFinishPosSet.Clear();
                 if (EnableAutoChangedPosSetFinish) ChangedPosSetFinish();
+                if (EnableRetainChangedPos && _byteProvider is DynamicByteProvider dynBP && dynBP.ChangedPosSet != null && dynBP.ChangedPosSet.Count > 0) changedPosSet = dynBP.ChangedPosSet;
 
                 OnByteProviderChanged(EventArgs.Empty);
 
@@ -3262,7 +3231,7 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public long SelectionStart
         {
-            get { return _bytePos; }
+            get => _bytePos;
             set
             {
                 SetPosition(value, 0);
@@ -3277,7 +3246,7 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public long SelectionLength
         {
-            get { return _selectionLength; }
+            get => _selectionLength;
             set
             {
                 SetSelectionLength(value);
@@ -3293,7 +3262,7 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SizeF CharSize
         {
-            get { return _charSize; }
+            get => _charSize;
             private set
             {
                 if (_charSize == value) return;
@@ -3309,7 +3278,7 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(0)]
         public int RequiredWidth
         {
-            get { return _requiredWidth; }
+            get => _requiredWidth;
             private set
             {
                 if (_requiredWidth == value) return;
@@ -3323,13 +3292,13 @@ namespace Be.Windows.Forms
         /// Gets the number bytes drawn horizontally.
         /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int HorizontalByteCount { get { return _iHexMaxHBytes; } }
+        public int HorizontalByteCount => _iHexMaxHBytes;
 
         /// <summary>
         /// Gets the number bytes drawn vertically.
         /// </summary>
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int VerticalByteCount { get { return _iHexMaxVBytes; } }
+        public int VerticalByteCount => _iHexMaxVBytes;
 
         /// <summary>
         /// Gets the current line
@@ -3349,7 +3318,7 @@ namespace Be.Windows.Forms
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool InsertActive
         {
-            get { return _insertActive; }
+            get => _insertActive;
             set
             {
                 if (_insertActive == value) return;

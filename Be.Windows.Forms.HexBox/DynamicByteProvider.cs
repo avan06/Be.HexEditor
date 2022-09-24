@@ -12,27 +12,34 @@ namespace Be.Windows.Forms
 		/// Contains information about changes.
 		/// </summary>
 		bool _hasChanges;
+
 		/// <summary>
 		/// Contains a byte collection.
 		/// </summary>
 		List<byte> _bytes;
 
-		/// <summary>
-		/// Initializes a new instance of the DynamicByteProvider class.
-		/// </summary>
-		/// <param name="data"></param>
-		public DynamicByteProvider(byte[] data) : this(new List<Byte>(data)) 
-		{
-		}
+        /// <summary>
+		/// HashSet containing the position of the changed byte value.
+        /// </summary>
+        HashSet<long> _changedPosSet;
 
-		/// <summary>
-		/// Initializes a new instance of the DynamicByteProvider class.
-		/// </summary>
-		/// <param name="bytes"></param>
-		public DynamicByteProvider(List<Byte> bytes)
+        /// <summary>
+        /// Initializes a new instance of the DynamicByteProvider class.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="changedPosSet">HashSet containing the position of the changed byte value</param>
+        public DynamicByteProvider(byte[] data, HashSet<long> changedPosSet = null) : this(new List<Byte>(data), changedPosSet) { }
+
+        /// <summary>
+        /// Initializes a new instance of the DynamicByteProvider class.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="changedPosSet">HashSet containing the position of the changed byte value</param>
+        public DynamicByteProvider(List<Byte> bytes, HashSet<long> changedPosSet = null)
 		{
 			_bytes = bytes;
-		}
+			_changedPosSet = changedPosSet;
+        }
 
 		/// <summary>
 		/// Raises the Changed event.
@@ -41,8 +48,7 @@ namespace Be.Windows.Forms
 		{
 			_hasChanges = true;
 
-			if(Changed != null)
-				Changed(this, e);
+			if(Changed != null) Changed(this, e);
 		}
 
 		/// <summary>
@@ -50,34 +56,30 @@ namespace Be.Windows.Forms
 		/// </summary>
 		void OnLengthChanged(EventArgs e)
 		{
-			if(LengthChanged != null)
-				LengthChanged(this, e);
+			if(LengthChanged != null) LengthChanged(this, e);
 		}
 
 		/// <summary>
 		/// Gets the byte collection.
 		/// </summary>
-		public List<Byte> Bytes
-		{
-			get { return _bytes; }
-		}
+		public List<Byte> Bytes => _bytes;
 
-		#region IByteProvider Members
-		/// <summary>
-		/// True, when changes are done.
-		/// </summary>
-		public bool HasChanges()
-		{
-			return _hasChanges;
-		}
+        /// <summary>
+        /// Gets the position of the changed byte HashSet collection.
+        /// </summary>
+        public HashSet<long> ChangedPosSet => _changedPosSet;
+        
+
+        #region IByteProvider Members
+        /// <summary>
+        /// True, when changes are done.
+        /// </summary>
+        public bool HasChanges() => _hasChanges;
 
 		/// <summary>
 		/// Applies changes.
 		/// </summary>
-		public void ApplyChanges()
-		{
-			_hasChanges = false;
-		}
+		public void ApplyChanges() => _hasChanges = false;
 
 		/// <summary>
 		/// Occurs, when the write buffer contains new changes.
@@ -95,8 +97,7 @@ namespace Be.Windows.Forms
 		/// </summary>
 		/// <param name="index">the index of the byte to read</param>
 		/// <returns>the byte</returns>
-		public byte ReadByte(long index)
-		{ return _bytes[(int)index]; }
+		public byte ReadByte(long index) => _bytes[(int)index];
 
 		/// <summary>
 		/// Write a byte into the byte collection.
@@ -140,38 +141,22 @@ namespace Be.Windows.Forms
 		/// <summary>
 		/// Gets the length of the bytes in the byte collection.
 		/// </summary>
-		public long Length
-		{
-			get
-			{
-				return _bytes.Count;
-			}
-		}
+		public long Length => _bytes.Count;
 
 		/// <summary>
 		/// Returns true
 		/// </summary>
-		public bool SupportsWriteByte()
-		{
-			return true;
-		}
+		public bool SupportsWriteByte() => true;
 
 		/// <summary>
 		/// Returns true
 		/// </summary>
-		public bool SupportsInsertBytes()
-		{
-			return true;
-		}
+		public bool SupportsInsertBytes() => true;
 
 		/// <summary>
 		/// Returns true
 		/// </summary>
-		public bool SupportsDeleteBytes()
-		{
-			return true;
-		}
+		public bool SupportsDeleteBytes() => true;
 		#endregion
-
-    }
+	}
 }
