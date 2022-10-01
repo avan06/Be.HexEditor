@@ -2269,13 +2269,15 @@ namespace Be.Windows.Forms
 
             if (number is float numF)
             {
-                if (numF > -1 && numF < 1) result = String.Format("{0:E4}", numF);
+                if (numF == 0) result = "0";
+                else if(numF > -1 && numF < 1) result = String.Format("{0:E4}", numF);
                 else if(numF > int.MaxValue || numF < int.MinValue) result = String.Format("{0:E4}", numF);
                 else result = String.Format("{0:0.###}", numF);
             }
             else if (number is double numD)
             {
-                if (numD > -1 && numD < 1) result = String.Format("{0:E8}", numD);
+                if (numD == 0) result = "0";
+                else if (numD > -1 && numD < 1) result = String.Format("{0:E8}", numD);
                 else if (numD > long.MaxValue || numD < long.MinValue) result = String.Format("{0:E8}", numD);
                 else result = String.Format("{0:0.#####}", numD);
             }
@@ -3277,9 +3279,19 @@ namespace Be.Windows.Forms
             set {_byteGroupingType = value;Invalidate();}
         }
         private ByteGroupingType _byteGroupingType = ByteGroupingType.B01;
-        private int ByteGroupingSize => 0xFF & (int)ByteGrouping;
-        private bool ByteGroupingDecimal => (0x100 & (int)ByteGrouping) == 0x100;
-        private bool ByteGroupingFloating => (0x200 & (int)ByteGrouping) == 0x200;
+
+        /// <summary>
+        /// ByteGroupingSize
+        /// </summary>
+        public int ByteGroupingSize => 0xFF & (int)ByteGrouping;
+        /// <summary>
+        /// ByteGroupingDecimal
+        /// </summary>
+        public bool ByteGroupingDecimal => (0x100 & (int)ByteGrouping) == 0x100;
+        /// <summary>
+        /// ByteGroupingFloating
+        /// </summary>
+        public bool ByteGroupingFloating => (0x200 & (int)ByteGrouping) == 0x200;
         #endregion
 
         #region Visibility Hidden Properties

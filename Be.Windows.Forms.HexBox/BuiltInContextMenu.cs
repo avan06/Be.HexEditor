@@ -265,5 +265,55 @@ namespace Be.Windows.Forms
             set => _selectAllMenuItemImage = value;
         }
         Image _selectAllMenuItemImage = null;
+
+        /// <summary>
+        /// Contains the ContextMenuStrip control.
+        /// </summary>
+        /// <returns>ContextMenuStrip</returns>
+        public ContextMenuStrip GetContextMenuStrip()
+        {
+            if (_contextMenuStrip == null) CheckBuiltInContextMenu();
+            return _contextMenuStrip;
+        }
+        /// <summary>
+        /// Contains the "Cut"-ToolStripMenuItem object.
+        /// </summary>
+        public ToolStripMenuItem GetCutToolStripMenuItem()
+        {
+            if (_contextMenuStrip == null) CheckBuiltInContextMenu();
+            return _cutToolStripMenuItem;
+        }
+        /// <summary>
+        /// Contains the "Copy"-ToolStripMenuItem object.
+        /// </summary>
+        public ToolStripMenuItem GetCopyToolStripMenuItem()
+        {
+            if (_contextMenuStrip == null) CheckBuiltInContextMenu();
+            return _copyToolStripMenuItem;
+        }
+        /// <summary>
+        /// Contains the "CopyHex"-ToolStripMenuItem object.
+        /// </summary>
+        public ToolStripMenuItem GetCopyHexToolStripMenuItem()
+        {
+            if (_contextMenuStrip == null) CheckBuiltInContextMenu();
+            return _copyHexToolStripMenuItem;
+        }
+        /// <summary>
+        /// Contains the "Paste"-ToolStripMenuItem object.
+        /// </summary>
+        public ToolStripMenuItem GetPasteToolStripMenuItem()
+        {
+            if (_contextMenuStrip == null) CheckBuiltInContextMenu();
+            return _pasteToolStripMenuItem;
+        }
+        /// <summary>
+        /// Contains the "Select All"-ToolStripMenuItem object.
+        /// </summary>
+        public ToolStripMenuItem GetSelectAllToolStripMenuItem()
+        {
+            if (_contextMenuStrip == null) CheckBuiltInContextMenu();
+            return _selectAllToolStripMenuItem;
+        }
     }
 }
