@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
 using System.Windows.Forms;
 using Be.HexEditor.Properties;
 
@@ -88,7 +85,7 @@ namespace Be.HexEditor
             // remove the last one, if max size is reached
             if (Settings.Default.RecentFiles.Count > MaxRecentFiles)
                 Settings.Default.RecentFiles.RemoveAt(MaxRecentFiles);
-            if (Settings.Default.RecentFiles.Count > Settings.Default.RecentFilesMax)
+            if (this.recentFileToolStripItem.DropDownItems.Count > Settings.Default.RecentFilesMax)
                 this.recentFileToolStripItem.DropDownItems.RemoveAt(Settings.Default.RecentFilesMax);
 
             // enable the menu item if it´s disabled

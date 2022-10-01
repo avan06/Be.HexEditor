@@ -1,13 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using Be.Windows.Forms;
-using System.Diagnostics;
 
 namespace Be.HexEditor
 {
@@ -72,6 +67,14 @@ namespace Be.HexEditor
 			encodingToolStripMenuItem.DropDownItems.Add(miDefault);
 			encodingToolStripMenuItem.DropDownItems.Add(miEbcdic);
 			encodingToolStripComboBox.SelectedIndex = 0;
+
+            HexBox.ByteGroupingType[] byteGroupingTypes = (HexBox.ByteGroupingType[])Enum.GetValues(typeof(HexBox.ByteGroupingType));
+            for (int idx = 0; idx < byteGroupingTypes.Length; idx++)
+            {
+                HexBox.ByteGroupingType byteGroupingType = byteGroupingTypes[idx];
+                ByteGroupToolStripComboBox.Items.Add(byteGroupingType);
+            }
+            ByteGroupToolStripComboBox.SelectedIndex = 0;
 
             UpdateFormWidth();
         }
@@ -565,5 +568,12 @@ namespace Be.HexEditor
         {
             Width = hexBox.RequiredWidth + 70;
         }
-	}
+
+        private void ByteGroupToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var byteGroupComboBox = (ToolStripComboBox)sender;
+            HexBox.ByteGroupingType byteGroupingType = (HexBox.ByteGroupingType)byteGroupComboBox.SelectedItem;
+            hexBox.ByteGrouping = byteGroupingType;
+        }
+    }
 }

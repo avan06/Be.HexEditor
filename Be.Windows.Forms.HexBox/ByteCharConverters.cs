@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace Be.Windows.Forms
 {
@@ -15,6 +13,13 @@ namespace Be.Windows.Forms
         /// <param name="b"></param>
         /// <returns></returns>
         char ToChar(byte b);
+
+        /// <summary>
+        /// Returns the character to display for the byte array passed across.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        string ToString(byte[] data);
 
         /// <summary>
         /// Returns the byte to use when the character passed across is entered during editing.
@@ -34,9 +39,16 @@ namespace Be.Windows.Forms
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public virtual char ToChar(byte b)
+        public virtual char ToChar(byte b) => b > 0x1F && !(b > 0x7E && b < 0xA0) ? (char)b : '.';
+
+        /// <summary>
+        /// See <see cref="IByteCharConverter.ToString" /> for more information.
+        /// </summary>
+        public virtual string ToString(byte[] data)
         {
-            return b > 0x1F && !(b > 0x7E && b < 0xA0) ? (char)b : '.';
+            string result = "";
+            for (int idx = 0; idx < data.Length; idx++) result += ToChar(data[idx]);
+            return result;
         }
 
         /// <summary>
@@ -44,19 +56,13 @@ namespace Be.Windows.Forms
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public virtual byte ToByte(char c)
-        {
-            return (byte)c;
-        }
+        public virtual byte ToByte(char c) => (byte)c;
 
         /// <summary>
         /// Returns a description of the byte char provider.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return "ANSI (Default)";
-        }
+        public override string ToString() => "ANSI (Default)";
     }
 
     /// <summary>
@@ -82,6 +88,16 @@ namespace Be.Windows.Forms
         }
 
         /// <summary>
+        /// See <see cref="IByteCharConverter.ToString" /> for more information.
+        /// </summary>
+        public virtual string ToString(byte[] data)
+        {
+            string encoded = _ebcdicEncoding.GetString(data);
+            if (encoded.Length == 0) for (int i = 0; i < data.Length; i++) encoded += ".";
+            return encoded;
+        }
+
+        /// <summary>
         /// Returns the byte corresponding to the EBCDIC character passed across.
         /// </summary>
         /// <param name="c"></param>
@@ -96,9 +112,6 @@ namespace Be.Windows.Forms
         /// Returns a description of the byte char provider.
         /// </summary>
         /// <returns></returns>
-        public override string ToString()
-        {
-            return "EBCDIC (Code Page 500)";
-        }
+        public override string ToString() => "EBCDIC (Code Page 500)";
     }
 }

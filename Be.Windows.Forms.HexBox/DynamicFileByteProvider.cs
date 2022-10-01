@@ -36,14 +36,8 @@ namespace Be.Windows.Forms
         {
             _fileName = fileName;
 
-            if (!readOnly)
-            {
-                _stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            }
-            else
-            {
-                _stream = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            }
+            if (!readOnly) _stream = File.Open(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+            else _stream = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
             _readOnly = readOnly;
 
@@ -85,18 +79,33 @@ namespace Be.Windows.Forms
         /// </summary>
         public byte ReadByte(long index)
         {
-            long blockOffset;
-            DataBlock block = GetDataBlock(index, out blockOffset);
+            DataBlock block = GetDataBlock(index, out long blockOffset);
             FileDataBlock fileBlock = block as FileDataBlock;
-            if (fileBlock != null)
-            {
-                return ReadByteFromFile(fileBlock.FileOffset + index - blockOffset);
-            }
+            if (fileBlock != null) return ReadByteFromFile(fileBlock.FileOffset + index - blockOffset);
             else
             {
                 MemoryDataBlock memoryBlock = (MemoryDataBlock)block;
                 return memoryBlock.Data[index - blockOffset];
             }
+        }
+
+        /// <summary>
+        /// See <see cref="IByteProvider.ReadBytes" /> for more information.
+        /// </summary>
+        public byte[] ReadBytes(long index, int length)
+        {
+            byte[] buffer = new byte[length];
+            for (int idx = 0; idx < length; idx++)
+            {
+                if (index + idx > this.Length - 1)
+                {
+                    Array.Resize(ref buffer, idx);
+                    break;
+                }
+                buffer[idx] = ReadByte(index + idx);
+            }
+
+            return buffer;
         }
 
         /// <summary>
@@ -107,8 +116,7 @@ namespace Be.Windows.Forms
             try
             {
                 // Find the block affected.
-                long blockOffset;
-                DataBlock block = GetDataBlock(index, out blockOffset);
+                DataBlock block = GetDataBlock(index, out long blockOffset);
 
                 // If the byte is already in a memory block, modify it.
                 MemoryDataBlock memoryBlock = block as MemoryDataBlock;
@@ -128,10 +136,7 @@ namespace Be.Windows.Forms
                     {
                         previousMemoryBlock.AddByteToEnd(value);
                         fileBlock.RemoveBytesFromStart(1);
-                        if (fileBlock.Length == 0)
-                        {
-                            _dataMap.Remove(fileBlock);
-                        }
+                        if (fileBlock.Length == 0) _dataMap.Remove(fileBlock);
                         return;
                     }
                 }
@@ -144,20 +149,14 @@ namespace Be.Windows.Forms
                     {
                         nextMemoryBlock.AddByteToStart(value);
                         fileBlock.RemoveBytesFromEnd(1);
-                        if (fileBlock.Length == 0)
-                        {
-                            _dataMap.Remove(fileBlock);
-                        }
+                        if (fileBlock.Length == 0) _dataMap.Remove(fileBlock);
                         return;
                     }
                 }
 
                 // Split the block into a prefix and a suffix and place a memory block in-between.
                 FileDataBlock prefixBlock = null;
-                if (index > blockOffset)
-                {
-                    prefixBlock = new FileDataBlock(fileBlock.FileOffset, index - blockOffset);
-                }
+                if (index > blockOffset) prefixBlock = new FileDataBlock(fileBlock.FileOffset, index - blockOffset);
 
                 FileDataBlock suffixBlock = null;
                 if (index < blockOffset + fileBlock.Length - 1)
@@ -167,22 +166,24 @@ namespace Be.Windows.Forms
                         fileBlock.Length - (index - blockOffset + 1));
                 }
 
-				block = _dataMap.Replace(block, new MemoryDataBlock(value));
+                block = _dataMap.Replace(block, new MemoryDataBlock(value));
 
-                if (prefixBlock != null)
-                {
-                    _dataMap.AddBefore(block, prefixBlock);
-                }
+                if (prefixBlock != null) _dataMap.AddBefore(block, prefixBlock);
 
-                if (suffixBlock != null)
-                {
-                    _dataMap.AddAfter(block, suffixBlock);
-                }
+                if (suffixBlock != null) _dataMap.AddAfter(block, suffixBlock);
             }
             finally
             {
                 OnChanged(EventArgs.Empty);
             }
+        }
+
+        /// <summary>
+        /// See <see cref="IByteProvider.WriteBytes" /> for more information.
+        /// </summary>
+        public void WriteBytes(long index, byte[] values)
+        {
+            for (int idx = 0; idx < values.Length; idx++) WriteByte(index + idx, values[idx]);
         }
 
         /// <summary>
@@ -193,8 +194,7 @@ namespace Be.Windows.Forms
             try
             {
                 // Find the block affected.
-                long blockOffset;
-                DataBlock block = GetDataBlock(index, out blockOffset);
+                DataBlock block = GetDataBlock(index, out long blockOffset);
 
                 // If the insertion point is in a memory block, just insert it.
                 MemoryDataBlock memoryBlock = block as MemoryDataBlock;
@@ -219,10 +219,7 @@ namespace Be.Windows.Forms
 
                 // Split the block into a prefix and a suffix and place a memory block in-between.
                 FileDataBlock prefixBlock = null;
-                if (index > blockOffset)
-                {
-                    prefixBlock = new FileDataBlock(fileBlock.FileOffset, index - blockOffset);
-                }
+                if (index > blockOffset) prefixBlock = new FileDataBlock(fileBlock.FileOffset, index - blockOffset);
 
                 FileDataBlock suffixBlock = null;
                 if (index < blockOffset + fileBlock.Length)
@@ -232,17 +229,11 @@ namespace Be.Windows.Forms
                         fileBlock.Length - (index - blockOffset));
                 }
 
-				block = _dataMap.Replace(block, new MemoryDataBlock(bs));
+                block = _dataMap.Replace(block, new MemoryDataBlock(bs));
 
-                if (prefixBlock != null)
-                {
-                    _dataMap.AddBefore(block, prefixBlock);
-                }
+                if (prefixBlock != null) _dataMap.AddBefore(block, prefixBlock);
 
-                if (suffixBlock != null)
-                {
-                    _dataMap.AddAfter(block, suffixBlock);
-                }
+                if (suffixBlock != null) _dataMap.AddAfter(block, suffixBlock);
             }
             finally
             {
@@ -262,8 +253,7 @@ namespace Be.Windows.Forms
                 long bytesToDelete = length;
 
                 // Find the first block affected.
-                long blockOffset;
-                DataBlock block = GetDataBlock(index, out blockOffset);
+                DataBlock block = GetDataBlock(index, out long blockOffset);
 
                 // Truncate or remove each block as necessary.
                 while ((bytesToDelete > 0) && (block != null))
@@ -278,10 +268,7 @@ namespace Be.Windows.Forms
                     if (block.Length == 0)
                     {
                         _dataMap.Remove(block);
-                        if (_dataMap.FirstBlock == null)
-                        {
-                            _dataMap.AddFirst(new MemoryDataBlock(new byte[0]));
-                        }
+                        if (_dataMap.FirstBlock == null) _dataMap.AddFirst(new MemoryDataBlock(new byte[0]));
                     }
                     
                     bytesToDelete -= count;
@@ -300,40 +287,24 @@ namespace Be.Windows.Forms
         /// <summary>
         /// See <see cref="IByteProvider.Length" /> for more information.
         /// </summary>
-        public long Length
-        {
-            get
-            {
-                return _totalLength;
-            }
-        }
+        public long Length => _totalLength;
 
         /// <summary>
         /// See <see cref="IByteProvider.HasChanges" /> for more information.
         /// </summary>
         public bool HasChanges()
         {
-            if (_readOnly)
-                return false;
+            if (_readOnly) return false;
 
-            if (_totalLength != _stream.Length)
-            {
-                return true;
-            }
+            if (_totalLength != _stream.Length) return true;
 
             long offset = 0;
             for (DataBlock block = _dataMap.FirstBlock; block != null; block = block.NextBlock)
             {
                 FileDataBlock fileBlock = block as FileDataBlock;
-                if (fileBlock == null)
-                {
-                    return true;
-                }
+                if (fileBlock == null) return true;
 
-                if (fileBlock.FileOffset != offset)
-                {
-                    return true;
-                }
+                if (fileBlock.FileOffset != offset) return true;
 
                 offset += fileBlock.Length;
             }
@@ -352,20 +323,14 @@ namespace Be.Windows.Forms
             // Saving to a separate file would be a much simpler implementation.
 
             // Firstly, extend the file length (if necessary) to ensure that there is enough disk space.
-            if (_totalLength > _stream.Length)
-            {
-                _stream.SetLength(_totalLength);
-            }
+            if (_totalLength > _stream.Length) _stream.SetLength(_totalLength);
 
             // Secondly, shift around any file sections that have moved.
             long dataOffset = 0;
             for (DataBlock block = _dataMap.FirstBlock; block != null; block = block.NextBlock)
             {
                 FileDataBlock fileBlock = block as FileDataBlock;
-                if (fileBlock != null && fileBlock.FileOffset != dataOffset)
-                {
-                    MoveFileBlock(fileBlock, dataOffset);
-                }
+                if (fileBlock != null && fileBlock.FileOffset != dataOffset) MoveFileBlock(fileBlock, dataOffset);
                 dataOffset += block.Length;
             }
 
@@ -393,26 +358,17 @@ namespace Be.Windows.Forms
         /// <summary>
         /// See <see cref="IByteProvider.SupportsWriteByte" /> for more information.
         /// </summary>
-        public bool SupportsWriteByte()
-        {
-            return !_readOnly;
-        }
+        public bool SupportsWriteByte() => !_readOnly;
 
         /// <summary>
         /// See <see cref="IByteProvider.SupportsInsertBytes" /> for more information.
         /// </summary>
-        public bool SupportsInsertBytes()
-        {
-            return !_readOnly;
-        }
+        public bool SupportsInsertBytes() => !_readOnly;
 
         /// <summary>
         /// See <see cref="IByteProvider.SupportsDeleteBytes" /> for more information.
         /// </summary>
-        public bool SupportsDeleteBytes()
-        {
-            return !_readOnly;
-        }
+        public bool SupportsDeleteBytes() => !_readOnly;
         #endregion
 
         #region IDisposable Members
@@ -443,10 +399,7 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Gets a value, if the file is opened in read-only mode.
         /// </summary>
-        public bool ReadOnly
-        {
-            get { return _readOnly; }
-        }
+        public bool ReadOnly => _readOnly;
 
         void OnLengthChanged(EventArgs e)
         {
@@ -456,27 +409,18 @@ namespace Be.Windows.Forms
 
         void OnChanged(EventArgs e)
         {
-            if (Changed != null)
-            {
-                Changed(this, e);
-            }
+            if (Changed != null) Changed(this, e);
         }
 
         DataBlock GetDataBlock(long findOffset, out long blockOffset)
         {
-            if (findOffset < 0 || findOffset > _totalLength)
-            {
-                throw new ArgumentOutOfRangeException("findOffset");
-            }
+            if (findOffset < 0 || findOffset > _totalLength) throw new ArgumentOutOfRangeException("findOffset");
 
             // Iterate over the blocks until the block containing the required offset is encountered.
             blockOffset = 0;
             for (DataBlock block = _dataMap.FirstBlock; block != null; block = block.NextBlock)
             {
-                if ((blockOffset <= findOffset && blockOffset + block.Length > findOffset) || block.NextBlock == null)
-                {
-                    return block;
-                }
+                if ((blockOffset <= findOffset && blockOffset + block.Length > findOffset) || block.NextBlock == null) return block;
                 blockOffset += block.Length;
             }
             return null;
@@ -490,10 +434,7 @@ namespace Be.Windows.Forms
             while (block != null)
             {
                 FileDataBlock fileBlock = block as FileDataBlock;
-                if (fileBlock != null)
-                {
-                    return fileBlock;
-                }
+                if (fileBlock != null) return fileBlock;
                 nextDataOffset += block.Length;
                 block = block.NextBlock;
             }
@@ -503,18 +444,23 @@ namespace Be.Windows.Forms
         byte ReadByteFromFile(long fileOffset)
         {
             // Move to the correct position and read the byte.
-            if (_stream.Position != fileOffset)
-            {
-                _stream.Position = fileOffset;
-            }
+            if (_stream.Position != fileOffset) _stream.Position = fileOffset;
             return (byte)_stream.ReadByte();
+        }
+
+        byte[] ReadBytesFromFile(long fileOffset, int length)
+        {
+            byte[] buffer = new byte[length];
+            // Move to the correct position and read the byte.
+            if (_stream.Position != fileOffset) _stream.Position = fileOffset;
+            _stream.Read(buffer, (int)fileOffset, length);
+            return buffer;
         }
 
         void MoveFileBlock(FileDataBlock fileBlock, long dataOffset)
         {
             // First, determine whether the next file block needs to move before this one.
-            long nextDataOffset;
-			FileDataBlock nextFileBlock = GetNextFileDataBlock(fileBlock, dataOffset, out nextDataOffset);
+            FileDataBlock nextFileBlock = GetNextFileDataBlock(fileBlock, dataOffset, out long nextDataOffset);
             if (nextFileBlock != null && dataOffset + fileBlock.Length > nextFileBlock.FileOffset)
             {
                 // The next block needs to move first, so do that now.
@@ -555,8 +501,8 @@ namespace Be.Windows.Forms
                 }
             }
 
-			// This block now points to a different position in the file.
-			fileBlock.SetFileOffset(dataOffset);
+            // This block now points to a different position in the file.
+            fileBlock.SetFileOffset(dataOffset);
         }
 
         void ReInitialize()

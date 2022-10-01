@@ -71,6 +71,8 @@ namespace Be.HexEditor
             this.pasteToolStripMenuItem1 = new Be.HexEditor.Core.ToolStripMenuItemEx();
             this.pasteHexToolStripMenuItem1 = new Be.HexEditor.Core.ToolStripMenuItemEx();
             this.encodingToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.ByteGroupToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.fileSizeToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -324,7 +326,9 @@ namespace Be.HexEditor
             this.cutToolStripButton,
             this.copyToolStripSplitButton,
             this.pasteToolStripSplitButton,
-            this.encodingToolStripComboBox});
+            this.encodingToolStripComboBox,
+            this.toolStripSeparator7,
+            this.ByteGroupToolStripComboBox});
             this.toolStrip.Name = "toolStrip";
             // 
             // openToolStripButton
@@ -429,6 +433,19 @@ namespace Be.HexEditor
             this.encodingToolStripComboBox.Name = "encodingToolStripComboBox";
             this.encodingToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.toolStripEncoding_SelectedIndexChanged);
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            resources.ApplyResources(this.toolStripSeparator7, "toolStripSeparator7");
+            // 
+            // ByteGroupToolStripComboBox
+            // 
+            this.ByteGroupToolStripComboBox.BackColor = System.Drawing.SystemColors.Control;
+            this.ByteGroupToolStripComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.ByteGroupToolStripComboBox, "ByteGroupToolStripComboBox");
+            this.ByteGroupToolStripComboBox.Name = "ByteGroupToolStripComboBox";
+            this.ByteGroupToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.ByteGroupToolStripComboBox_SelectedIndexChanged);
+            // 
             // statusStrip
             // 
             this.statusStrip.BackColor = System.Drawing.SystemColors.Control;
@@ -481,12 +498,17 @@ namespace Be.HexEditor
             this.hexBox.BuiltInContextMenu.PasteMenuItemImage = global::Be.HexEditor.images.PasteHS;
             this.hexBox.BuiltInContextMenu.PasteMenuItemText = resources.GetString("hexBox.BuiltInContextMenu.PasteMenuItemText");
             this.hexBox.BuiltInContextMenu.SelectAllMenuItemText = resources.GetString("hexBox.BuiltInContextMenu.SelectAllMenuItemText");
+            this.hexBox.ByteGrouping = Be.Windows.Forms.HexBox.ByteGroupingType.B04;
+            this.hexBox.ChangedFinishForeColor = System.Drawing.Color.LimeGreen;
             this.hexBox.ColumnInfoVisible = true;
+            this.hexBox.EnableAutoChangedPosSetFinish = false;
             this.hexBox.EnableCut = false;
             this.hexBox.EnableDelete = false;
             this.hexBox.EnableOverwritePaste = true;
             this.hexBox.EnablePaste = true;
-            this.hexBox.HexCasing = Be.Windows.Forms.HexCasing.Lower;
+            this.hexBox.EnableRetainChangedFinishPos = false;
+            this.hexBox.EnableRetainChangedPos = false;
+            this.hexBox.GroupSeparatorVisible = true;
             this.hexBox.LineInfoVisible = true;
             this.hexBox.Name = "hexBox";
             this.hexBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
@@ -589,5 +611,7 @@ namespace Be.HexEditor
 		private Core.ToolStripMenuItemEx bitsToolStripMenuItem;
 		private BitControl bitControl1;
 		private System.Windows.Forms.Panel bodyPanel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripComboBox ByteGroupToolStripComboBox;
     }
 }

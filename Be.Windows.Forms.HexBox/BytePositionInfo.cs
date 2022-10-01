@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Be.Windows.Forms
+﻿namespace Be.Windows.Forms
 {
     /// <summary>
     /// Represents a position in the HexBox control
@@ -15,14 +11,10 @@ namespace Be.Windows.Forms
             _characterPosition = characterPosition;
         }
 
-        public int CharacterPosition
-        {
-            get { return _characterPosition; }
-        } int _characterPosition;
+        public int CharacterPosition => _characterPosition;
+        int _characterPosition;
 
-        public long Index
-        {
-            get { return _index; }
-        } long _index;
+        public long Index => _index;
+        long _index;
     }
 }

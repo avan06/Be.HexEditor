@@ -7,7 +7,7 @@ ___
 
 # Table of Contents
 
-- [Properties](#properties)
+- [HexBox Control Properties](#hexbox-properties)
   * [HexAppearance](#hexappearance)
     + [BackColorDisabled(Color)](#backcolordisabledcolor)
     + [BorderStyle(BorderStyle)](#borderstyleborderstyle)
@@ -40,6 +40,7 @@ ___
     + [EnableRetainChangedPos(bool) `*New`](#enableretainchangedposbool-new)
     + [EnableRetainChangedFinishPos(bool) `*New`](#enableretainchangedfinishposbool-new)
     + [EnableAutoChangedPosSetFinish(bool) `*New`](#enableautochangedpossetfinishbool-new)
+    + [ByteGrouping(ByteGroupingType) `*New`](#bytegroupingbytegroupingtype-new)
     + [BuiltInContextMenu(BuiltInContextMenu)](#builtincontextmenubuiltincontextmenu)
 
   * [Hidden](#hidden)
@@ -62,7 +63,7 @@ ___
 ___
 
 
-# Properties
+# HexBox Control Properties
 
 
 ## HexAppearance
@@ -196,6 +197,10 @@ ___
 ### EnableAutoChangedPosSetFinish(bool) `*New`
 > Gets or sets whether auto perform the ChangedPosSetFinish method when ByteProvider changed. DefaultValue: false.
 > DefaultValue: false
+
+### ByteGrouping(ByteGroupingType) `*New`
+> Gets or sets the byte grouping length, only 1, 2, 4, 8, 16 can be set.
+> DefaultValue: B01 (Size:01)
 
 ### BuiltInContextMenu(BuiltInContextMenu)
 > Gets or sets the built-in context menu.
