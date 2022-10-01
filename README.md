@@ -199,8 +199,22 @@ ___
 > DefaultValue: false
 
 ### ByteGrouping(ByteGroupingType) `*New`
-> Gets or sets the byte grouping length, only 1, 2, 4, 8, 16 can be set.
+> Gets or sets the byte grouping type:
 > DefaultValue: B01 (Size:01)
+> B01 = Size:01, Hex
+> B02 = Size:02, Hex
+> B04 = Size:04, Hex
+> B08 = Size:08, Hex
+> B16 = Size:16, Hex
+> [Experimental Features]
+> The hex value can be displayed as a numeric value, when the ByteGrouping of HexBox is set to decimal or float or double.
+> Note: This feature is for display only and does not support direct editing of values.
+> B01Decimal = Size:01, Decimal byte
+> B02Decimal = Size:02, Decimal ushort
+> B04Decimal = Size:04, Decimal uint
+> B08Decimal = Size:08, Decimal ulong
+> B04Float = Size:04, Float
+> B08Double = Size:08, Double
 
 ### BuiltInContextMenu(BuiltInContextMenu)
 > Gets or sets the built-in context menu.

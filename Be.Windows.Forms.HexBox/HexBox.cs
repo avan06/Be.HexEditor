@@ -2191,7 +2191,7 @@ namespace Be.Windows.Forms
             {
                 var pen = new Pen(new SolidBrush(InfoForeColor), 1);
                 PointF headerPointF = GetColumnInfoPointF(col);
-                headerPointF.X -= CharSize.Width / 2;
+                headerPointF.X -= CharSize.Width / 4;
                 g.DrawLine(pen, headerPointF, new PointF(headerPointF.X, headerPointF.Y + _recColumnInfo.Height + _recHex.Height));
                 if (!StringViewVisible) continue;
 
@@ -2245,13 +2245,42 @@ namespace Be.Windows.Forms
         {
             PointF bytePointF = GetBytePointF(gridPoint);
 
-            string sB = ConvertBytesToHex(data);
+            string sB;
+            if (ByteGroupingSize > 1 && data.Length < ByteGroupingSize) Array.Resize(ref data, ByteGroupingSize);
+
+            if (ByteGrouping == ByteGroupingType.B01Decimal) sB = data[0].ToString();
+            else if (ByteGrouping == ByteGroupingType.B02Decimal) sB = BitConverter.ToUInt16(data, 0).ToString();
+            else if (ByteGrouping == ByteGroupingType.B04Decimal) sB = BitConverter.ToUInt32(data, 0).ToString();
+            else if (ByteGrouping == ByteGroupingType.B08Decimal) sB = BitConverter.ToUInt64(data, 0).ToString();
+            else if (ByteGrouping == ByteGroupingType.B04Float) sB = FormatFloating(BitConverter.ToSingle(data, 0));
+            else if (ByteGrouping == ByteGroupingType.B08Double) sB = FormatFloating(BitConverter.ToDouble(data, 0));
+            else sB = ConvertBytesToHex(data);
 
             for (int idx = 0; idx < sB.Length; idx++)
             {
                 g.DrawString(sB[idx].ToString(), Font, brush, bytePointF, _stringFormat);
                 if (idx < sB.Length -1) bytePointF.X += CharSize.Width;
             }
+        }
+
+        string FormatFloating(object number)
+        {
+            string result = "";
+
+            if (number is float numF)
+            {
+                if (numF > -1 && numF < 1) result = String.Format("{0:E4}", numF);
+                else if(numF > int.MaxValue || numF < int.MinValue) result = String.Format("{0:E4}", numF);
+                else result = String.Format("{0:0.###}", numF);
+            }
+            else if (number is double numD)
+            {
+                if (numD > -1 && numD < 1) result = String.Format("{0:E8}", numD);
+                else if (numD > long.MaxValue || numD < long.MinValue) result = String.Format("{0:E8}", numD);
+                else result = String.Format("{0:0.#####}", numD);
+            }
+
+            return result;
         }
 
         void PaintColumnInfo(Graphics g, byte[] data, Brush brush, int col)
@@ -2636,6 +2665,7 @@ namespace Be.Windows.Forms
 
             return new PointF(x, y);
         }
+
         PointF GetColumnInfoPointF(int col)
         {
             Point gp = GetGridBytePoint(col);
@@ -3183,32 +3213,64 @@ namespace Be.Windows.Forms
         /// </summary>
         public enum ByteGroupingType
         {
-            /// <summary>Size:01</summary>
+            /// <summary>Size:01, Hex</summary>
             B01 = 0x001,
-            /// <summary>Size:02</summary>
+            /// <summary>Size:02, Hex</summary>
             B02 = 0x002,
-            /// <summary>Size:04</summary>
+            /// <summary>Size:04, Hex</summary>
             B04 = 0x004,
-            /// <summary>Size:08</summary>
+            /// <summary>Size:08, Hex</summary>
             B08 = 0x008,
-            /// <summary>Size:16</summary>
+            /// <summary>Size:16, Hex</summary>
             B16 = 0x010,
-            ///// <summary>Size:01, Decimal</summary>
-            //B01Decimal = 0x101,
-            ///// <summary>Size:02, Decimal</summary>
-            //B02Decimal = 0x102,
-            ///// <summary>Size:04, Decimal</summary>
-            //B04Decimal = 0x104,
-            ///// <summary>Size:08, Decimal</summary>
-            //B08Decimal = 0x108,
-            ///// <summary>Size:16, Decimal</summary>
-            //B16Decimal = 0x110,
+            /// <summary>Size:01, Decimal</summary>
+            B01Decimal = 0x101,
+            /// <summary>Size:02, Decimal</summary>
+            B02Decimal = 0x102,
+            /// <summary>Size:04, Decimal</summary>
+            B04Decimal = 0x104,
+            /// <summary>Size:08, Decimal</summary>
+            B08Decimal = 0x108,
+            /// <summary>Size:04, Float</summary>
+            B04Float = 0x204,
+            /// <summary>Size:08, Double</summary>
+            B08Double = 0x208,
         }
 
         /// <summary>
-        /// Gets or sets the byte grouping length. Only 1, 2, 4, 8, 16 can be set.
+        /// Gets or sets the byte grouping type:
+        /// DefaultValue: B01 (Size:01)<para />
+        /// B01 = Size:01, Hex
+        /// B02 = Size:02, Hex
+        /// B04 = Size:04, Hex
+        /// B08 = Size:08, Hex
+        /// B16 = Size:16, Hex<para />
+        /// [Experimental Features]<para />
+        /// The hex value can be displayed as a numeric value, when the ByteGrouping of HexBox is set to decimal or float or double.<para />
+        /// Note: This feature is for display only and does not support direct editing of values.<para />
+        /// B01Decimal = Size:01, Decimal byte
+        /// B02Decimal = Size:02, Decimal ushort
+        /// B04Decimal = Size:04, Decimal uint
+        /// B08Decimal = Size:08, Decimal ulong
+        /// B04Float = Size:04, Float
+        /// B08Double = Size:08, Double
         /// </summary>
-        [Category("HexBehavior"), Description("Gets or sets the byte grouping length.\nOnly 1, 2, 4, 8, 16 can be set."), DefaultValue(ByteGroupingType.B01)]
+        [Category("HexBehavior"), Description("Gets or sets the byte grouping type: \n" +
+"DefaultValue: B01 (Size:01) \n" +
+"B01 = Size:01, Hex \n" +
+"B02 = Size:02, Hex \n" +
+"B04 = Size:04, Hex \n" +
+"B08 = Size:08, Hex \n" +
+"B16 = Size:16, Hex \n" +
+"[Experimental Features] \n" +
+"The hex value can be displayed as a numeric value, when the ByteGrouping of HexBox is set to decimal or float or double. \n" +
+"Note: This feature is for display only and does not support direct editing of values. \n" +
+"B01Decimal = Size:01, Decimal byte \n" +
+"B02Decimal = Size:02, Decimal ushort \n" +
+"B04Decimal = Size:04, Decimal uint \n" +
+"B08Decimal = Size:08, Decimal ulong \n" +
+"B04Float = Size:04, Float \n" +
+"B08Double = Size:08, Double\n"), DefaultValue(ByteGroupingType.B01)]
         public ByteGroupingType ByteGrouping
         {
             get => _byteGroupingType;
@@ -3216,6 +3278,8 @@ namespace Be.Windows.Forms
         }
         private ByteGroupingType _byteGroupingType = ByteGroupingType.B01;
         private int ByteGroupingSize => 0xFF & (int)ByteGrouping;
+        private bool ByteGroupingDecimal => (0x100 & (int)ByteGrouping) == 0x100;
+        private bool ByteGroupingFloating => (0x200 & (int)ByteGrouping) == 0x200;
         #endregion
 
         #region Visibility Hidden Properties
