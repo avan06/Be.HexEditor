@@ -10,70 +10,74 @@ using System.Text;
 
 namespace Be.HexEditor
 {
-	/// <summary>
-	/// Summary description for FormFind.
-	/// </summary>
+    /// <summary>
+    /// Summary description for FormFind.
+    /// </summary>
     public class FormFind : Core.FormEx
-	{
-		private Be.Windows.Forms.HexBox hexFind;
-		private System.Windows.Forms.TextBox txtFind;
-		private System.Windows.Forms.RadioButton rbString;
-		private System.Windows.Forms.RadioButton rbHex;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button btnOK;
+    {
+        private Be.Windows.Forms.HexBox hexFind;
+        private System.Windows.Forms.TextBox txtFind;
+        private System.Windows.Forms.RadioButton rbString;
+        private System.Windows.Forms.RadioButton rbHex;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
-		private Label lblPercent;
-		private Label lblFinding;
-		private CheckBox chkMatchCase;
-		private Timer timerPercent;
-		private Timer timer;
-		private FlowLayoutPanel flowLayoutPanel1;
+        private Label lblPercent;
+        private Label lblFinding;
+        private CheckBox chkMatchCase;
+        private Timer timerPercent;
+        private Timer timer;
+        private FlowLayoutPanel flowLayoutPanel1;
         private FlowLayoutPanel flowLayoutPanel2;
         private Panel line;
-		private IContainer components;
+        private Panel RadioBtnPanel;
+        private RadioButton RadioBtnBackward;
+        private RadioButton RadioBtnForward;
+        private CheckBox ChkAutoClose;
+        private IContainer components;
 
-		public FormFind()
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
+        public FormFind()
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-			rbString.CheckedChanged += new EventHandler(rb_CheckedChanged);
-			rbHex.CheckedChanged += new EventHandler(rb_CheckedChanged);
+            //
+            // TODO: Add any constructor code after InitializeComponent call
+            //
+            rbString.CheckedChanged += new EventHandler(rb_CheckedChanged);
+            rbHex.CheckedChanged += new EventHandler(rb_CheckedChanged);
 
-		}
+        }
 
-		void ByteProvider_Changed(object sender, EventArgs e)
-		{
-			ValidateFind();
-		}
+        void ByteProvider_Changed(object sender, EventArgs e)
+        {
+            ValidateFind();
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose( bool disposing )
+        {
+            if( disposing )
+            {
+                if(components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose( disposing );
+        }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormFind));
             this.txtFind = new System.Windows.Forms.TextBox();
@@ -91,8 +95,13 @@ namespace Be.HexEditor
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.line = new System.Windows.Forms.Panel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.RadioBtnBackward = new System.Windows.Forms.RadioButton();
+            this.RadioBtnPanel = new System.Windows.Forms.Panel();
+            this.RadioBtnForward = new System.Windows.Forms.RadioButton();
+            this.ChkAutoClose = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.RadioBtnPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtFind
@@ -171,6 +180,14 @@ namespace Be.HexEditor
             this.hexFind.BuiltInContextMenu.PasteMenuItemImage = global::Be.HexEditor.images.PasteHS;
             this.hexFind.BuiltInContextMenu.PasteMenuItemText = resources.GetString("hexFind.BuiltInContextMenu.PasteMenuItemText");
             this.hexFind.BuiltInContextMenu.SelectAllMenuItemText = resources.GetString("hexFind.BuiltInContextMenu.SelectAllMenuItemText");
+            this.hexFind.ChangedFinishForeColor = System.Drawing.Color.LimeGreen;
+            this.hexFind.EnableAutoChangedPosSetFinish = false;
+            this.hexFind.EnableCut = false;
+            this.hexFind.EnableDelete = false;
+            this.hexFind.EnableOverwritePaste = false;
+            this.hexFind.EnablePaste = false;
+            this.hexFind.EnableRetainChangedFinishPos = false;
+            this.hexFind.EnableRetainChangedPos = false;
             this.hexFind.InfoForeColor = System.Drawing.Color.Empty;
             this.hexFind.Name = "hexFind";
             this.hexFind.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
@@ -198,6 +215,35 @@ namespace Be.HexEditor
             this.flowLayoutPanel2.Controls.Add(this.lblPercent);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             // 
+            // RadioBtnBackward
+            // 
+            resources.ApplyResources(this.RadioBtnBackward, "RadioBtnBackward");
+            this.RadioBtnBackward.Checked = true;
+            this.RadioBtnBackward.Name = "RadioBtnBackward";
+            this.RadioBtnBackward.TabStop = true;
+            this.RadioBtnBackward.UseVisualStyleBackColor = true;
+            // 
+            // RadioBtnPanel
+            // 
+            this.RadioBtnPanel.Controls.Add(this.RadioBtnForward);
+            this.RadioBtnPanel.Controls.Add(this.RadioBtnBackward);
+            resources.ApplyResources(this.RadioBtnPanel, "RadioBtnPanel");
+            this.RadioBtnPanel.Name = "RadioBtnPanel";
+            // 
+            // RadioBtnForward
+            // 
+            resources.ApplyResources(this.RadioBtnForward, "RadioBtnForward");
+            this.RadioBtnForward.Name = "RadioBtnForward";
+            this.RadioBtnForward.UseVisualStyleBackColor = true;
+            // 
+            // ChkAutoClose
+            // 
+            resources.ApplyResources(this.ChkAutoClose, "ChkAutoClose");
+            this.ChkAutoClose.Checked = true;
+            this.ChkAutoClose.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChkAutoClose.Name = "ChkAutoClose";
+            this.ChkAutoClose.UseVisualStyleBackColor = true;
+            // 
             // FormFind
             // 
             this.AcceptButton = this.btnOK;
@@ -205,6 +251,8 @@ namespace Be.HexEditor
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
+            this.Controls.Add(this.ChkAutoClose);
+            this.Controls.Add(this.RadioBtnPanel);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.chkMatchCase);
@@ -223,190 +271,193 @@ namespace Be.HexEditor
             this.flowLayoutPanel1.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
+            this.RadioBtnPanel.ResumeLayout(false);
+            this.RadioBtnPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
-		#endregion
+        }
+        #endregion
 
-		private FindOptions _findOptions;
+        private FindOptions _findOptions;
 
-		public FindOptions FindOptions
-		{
-			get 
-			{ 
-				return _findOptions; 
-			}
-			set
-			{
-				_findOptions = value;
-				Reinitialize();
-			}
-		}
+        public FindOptions FindOptions
+        {
+            get 
+            { 
+                return _findOptions; 
+            }
+            set
+            {
+                _findOptions = value;
+                Reinitialize();
+            }
+        }
 
-		public HexBox HexBox { get; set; }
+        public HexBox HexBox { get; set; }
 
-		private void Reinitialize()
-		{
-			rbString.Checked = _findOptions.Type == FindType.Text;
-			txtFind.Text = _findOptions.Text;
-			chkMatchCase.Checked = _findOptions.MatchCase;
+        private void Reinitialize()
+        {
+            rbString.Checked = _findOptions.Type == FindType.Text;
+            txtFind.Text = _findOptions.Text;
+            chkMatchCase.Checked = _findOptions.MatchCase;
 
-			rbHex.Checked = _findOptions.Type == FindType.Hex;
+            rbHex.Checked = _findOptions.Type == FindType.Hex;
 
-			if (hexFind.ByteProvider != null)
-				hexFind.ByteProvider.Changed -= new EventHandler(ByteProvider_Changed);
+            if (hexFind.ByteProvider != null)
+                hexFind.ByteProvider.Changed -= new EventHandler(ByteProvider_Changed);
 
-			var hex = this._findOptions.Hex != null ? _findOptions.Hex : new byte[0];
-			hexFind.ByteProvider = new DynamicByteProvider(hex);
-			hexFind.ByteProvider.Changed += new EventHandler(ByteProvider_Changed);
-		}
+            var hex = this._findOptions.Hex != null ? _findOptions.Hex : new byte[0];
+            hexFind.ByteProvider = new DynamicByteProvider(hex);
+            hexFind.ByteProvider.Changed += new EventHandler(ByteProvider_Changed);
+        }
 
-		private void rb_CheckedChanged(object sender, System.EventArgs e)
-		{
-			txtFind.Enabled = rbString.Checked;
-			hexFind.Enabled = !txtFind.Enabled;
+        private void rb_CheckedChanged(object sender, System.EventArgs e)
+        {
+            txtFind.Enabled = rbString.Checked;
+            hexFind.Enabled = !txtFind.Enabled;
 
-			if(txtFind.Enabled)
-				txtFind.Focus();
-			else
-				hexFind.Focus();
-		}
+            if(txtFind.Enabled)
+                txtFind.Focus();
+            else
+                hexFind.Focus();
+        }
 
-		private void rbString_Enter(object sender, EventArgs e)
-		{
-			txtFind.Focus();
-		}
+        private void rbString_Enter(object sender, EventArgs e)
+        {
+            txtFind.Focus();
+        }
 
-		private void rbHex_Enter(object sender, EventArgs e)
-		{
-			hexFind.Focus();
-		}
+        private void rbHex_Enter(object sender, EventArgs e)
+        {
+            hexFind.Focus();
+        }
 
-		private void FormFind_Activated(object sender, System.EventArgs e)
-		{
-			if(rbString.Checked)
-				txtFind.Focus();
-			else
-				hexFind.Focus();
-		}
+        private void FormFind_Activated(object sender, System.EventArgs e)
+        {
+            if(rbString.Checked)
+                txtFind.Focus();
+            else
+                hexFind.Focus();
+        }
 
-		private void btnOK_Click(object sender, System.EventArgs e)
-		{
-			_findOptions.MatchCase = chkMatchCase.Checked;
+        private void btnOK_Click(object sender, System.EventArgs e)
+        {
+            _findOptions.MatchCase = chkMatchCase.Checked;
 
-			var provider = this.hexFind.ByteProvider as DynamicByteProvider;
-			_findOptions.Hex = provider.Bytes.ToArray();
-			_findOptions.Text = txtFind.Text;
-			_findOptions.Type = rbHex.Checked ? FindType.Hex : FindType.Text;
-			_findOptions.MatchCase = chkMatchCase.Checked;
-			_findOptions.IsValid = true;
+            var provider = this.hexFind.ByteProvider as DynamicByteProvider;
+            _findOptions.Hex = provider.Bytes.ToArray();
+            _findOptions.Text = txtFind.Text;
+            _findOptions.Type = rbHex.Checked ? FindType.Hex : FindType.Text;
+            _findOptions.MatchCase = chkMatchCase.Checked;
+            _findOptions.IsValid = true;
+            _findOptions.FindDirection = RadioBtnBackward.Checked ? Direction.Backward : Direction.Forward;
 
-			FindNext();
-		}
+            FindNext();
+        }
 
-		bool _finding;
+        bool _finding;
 
-		public void FindNext()
-		{
-			if (!_findOptions.IsValid)
-				return;
+        public void FindNext()
+        {
+            if (!_findOptions.IsValid)
+                return;
 
-			UpdateUIToFindingState();
+            UpdateUIToFindingState();
 
-			// start find process
-			long res = HexBox.Find(_findOptions);
+            // start find process
+            long res = HexBox.Find(_findOptions);
 
-			UpdateUIToNormalState();
+            UpdateUIToNormalState();
 
-			Application.DoEvents();
+            Application.DoEvents();
 
-			if (res == -1) // -1 = no match
-			{
-				MessageBox.Show(strings.FindOperationEndOfFile, Program.SoftwareName,
-					MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-			else if (res == -2) // -2 = find was aborted
-			{
-				return;
-			}
-			else // something was found
-			{
-				this.Close();
+            if (res == -1) // -1 = no match
+            {
+                MessageBox.Show(strings.FindOperationEndOfFile, Program.SoftwareName,
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (res == -2) // -2 = find was aborted
+            {
+                return;
+            }
+            else // something was found
+            {
+                if (ChkAutoClose.Checked) this.Close();
 
-				Application.DoEvents();
+                Application.DoEvents();
 
-				if (!HexBox.Focused)
-					HexBox.Focus();
-			}
-		}
+                if (!HexBox.Focused)
+                    HexBox.Focus();
+            }
+        }
 
-		private void UpdateUIToNormalState()
-		{
-			timer.Stop();
-			timerPercent.Stop();
-			_finding = false;
-			txtFind.Enabled = chkMatchCase.Enabled = rbHex.Enabled = rbString.Enabled
-				= hexFind.Enabled = btnOK.Enabled = true;
-		}
+        private void UpdateUIToNormalState()
+        {
+            timer.Stop();
+            timerPercent.Stop();
+            _finding = false;
+            txtFind.Enabled = chkMatchCase.Enabled = rbHex.Enabled = rbString.Enabled
+                = hexFind.Enabled = btnOK.Enabled = true;
+        }
 
-		private void UpdateUIToFindingState()
-		{
-			_finding = true;
-			timer.Start();
-			timerPercent.Start();
-			txtFind.Enabled = chkMatchCase.Enabled = rbHex.Enabled = rbString.Enabled
-				= hexFind.Enabled = btnOK.Enabled = false;
-		}
+        private void UpdateUIToFindingState()
+        {
+            _finding = true;
+            timer.Start();
+            timerPercent.Start();
+            txtFind.Enabled = chkMatchCase.Enabled = rbHex.Enabled = rbString.Enabled
+                = hexFind.Enabled = btnOK.Enabled = false;
+        }
 
-		private void btnCancel_Click(object sender, System.EventArgs e)
-		{
-			if (_finding)
-				this.HexBox.AbortFind();
-			else
-				this.Close();
-		}
+        private void btnCancel_Click(object sender, System.EventArgs e)
+        {
+            if (_finding)
+                this.HexBox.AbortFind();
+            else
+                this.Close();
+        }
 
-		private void txtString_TextChanged(object sender, EventArgs e)
-		{
-			ValidateFind();
-		}
+        private void txtString_TextChanged(object sender, EventArgs e)
+        {
+            ValidateFind();
+        }
 
-		private void ValidateFind()
-		{
-			var isValid = false;
-			if (rbString.Checked && txtFind.Text.Length > 0)
-				isValid = true;
-			if (rbHex.Checked && hexFind.ByteProvider.Length > 0)
-				isValid = true;
-			this.btnOK.Enabled = isValid;
-		}
+        private void ValidateFind()
+        {
+            var isValid = false;
+            if (rbString.Checked && txtFind.Text.Length > 0)
+                isValid = true;
+            if (rbHex.Checked && hexFind.ByteProvider.Length > 0)
+                isValid = true;
+            this.btnOK.Enabled = isValid;
+        }
 
-		private void timer_Tick(object sender, EventArgs e)
-		{
-			if (lblFinding.Text.Length == 13)
-				lblFinding.Text = "";
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if (lblFinding.Text.Length == 13)
+                lblFinding.Text = "";
 
-			lblFinding.Text += ".";
-		}
+            lblFinding.Text += ".";
+        }
 
-		private void timerPercent_Tick(object sender, EventArgs e)
-		{
-			long pos = this.HexBox.CurrentFindingPosition;
-			long length = HexBox.ByteProvider.Length;
-			double percent = (double)pos / (double)length * (double)100;
+        private void timerPercent_Tick(object sender, EventArgs e)
+        {
+            long pos = this.HexBox.CurrentFindingPosition;
+            long length = HexBox.ByteProvider.Length;
+            double percent = (double)pos / (double)length * (double)100;
 
-			System.Globalization.NumberFormatInfo nfi =
-				new System.Globalization.CultureInfo("en-US").NumberFormat;
+            System.Globalization.NumberFormatInfo nfi =
+                new System.Globalization.CultureInfo("en-US").NumberFormat;
 
-			string text = percent.ToString("0.00", nfi) + " %";
-			lblPercent.Text = text;
-		}
+            string text = percent.ToString("0.00", nfi) + " %";
+            lblPercent.Text = text;
+        }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-	}
+    }
 }

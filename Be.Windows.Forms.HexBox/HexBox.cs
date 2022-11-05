@@ -1779,7 +1779,7 @@ namespace Be.Windows.Forms
         /// -2 if Find was aborted.</returns>
         public long Find(FindOptions options)
         {
-            var startIndex = SelectionStart + SelectionLength;
+            var startIndex = SelectionStart;
             int match = 0;
 
             byte[] buffer1 = null;
@@ -1808,20 +1808,22 @@ namespace Be.Windows.Forms
 
             _abortFind = false;
 
-            for (long pos = startIndex; pos < _byteProvider.Length; pos++)
+            bool backward = options.FindDirection == Direction.Backward;
+            startIndex = startIndex + SelectionLength * (backward ? 1 : -1);
+            for (long pos = startIndex; (backward ? pos < _byteProvider.Length : pos >= 0); pos += (backward ? 1 : -1))
             {
                 if (_abortFind) return -2;
 
                 if (pos % 1000 == 0) Application.DoEvents(); // for performance reasons: DoEvents only 1 times per 1000 loops
 
                 byte compareByte = _byteProvider.ReadByte(pos);
-                bool buffer1Match = compareByte == buffer1[match];
+                bool buffer1Match = compareByte == buffer1[(backward ? 0 : buffer1.Length - 1) + match * (backward ? 1 : -1)];
                 bool hasBuffer2 = buffer2 != null;
-                bool buffer2Match = hasBuffer2 ? compareByte == buffer2[match] : false;
+                bool buffer2Match = hasBuffer2 ? compareByte == buffer2[(backward ? 0 : buffer2.Length - 1) + match * (backward ? 1 : -1)] : false;
                 bool isMatch = buffer1Match || buffer2Match;
                 if (!isMatch)
                 {
-                    pos -= match;
+                    pos -= match * (backward ? 1 : -1);
                     match = 0;
                     CurrentFindingPosition = pos;
                     continue;
@@ -1831,7 +1833,7 @@ namespace Be.Windows.Forms
 
                 if (match == buffer1Length)
                 {
-                    long bytePos = pos - buffer1Length + 1;
+                    long bytePos = pos - (backward ? buffer1Length - 1 : 0);
                     Select(bytePos, buffer1Length);
                     ScrollByteIntoView(_bytePos + _selectionLength);
                     ScrollByteIntoView(_bytePos);
