@@ -69,155 +69,158 @@ ___
 ## HexAppearance
 
 ### BackColorDisabled(Color)
-> Gets or sets the background color for the disabled control.
-> DefaultValue: WhiteSmoke Color
+> Gets or sets the background color for the disabled control.  
+> DefaultValue: WhiteSmoke Color  
 
 ### BorderStyle(BorderStyle)
-> Gets or sets the hex box's border style.
-> DefaultValue: Fixed3D BorderStyle
+> Gets or sets the hex box's border style.  
+> DefaultValue: Fixed3D BorderStyle  
 
 ### InfoForeColor(Color)
-> Gets or sets the info color used for column info and line info. When this property is null, then ForeColor property is used.
-> Gets or sets the line info color. When this property is null, then ForeColor property is used.
-> DefaultValue: Gray Color
+> Gets or sets the info color used for column info and line info. When this property is null, then ForeColor property is used.  
+> Gets or sets the line info color. When this property is null, then ForeColor property is used.  
+> DefaultValue: Gray Color  
 
 ### SelectionBackColor(Color)
-> Gets or sets the background color for the selected bytes.
-> DefaultValue: Blue Color
+> Gets or sets the background color for the selected bytes.  
+> DefaultValue: Blue Color  
 
 ### SelectionForeColor(Color)
-> Gets or sets the foreground color for the selected bytes.
-> DefaultValue: White Color
+> Gets or sets the foreground color for the selected bytes.  
+> DefaultValue: White Color  
 
 ### ShadowSelectionColor(Color)
 > Gets or sets the color of the shadow selection. 
 > A alpha component must be given! 
-> Default ARGB(100, 60, 188, 255)
+> Default ARGB(100, 60, 188, 255)  
 
 ### ChangedForeColor(Color) `*New`
-> Gets or sets the foreground color for the position of changed bytes.
-> DefaultValue: Red Color
+> Gets or sets the foreground color for the position of changed bytes.  
+> DefaultValue: Red Color  
 
 ### ChangedFinishForeColor(Color) `*New`
-> Gets or sets the foreground color for the position of finish changed.
-> After perform the ChangedPosSetFinish method, the changed position setting will be finish.
-> DefaultValue: LimeGreen
+> Gets or sets the foreground color for the position of finish changed.  
+> After perform the ChangedPosSetFinish method, the changed position setting will be finish.  
+> DefaultValue: LimeGreen  
 
 ### ZeroBytesForeColor(Color) `*New`
-> Gets or sets the foreground color for the zero bytes.
-> DefaultValue: Silver Color
+> Gets or sets the foreground color for the zero bytes.  
+> DefaultValue: Silver Color  
 
 #########################
 
 ## HexBehavior
 
 ### ReadOnly(bool)
-> Get or set whether to make the HexEditor readonly.
-> Disable edit, cut, paste, delete behavior when set to true.
-> DefaultValue: false
+> Get or set whether to make the HexEditor readonly.  
+> Disable edit, cut, paste, delete behavior when set to true.  
+> DefaultValue: false  
 
 ### BytesPerLine(int)
-> Gets or sets the maximum count of bytes in one line.
-> UseFixedBytesPerLine property no longer has to be set to true for this to work
-> DefaultValue: 16
+> Gets or sets the maximum count of bytes in one line.  
+> UseFixedBytesPerLine property no longer has to be set to true for this to work  
+> DefaultValue: 16  
 
 ### GroupSize(int)
-> Gets or sets the number of bytes in a group. Used to show the group separator line (if GroupSeparatorVisible is true)
-> Gets or sets the byte-count between group separators (if visible).
-> GroupSeparatorVisible property must set to true
-> DefaultValue: 4
+> Gets or sets the number of bytes in a group. Used to show the group separator line (if GroupSeparatorVisible is true)  
+> Gets or sets the byte-count between group separators (if visible).  
+> GroupSeparatorVisible property must set to true  
+> DefaultValue: 4  
 
 ### UseFixedBytesPerLine(bool)
-> Gets or sets if the count of bytes in one line is fix.
-> When set to True, BytesPerLine property determine the maximum count of bytes in one line.
-> DefaultValue: false
+> Gets or sets if the count of bytes in one line is fix.  
+> When set to True, BytesPerLine property determine the maximum count of bytes in one line.  
+> DefaultValue: false  
 
 ### VScrollBarVisible(bool)
-> Gets or sets the visibility of a vertical scroll bar.
-> DefaultValue: false
+> Gets or sets the visibility of a vertical scroll bar.  
+> DefaultValue: false  
 
 ### GroupSeparatorVisible(bool)
-> Gets or sets the visibility of the group separator.
-> Gets or sets the visibility of a separator vertical line.
-> DefaultValue: false
+> Gets or sets the visibility of the group separator.  
+> Gets or sets the visibility of a separator vertical line.  
+> DefaultValue: false  
 
 ### ColumnInfoVisible(bool)
-> Gets or sets the visibility of the column info.
-> Gets or sets the visibility of header row.
-> DefaultValue: false
+> Gets or sets the visibility of the column info.  
+> Gets or sets the visibility of header row.  
+> DefaultValue: false  
 
 ### LineInfoVisible(bool)
-> Gets or sets the visibility of a line info.
-> DefaultValue: false
+> Gets or sets the visibility of a line info.  
+> DefaultValue: false  
 
 ### LineInfoOffset(long)
-> Gets or sets the offset of the line info.
-> DefaultValue: (long)0
+> Gets or sets the offset of the line info.  
+> DefaultValue: (long)0  
 
 ### StringViewVisible(bool)
-> Gets or sets the visibility of the string view.
-> DefaultValue: false
+> Gets or sets the visibility of the string view.  
+> DefaultValue: false  
 
 ### HexCasing
-> Gets or sets whether the HexBox control displays the hex characters in upper or lower case.
-> DefaultValue: Upper HexCasing
+> Gets or sets whether the HexBox control displays the hex characters in upper or lower case.  
+> DefaultValue: Upper HexCasing  
 
 ### ShadowSelectionVisible(bool)
-> Gets or sets the visibility of a shadow selection.
-> DefaultValue: true
+> Gets or sets the visibility of a shadow selection.  
+> DefaultValue: true  
 
 ### LineInfoOffsetLength(int) `*New`
-> Gets or sets the maximum size of line info offset support length. Sets range is 8(32bit)~16(64bit).
-> DefaultValue: 8
+> Gets or sets the maximum size of line info offset support length. Sets range is 8(32bit)~16(64bit).  
+> DefaultValue: 8  
 
 ### EnableCut(bool) `*New`
-> Gets or sets whether you can cut bytes data.
-> DefaultValue: false
+> Gets or sets whether you can cut bytes data.  
+> DefaultValue: false  
 
 ### EnableDelete(bool) `*New`
-> Gets or sets whether you can delete bytes data.
-> DefaultValue: false
+> Gets or sets whether you can delete bytes data.  
+> DefaultValue: false  
 
 ### EnablePaste(bool) `*New`
-> Gets or sets whether you can paste bytes data.
-> DefaultValue: false
+> Gets or sets whether you can paste bytes data.  
+> DefaultValue: false  
 
 ### EnableOverwritePaste(bool) `*New`
-> Gets or sets whether to enable the overwrite mode when pasting hex data.
-> DefaultValue: false
+> Gets or sets whether to enable the overwrite mode when pasting hex data.  
+> DefaultValue: false  
 
 ### EnableRetainChangedPos(bool) `*New`
-> Gets or sets whether to retain the position of changed when ByteProvider changed.
-> DefaultValue: false
+> Gets or sets whether to retain the position of changed when ByteProvider changed.  
+> DefaultValue: false  
 
 ### EnableRetainChangedFinishPos(bool) `*New`
-> Gets or sets whether to retain the position of finish changed when ByteProvider changed.
-> DefaultValue: false
+> Gets or sets whether to retain the position of finish changed when ByteProvider changed.  
+> DefaultValue: false  
 
 ### EnableAutoChangedPosSetFinish(bool) `*New`
-> Gets or sets whether auto perform the ChangedPosSetFinish method when ByteProvider changed. DefaultValue: false.
-> DefaultValue: false
+> Gets or sets whether auto perform the ChangedPosSetFinish method when ByteProvider changed. DefaultValue: false.  
+> DefaultValue: false  
 
 ### ByteGrouping(ByteGroupingType) `*New`
-> Gets or sets the byte grouping type:
-> DefaultValue: B01 (Size:01)
-> B01 = Size:01, Hex
-> B02 = Size:02, Hex
-> B04 = Size:04, Hex
-> B08 = Size:08, Hex
-> B16 = Size:16, Hex
-> [Experimental Features]
-> The hex value can be displayed as a numeric value, when the ByteGrouping of HexBox is set to decimal or float or double.
-> Note: This feature is for display only and does not support direct editing of values.
-> B01Decimal = Size:01, Decimal byte
-> B02Decimal = Size:02, Decimal ushort
-> B04Decimal = Size:04, Decimal uint
-> B08Decimal = Size:08, Decimal ulong
-> B04Float = Size:04, Float
-> B08Double = Size:08, Double
+> Gets or sets the byte grouping type:  
+> DefaultValue: B01 (Size:01)  
+> B01 = Size:01, Hex  
+> B02 = Size:02, Hex  
+> B04 = Size:04, Hex  
+> B08 = Size:08, Hex  
+> B16 = Size:16, Hex  
+> [Experimental Features]  
+> The hex value can be displayed as a numeric value, when the ByteGrouping of HexBox is set to decimal or float or double.  
+> Note: This feature is for display only and does not support direct editing of values.  
+> B01Decimal = Size:01, Decimal byte  
+> B02Decimal = Size:02, Decimal ushort  
+> B04Decimal = Size:04, Decimal uint  
+> B08Decimal = Size:08, Decimal ulong  
+> B04Float = Size:04, Float  
+> B08Double = Size:08, Double  
 
 ### BuiltInContextMenu(BuiltInContextMenu)
 > Gets or sets the built-in context menu.
+
+### KeyDownControlCContentType
+> Get or set the content-type of the copy feature for key down (Control+C).  
 
 
 ## Hidden

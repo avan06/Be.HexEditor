@@ -53,20 +53,36 @@ namespace Be.HexEditor
             ToolStripMenuItem miDefault = new ToolStripMenuItem();
             miDefault.Text = defConverter.ToString();
             miDefault.Tag = defConverter;
-            miDefault.Click += new EventHandler(encodingMenuItem_Clicked);
-
-            var ebcdicConverter = new EbcdicByteCharProvider();
-            ToolStripMenuItem miEbcdic = new ToolStripMenuItem();
-            miEbcdic.Text = ebcdicConverter.ToString();
-            miEbcdic.Tag = ebcdicConverter;
-            miEbcdic.Click += new EventHandler(encodingMenuItem_Clicked);
+            miDefault.Click += new EventHandler(EncodingMenuItem_Clicked);
 
             encodingToolStripComboBox.Items.Add(defConverter);
-            encodingToolStripComboBox.Items.Add(ebcdicConverter);
-
             encodingToolStripMenuItem.DropDownItems.Add(miDefault);
-            encodingToolStripMenuItem.DropDownItems.Add(miEbcdic);
             encodingToolStripComboBox.SelectedIndex = 0;
+
+            //500  : IBM EBCDIC;
+            //932  : Japanese (Shift-JIS);
+            //949  : Korean (Unified Hangul Code);
+            //950  : Chinese Traditional (Big5);
+            //936  : Chinese Simplified (GB2312);
+            //65001: Unicode (UTF-8)
+            //1200 : Unicode UTF-16, little endian byte order;
+            //1201 : Unicode UTF-16, big endian byte order;
+            int[] codepages = { 500, 932, 949, 950, 936, 65001, 1200, 1201 };
+            foreach (int codepage in codepages)
+            {
+                try
+                {
+                    var encodeConverter = new EncodingByteCharProvider(codepage);
+                    ToolStripMenuItem miEbcdic = new ToolStripMenuItem();
+                    miEbcdic.Text = encodeConverter.ToString();
+                    miEbcdic.Tag = encodeConverter;
+                    miEbcdic.Click += new EventHandler(EncodingMenuItem_Clicked);
+
+                    encodingToolStripComboBox.Items.Add(encodeConverter);
+                    encodingToolStripMenuItem.DropDownItems.Add(miEbcdic);
+                }
+                catch { }
+            }
 
             HexBox.ByteGroupingType[] byteGroupingTypes = (HexBox.ByteGroupingType[])Enum.GetValues(typeof(HexBox.ByteGroupingType));
             foreach (var byteGroupingType in byteGroupingTypes) ByteGroupToolStripComboBox.Items.Add(byteGroupingType);
@@ -78,11 +94,7 @@ namespace Be.HexEditor
             UpdateFormWidth();
         }
 
-        void encodingMenuItem_Clicked(object sender, EventArgs e)
-        {
-            var converter = ((ToolStripMenuItem)sender).Tag;
-            encodingToolStripComboBox.SelectedItem = converter;
-        }
+        void EncodingMenuItem_Clicked(object sender, EventArgs e) => encodingToolStripComboBox.SelectedItem = ((ToolStripMenuItem)sender).Tag;
 
         /// <summary>
         /// Updates the File size status label
@@ -147,7 +159,6 @@ namespace Be.HexEditor
 
             cutToolStripButton.Enabled = cutToolStripMenuItem.Enabled = hexBox.CanCut();
             pasteToolStripSplitButton.Enabled = pasteToolStripMenuItem.Enabled = hexBox.CanPaste();
-            pasteHexToolStripMenuItem.Enabled = pasteHexToolStripMenuItem1.Enabled = hexBox.CanPasteHex();
         }
 
         /// <summary>
@@ -381,11 +392,6 @@ namespace Be.HexEditor
             ManageAbilityForCopyAndPaste();
         }
 
-        void hexBox_CopiedHex(object sender, EventArgs e)
-        {
-            ManageAbilityForCopyAndPaste();
-        }
-
         void hexBox_SelectionLengthChanged(object sender, System.EventArgs e)
         {
             ManageAbilityForCopyAndPaste();
@@ -460,12 +466,7 @@ namespace Be.HexEditor
 
         private void copyHex_Click(object sender, EventArgs e)
         {
-            hexBox.CopyHex();
-        }
-
-        private void pasteHex_Click(object sender, EventArgs e)
-        {
-            hexBox.PasteHex();
+            hexBox.Copy(true);
         }
 
         void find_Click(object sender, EventArgs e)

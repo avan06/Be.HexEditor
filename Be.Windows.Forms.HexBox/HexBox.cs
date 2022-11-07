@@ -585,7 +585,7 @@ namespace Be.Windows.Forms
 
             protected virtual bool PreProcessWmKeyDown_ControlC(ref Message m)
             {
-                _hexBox.Copy();
+                _hexBox.Copy(_hexBox.KeyDownControlCContentType == StringContentType.Hex);
                 return true;
             }
 
@@ -1226,11 +1226,6 @@ namespace Be.Windows.Forms
         [Description("Occurs, when Copy method was invoked and ClipBoardData changed.")]
         public event EventHandler Copied;
         /// <summary>
-        /// Occurs, when CopyHex method was invoked and ClipBoardData changed.
-        /// </summary>
-        [Description("Occurs, when CopyHex method was invoked and ClipBoardData changed.")]
-        public event EventHandler CopiedHex;
-        /// <summary>
         /// Occurs, when the CharSize property has changed
         /// </summary>
         [Description("Occurs, when the CharSize property has changed")]
@@ -1867,10 +1862,12 @@ namespace Be.Windows.Forms
             }
             return buffer;
         }
+
         /// <summary>
         /// Copies the current selection in the hex box to the Clipboard.
         /// </summary>
-        public void Copy()
+        /// <param name="dataHexStr">Determines whether the copied content-type is a Hex string</param>
+        public void Copy(bool dataHexStr = false)
         {
             if (!CanCopy()) return;
 
@@ -1880,7 +1877,7 @@ namespace Be.Windows.Forms
             DataObject da = new DataObject();
 
             // set string buffer clipbard data
-            string sBuffer = System.Text.Encoding.ASCII.GetString(buffer, 0, buffer.Length);
+            string sBuffer = dataHexStr ? ConvertBytesToHex(buffer) : ByteCharConverter.ToString(buffer);
             da.SetData(typeof(string), sBuffer);
 
             //set memorystream (BinaryData) clipboard data
@@ -2005,63 +2002,6 @@ namespace Be.Windows.Forms
                 return (buffer != null);
             }
             return false;
-        }
-
-        /// <summary>
-        /// Replaces the current selection in the hex box with the hex string data of the Clipboard.
-        /// </summary>
-        public void PasteHex()
-        {
-            if (!CanPaste()) return;
-
-            byte[] buffer = null;
-            IDataObject da = Clipboard.GetDataObject();
-            if (da.GetDataPresent(typeof(string)))
-            {
-                string hexString = (string)da.GetData(typeof(string));
-                buffer = ConvertHexToBytes(hexString);
-                if (buffer == null) return;
-            }
-            else return;
-
-            if (_selectionLength > 0) _byteProvider.DeleteBytes(_bytePos, _selectionLength);
-
-            _byteProvider.InsertBytes(_bytePos, buffer);
-
-            SetPosition(_bytePos + buffer.Length, 0);
-
-            ReleaseSelection();
-            ScrollByteIntoView();
-            UpdateCaret();
-            Invalidate();
-        }
-
-        /// <summary>
-        /// Copies the current selection in the hex box to the Clipboard in hex format.
-        /// </summary>
-        public void CopyHex()
-        {
-            if (!CanCopy()) return;
-
-            // put bytes into buffer
-            byte[] buffer = GetCopyData();
-
-            DataObject da = new DataObject();
-
-            // set string buffer clipbard data
-            string hexString = ConvertBytesToHex(buffer); ;
-            da.SetData(typeof(string), hexString);
-
-            //set memorystream (BinaryData) clipboard data
-            System.IO.MemoryStream ms = new System.IO.MemoryStream(buffer, 0, buffer.Length, false, true);
-            da.SetData("BinaryData", ms);
-
-            Clipboard.SetDataObject(da, true);
-            UpdateCaret();
-            ScrollByteIntoView();
-            Invalidate();
-
-            OnCopiedHex(EventArgs.Empty);
         }
         #endregion
 
@@ -2318,51 +2258,56 @@ namespace Be.Windows.Forms
 
         void PaintHexAndStringView(Graphics g, long startByte, long endByte)
         {
-            Brush brush = new SolidBrush(GetDefaultForeColor());
-            Brush zeroBrush = new SolidBrush(ZeroBytesForeColor);
-            Brush changedBrush = new SolidBrush(ChangedForeColor);
-            Brush changedFinishBrush = new SolidBrush(ChangedFinishForeColor);
-            Brush selBrush = new SolidBrush(SelectionForeColor);
-            Brush selBrushBack = new SolidBrush(SelectionBackColor);
-
-            int counter = -1;
-            long intern_endByte = Math.Min(_byteProvider.Length - 1, endByte + _iHexMaxHBytes);
-
-            bool isKeyInterpreterActive = _keyInterpreter == null || _keyInterpreter.GetType() == typeof(KeyInterpreter);
-            bool isStringKeyInterpreterActive = _keyInterpreter != null && _keyInterpreter.GetType() == typeof(StringKeyInterpreter);
-
-            for (long i = startByte; i < intern_endByte + 1; i++)
+            using (Brush brush = new SolidBrush(GetDefaultForeColor()))
+            using (Brush zeroBrush = new SolidBrush(ZeroBytesForeColor))
+            using (Brush changedBrush = new SolidBrush(ChangedForeColor))
+            using (Brush changedFinishBrush = new SolidBrush(ChangedFinishForeColor))
+            using (Brush selBrush = new SolidBrush(SelectionForeColor))
+            using (Brush selBrushBack = new SolidBrush(SelectionBackColor))
             {
-                counter++;
-                Point gridPoint = GetGridBytePoint(counter);
-                PointF byteStringPointF = GetByteStringPointF(gridPoint);
-                var data = _byteProvider.ReadBytes(i, ByteGroupingSize);
+                int counter = -1;
+                long intern_endByte = Math.Min(_byteProvider.Length - 1, endByte + _iHexMaxHBytes);
 
-                bool isSelectedByte = i >= _bytePos && i <= (_bytePos + _selectionLength - 1) && _selectionLength != 0;
+                bool isKeyInterpreterActive = _keyInterpreter == null || _keyInterpreter.GetType() == typeof(KeyInterpreter);
+                bool isStringKeyInterpreterActive = _keyInterpreter != null && _keyInterpreter.GetType() == typeof(StringKeyInterpreter);
 
-                if (isSelectedByte && isKeyInterpreterActive) PaintHexStringSelected(g, data, selBrush, selBrushBack, gridPoint);
-                else if (changedPosSet.Contains(i)) PaintHexString(g, data, changedBrush, gridPoint);
-                else if (changedFinishPosSet.Contains(i)) PaintHexString(g, data, changedFinishBrush, gridPoint);
-                else if (CheckEmptyData(data)) PaintHexString(g, data, zeroBrush, gridPoint);
-                else PaintHexString(g, data, brush, gridPoint);
-
-                string s = ByteCharConverter.ToString(data);
-
-                if (isSelectedByte && isStringKeyInterpreterActive)
+                string str = "";
+                int strBuffLen = 64;
+                var defaultConvert = ByteCharConverter.getEncoding() == null;
+                for (long idx = startByte; idx < intern_endByte + 1; idx++)
                 {
-                    g.FillRectangle(selBrushBack, byteStringPointF.X, byteStringPointF.Y, CharSize.Width * data.Length, CharSize.Height);
-                    g.DrawString(s, Font, selBrush, byteStringPointF, _stringFormat);
-                }
-                else g.DrawString(s, Font, brush, byteStringPointF, _stringFormat);
+                    counter++;
+                    Point gridPoint = GetGridBytePoint(counter);
+                    PointF byteStringPointF = GetByteStringPointF(gridPoint);
+                    var data = _byteProvider.ReadBytes(idx, ByteGroupingSize);
 
-                if (ByteGroupingSize > 1)
-                {
-                    for (int idx = 1; idx < ByteGroupingSize; idx++)
+                    bool isSelectedByte = idx >= _bytePos && idx <= (_bytePos + _selectionLength - 1) && _selectionLength != 0;
+
+                    if (isSelectedByte && isKeyInterpreterActive) PaintHexStringSelected(g, data, selBrush, selBrushBack, gridPoint);
+                    else if (changedPosSet.Contains(idx)) PaintHexString(g, data, changedBrush, gridPoint);
+                    else if (changedFinishPosSet.Contains(idx)) PaintHexString(g, data, changedFinishBrush, gridPoint);
+                    else if (CheckEmptyData(data)) PaintHexString(g, data, zeroBrush, gridPoint);
+                    else PaintHexString(g, data, brush, gridPoint);
+
+                    int currentIdx = (int)(idx % strBuffLen);
+                    if (defaultConvert) str = ByteCharConverter.ToString(data);
+                    else if (currentIdx == 0) str = ByteCharConverter.ToString(_byteProvider.ReadBytes((int)idx, strBuffLen), true);
+
+                    if (isSelectedByte && isStringKeyInterpreterActive)
+                        g.FillRectangle(selBrushBack, byteStringPointF.X, byteStringPointF.Y, CharSize.Width * data.Length, CharSize.Height);
+
+                    if (str != "") g.DrawString(defaultConvert ? str : str[currentIdx].ToString(), Font,
+                        isSelectedByte && isStringKeyInterpreterActive ? selBrush : brush, byteStringPointF, _stringFormat);
+
+                    if (ByteGroupingSize > 1)
                     {
-                        i++;
-                        counter++;
-                        if (changedPosSet.Contains(i)) PaintHexString(g, data, changedBrush, gridPoint);
-                        else if (changedFinishPosSet.Contains(i)) PaintHexString(g, data, changedFinishBrush, gridPoint);
+                        for (int idx2 = 1; idx2 < ByteGroupingSize; idx2++)
+                        {
+                            idx++;
+                            counter++;
+                            if (changedPosSet.Contains(idx)) PaintHexString(g, data, changedBrush, gridPoint);
+                            else if (changedFinishPosSet.Contains(idx)) PaintHexString(g, data, changedFinishBrush, gridPoint);
+                        }
                     }
                 }
             }
@@ -3294,6 +3239,21 @@ namespace Be.Windows.Forms
         /// ByteGroupingFloating
         /// </summary>
         public bool ByteGroupingFloating => (0x200 & (int)ByteGrouping) == 0x200;
+
+        /// <summary>content-type of the copy</summary>
+        public enum StringContentType
+        {
+            /// <summary>Char</summary>
+            Char,
+            /// <summary>Hex</summary>
+            Hex,
+        }
+
+        /// <summary>
+        /// Get or set the content-type of the copy feature for key down (Control+C).
+        /// </summary>
+        [Category("HexBehavior"), Description("Get or set the content-type of the copy feature for key down (Control+C).")]
+        public StringContentType KeyDownControlCContentType { get; set; } = StringContentType.Char;
         #endregion
 
         #region Visibility Hidden Properties
@@ -3792,15 +3752,6 @@ namespace Be.Windows.Forms
         protected virtual void OnCopied(EventArgs e)
         {
             if (Copied != null) Copied(this, e);
-        }
-
-        /// <summary>
-        /// Raises the CopiedHex event.
-        /// </summary>
-        /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnCopiedHex(EventArgs e)
-        {
-            if (CopiedHex != null) CopiedHex(this, e);
         }
 
         /// <summary>

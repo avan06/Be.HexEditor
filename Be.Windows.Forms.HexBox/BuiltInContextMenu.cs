@@ -130,7 +130,7 @@ namespace Be.Windows.Forms
         /// </summary>
         /// <param name="sender">the sender object</param>
         /// <param name="e">the event data</param>
-        void CopyHexMenuItem_Click(object sender, EventArgs e) => this._hexBox.CopyHex();
+        void CopyHexMenuItem_Click(object sender, EventArgs e) => this._hexBox.Copy(true);
 
         /// <summary>
         /// The handler for the "Paste"-Click event
