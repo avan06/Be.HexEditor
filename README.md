@@ -41,6 +41,7 @@ ___
     + [EnableRetainChangedFinishPos(bool) `*New`](#enableretainchangedfinishposbool-new)
     + [EnableAutoChangedPosSetFinish(bool) `*New`](#enableautochangedpossetfinishbool-new)
     + [ByteGrouping(ByteGroupingType) `*New`](#bytegroupingbytegroupingtype-new)
+    + [KeyDownControlCContentType `*New`](#keydowncontrolccontenttype-new)
     + [BuiltInContextMenu(BuiltInContextMenu)](#builtincontextmenubuiltincontextmenu)
 
   * [Hidden](#hidden)
@@ -216,11 +217,11 @@ ___
 > B04Float = Size:04, Float  
 > B08Double = Size:08, Double  
 
+### KeyDownControlCContentType `*New`
+> Get or set the content-type of the copy feature for key down (Control+C), content-type is Char or Hex text  
+
 ### BuiltInContextMenu(BuiltInContextMenu)
 > Gets or sets the built-in context menu.
-
-### KeyDownControlCContentType
-> Get or set the content-type of the copy feature for key down (Control+C).  
 
 
 ## Hidden

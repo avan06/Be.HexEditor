@@ -2100,31 +2100,31 @@ namespace Be.Windows.Forms
             endByte = Math.Min(_byteProvider.Length - 1, endByte);
 
             Color lineInfoColor = (InfoForeColor != Color.Empty) ? InfoForeColor : ForeColor;
-            Brush brush = new SolidBrush(lineInfoColor);
-
-            int maxLine = GetGridBytePoint(endByte - startByte).Y + 1;
-
-            for (int i = 0; i < maxLine; i++)
+            using (Brush brush = new SolidBrush(lineInfoColor))
             {
-                long firstLineByte = (startByte + (_iHexMaxHBytes) * i) + _lineInfoOffset;
+                int maxLine = GetGridBytePoint(endByte - startByte).Y + 1;
+                for (int i = 0; i < maxLine; i++)
+                {
+                    long firstLineByte = (startByte + (_iHexMaxHBytes) * i) + _lineInfoOffset;
 
-                PointF bytePointF = GetBytePointF(new Point(0, 0 + i));
-                string info = firstLineByte.ToString(_hexStringFormat, System.Threading.Thread.CurrentThread.CurrentCulture);
-                if (info.Length > LineInfoOffsetLength) info = info.Substring(info.Length - LineInfoOffsetLength);
+                    PointF bytePointF = GetBytePointF(new Point(0, 0 + i));
+                    string info = firstLineByte.ToString(_hexStringFormat, System.Threading.Thread.CurrentThread.CurrentCulture);
+                    if (info.Length > LineInfoOffsetLength) info = info.Substring(info.Length - LineInfoOffsetLength);
 
-                int nulls = LineInfoOffsetLength - info.Length;
-                string formattedInfo;
-                if (nulls > -1) formattedInfo = new string('0', LineInfoOffsetLength - info.Length) + info;
-                else formattedInfo = new string('~', LineInfoOffsetLength);
+                    int nulls = LineInfoOffsetLength - info.Length;
+                    string formattedInfo;
+                    if (nulls > -1) formattedInfo = new string('0', LineInfoOffsetLength - info.Length) + info;
+                    else formattedInfo = new string('~', LineInfoOffsetLength);
 
-                g.DrawString(formattedInfo, Font, brush, new PointF(_recLineInfo.X, bytePointF.Y), _stringFormat);
+                    g.DrawString(formattedInfo, Font, brush, new PointF(_recLineInfo.X, bytePointF.Y), _stringFormat);
+                }
             }
         }
 
         void PaintHeaderRow(Graphics g)
         {
-            Brush brush = new SolidBrush(InfoForeColor);
-            for (int col = 0; col < _iHexMaxHBytes; col++) PaintColumnInfo(g, new byte[] { (byte)col }, brush, col);
+            using (Brush brush = new SolidBrush(InfoForeColor))
+                for (int col = 0; col < _iHexMaxHBytes; col++) PaintColumnInfo(g, new byte[] { (byte)col }, brush, col);
         }
 
         void PaintColumnSeparator(Graphics g)
@@ -2271,8 +2271,8 @@ namespace Be.Windows.Forms
                 bool isKeyInterpreterActive = _keyInterpreter == null || _keyInterpreter.GetType() == typeof(KeyInterpreter);
                 bool isStringKeyInterpreterActive = _keyInterpreter != null && _keyInterpreter.GetType() == typeof(StringKeyInterpreter);
 
-                string str = "";
-                int strBuffLen = 64;
+                string str = "", strTmp = "";
+                int strBuffLen = 20;
                 var defaultConvert = ByteCharConverter.getEncoding() == null;
                 for (long idx = startByte; idx < intern_endByte + 1; idx++)
                 {
@@ -2289,9 +2289,18 @@ namespace Be.Windows.Forms
                     else if (CheckEmptyData(data)) PaintHexString(g, data, zeroBrush, gridPoint);
                     else PaintHexString(g, data, brush, gridPoint);
 
-                    int currentIdx = (int)(idx % strBuffLen);
+                    int currentIdx = (int)((idx - startByte) % strBuffLen);
                     if (defaultConvert) str = ByteCharConverter.ToString(data);
-                    else if (currentIdx == 0) str = ByteCharConverter.ToString(_byteProvider.ReadBytes((int)idx, strBuffLen), true);
+                    else if (currentIdx == 0)
+                    {
+                        if (str.Length > strBuffLen)
+                        {
+                            strTmp = str.Substring(strBuffLen);
+                            if (strTmp.Length > 3) strTmp = strTmp.Substring(0, strTmp.Length - 3);
+                        }
+                        str = ByteCharConverter.ToString(_byteProvider.ReadBytes((int)idx, strBuffLen + 10), true);
+                        if (str.Length > strTmp.Length && strTmp.Length > 0 && !str.StartsWith(strTmp)) str = strTmp + str.Substring(strTmp.Length);
+                    }
 
                     if (isSelectedByte && isStringKeyInterpreterActive)
                         g.FillRectangle(selBrushBack, byteStringPointF.X, byteStringPointF.Y, CharSize.Width * data.Length, CharSize.Height);
@@ -2305,6 +2314,26 @@ namespace Be.Windows.Forms
                         {
                             idx++;
                             counter++;
+                            if (!defaultConvert && str != "")
+                            {
+                                currentIdx = (int)((idx - startByte) % strBuffLen);
+                                if (currentIdx == 0)
+                                {
+                                    if (str.Length > strBuffLen)
+                                    {
+                                        strTmp = str.Substring(strBuffLen);
+                                        if (strTmp.Length > 3) strTmp = strTmp.Substring(0, strTmp.Length - 3);
+                                    }
+                                    str = ByteCharConverter.ToString(_byteProvider.ReadBytes((int)idx, strBuffLen + 10), true);
+                                    if (str.Length > strTmp.Length && strTmp.Length > 0 && !str.StartsWith(strTmp)) str = strTmp + str.Substring(strTmp.Length);
+                                }
+                                if (currentIdx < str.Length)
+                                {
+                                    gridPoint = GetGridBytePoint(counter);
+                                    byteStringPointF = GetByteStringPointF(gridPoint);
+                                    g.DrawString(str[currentIdx].ToString(), Font, isSelectedByte && isStringKeyInterpreterActive ? selBrush : brush, byteStringPointF, _stringFormat);
+                                }
+                            }
                             if (changedPosSet.Contains(idx)) PaintHexString(g, data, changedBrush, gridPoint);
                             else if (changedFinishPosSet.Contains(idx)) PaintHexString(g, data, changedFinishBrush, gridPoint);
                         }
@@ -2483,16 +2512,14 @@ namespace Be.Windows.Forms
             // stack overflowexception on big files - workaround
             if (rec.Top < 0 || rec.Left < 0 || rec.Width <= 0 || rec.Height <= 0) return;
 
-            Bitmap myBitmap = new Bitmap(rec.Width, rec.Height);
-            Graphics bitmapGraphics = Graphics.FromImage(myBitmap);
-
-            SolidBrush greenBrush = new SolidBrush(_shadowSelectionColor);
-
-            bitmapGraphics.FillRectangle(greenBrush, 0, 0, rec.Width, rec.Height);
-
-            g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.GammaCorrected;
-
-            g.DrawImage(myBitmap, rec.Left, rec.Top);
+            using (Bitmap myBitmap = new Bitmap(rec.Width, rec.Height))
+            using (Graphics bitmapGraphics = Graphics.FromImage(myBitmap))
+            using (SolidBrush greenBrush = new SolidBrush(_shadowSelectionColor))
+            {
+                bitmapGraphics.FillRectangle(greenBrush, 0, 0, rec.Width, rec.Height);
+                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.GammaCorrected;
+                g.DrawImage(myBitmap, rec.Left, rec.Top);
+            }
         }
 
         Color GetDefaultForeColor() { return Enabled ? ForeColor : Color.Gray; }
@@ -3250,9 +3277,9 @@ namespace Be.Windows.Forms
         }
 
         /// <summary>
-        /// Get or set the content-type of the copy feature for key down (Control+C).
+        /// Get or set the content-type of the copy feature for key down (Control+C), content-type is Char or Hex text.
         /// </summary>
-        [Category("HexBehavior"), Description("Get or set the content-type of the copy feature for key down (Control+C).")]
+        [Category("HexBehavior"), Description("Get or set the content-type of the copy feature for key down (Control+C), content-type is Char or Hex text")]
         public StringContentType KeyDownControlCContentType { get; set; } = StringContentType.Char;
         #endregion
 

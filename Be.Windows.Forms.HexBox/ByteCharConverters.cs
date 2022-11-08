@@ -115,21 +115,16 @@ namespace Be.Windows.Forms
             foreach (char c in chars)
             {
                 if (c.ToString().Length == 0) encoded += ".";
-                else if(c == '\0') encoded += " ";
+                else if (c == '\0') encoded += " ";
                 else
                 {
                     encoded += c;
+                    if (!align || c == '�') continue;
                     var byteCount = _encoding.GetByteCount(c.ToString());
-                    if (align && byteCount > 1)
-                    {
-                        for (int i = 1; i < byteCount; i++) encoded += " ";
-                    }
+                    if (byteCount > 1) for (int i = 1; i < byteCount; i++) encoded += " ";
                 }
             }
-            if (align && encoded.Length < data.Length)
-            {
-                for (int i = encoded.Length; i <= data.Length; i++) encoded += " ";
-            }
+            if (align && encoded.Length < data.Length) for (int i = encoded.Length; i <= data.Length; i++) encoded += " ";
 
             return encoded;
         }
