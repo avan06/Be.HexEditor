@@ -155,10 +155,10 @@ namespace Be.HexEditor
         /// </summary>
         void ManageAbilityForCopyAndPaste()
         {
-            copyHexStringToolStripMenuItem.Enabled = copyToolStripSplitButton.Enabled = copyToolStripMenuItem.Enabled = hexBox.CanCopy();
+            copyHexToolStripMenuItem.Enabled = copyToolStripSplitButton.Enabled = copyToolStripMenuItem.Enabled = hexBox.CanCopy();
 
             cutToolStripButton.Enabled = cutToolStripMenuItem.Enabled = hexBox.CanCut();
-            pasteToolStripSplitButton.Enabled = pasteToolStripMenuItem.Enabled = hexBox.CanPaste();
+            pasteHexToolStripMenuItem.Enabled = pasteToolStripSplitButton.Enabled = pasteToolStripMenuItem.Enabled = hexBox.CanPaste();
         }
 
         /// <summary>
@@ -449,6 +449,33 @@ namespace Be.HexEditor
             SaveFile();
         }
 
+        private void close_Click(object sender, EventArgs e)
+        {
+            if (hexBox.ByteProvider == null) return;
+
+            try
+            {
+                DynamicFileByteProvider dynamicFileByteProvider = hexBox.ByteProvider as DynamicFileByteProvider;
+                dynamicFileByteProvider.Changed -= new EventHandler(byteProvider_Changed);
+                dynamicFileByteProvider.LengthChanged -= new EventHandler(byteProvider_LengthChanged);
+                dynamicFileByteProvider.Dispose();
+                dynamicFileByteProvider = null;
+                hexBox.ByteProvider = null;
+                _fileName = null;
+                DisplayText();
+                UpdateFileSizeStatus();
+            }
+            catch (Exception ex1)
+            {
+                Program.ShowError(ex1);
+            }
+            finally
+            {
+                ManageAbility();
+            }
+
+        }
+
         void cut_Click(object sender, EventArgs e)
         {
             hexBox.Cut();
@@ -459,14 +486,19 @@ namespace Be.HexEditor
             hexBox.Copy();
         }
 
+        private void copyHex_Click(object sender, EventArgs e)
+        {
+            hexBox.Copy(true);
+        }
+
         void paste_Click(object sender, EventArgs e)
         {
             hexBox.Paste();
         }
 
-        private void copyHex_Click(object sender, EventArgs e)
+        void pasteHex_Click(object sender, EventArgs e)
         {
-            hexBox.Copy(true);
+            hexBox.Paste(true);
         }
 
         void find_Click(object sender, EventArgs e)

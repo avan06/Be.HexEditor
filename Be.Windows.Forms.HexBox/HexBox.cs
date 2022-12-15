@@ -1803,22 +1803,22 @@ namespace Be.Windows.Forms
 
             _abortFind = false;
 
-            bool backward = options.FindDirection == Direction.Backward;
-            startIndex = startIndex + SelectionLength * (backward ? 1 : -1);
-            for (long pos = startIndex; (backward ? pos < _byteProvider.Length : pos >= 0); pos += (backward ? 1 : -1))
+            bool forward = options.FindDirection == Direction.Forward;
+            startIndex = startIndex + SelectionLength * (forward ? 1 : -1);
+            for (long pos = startIndex; (forward ? pos < _byteProvider.Length : pos >= 0); pos += (forward ? 1 : -1))
             {
                 if (_abortFind) return -2;
 
                 if (pos % 1000 == 0) Application.DoEvents(); // for performance reasons: DoEvents only 1 times per 1000 loops
 
                 byte compareByte = _byteProvider.ReadByte(pos);
-                bool buffer1Match = compareByte == buffer1[(backward ? 0 : buffer1.Length - 1) + match * (backward ? 1 : -1)];
+                bool buffer1Match = compareByte == buffer1[(forward ? 0 : buffer1.Length - 1) + match * (forward ? 1 : -1)];
                 bool hasBuffer2 = buffer2 != null;
-                bool buffer2Match = hasBuffer2 ? compareByte == buffer2[(backward ? 0 : buffer2.Length - 1) + match * (backward ? 1 : -1)] : false;
+                bool buffer2Match = hasBuffer2 ? compareByte == buffer2[(forward ? 0 : buffer2.Length - 1) + match * (forward ? 1 : -1)] : false;
                 bool isMatch = buffer1Match || buffer2Match;
                 if (!isMatch)
                 {
-                    pos -= match * (backward ? 1 : -1);
+                    pos -= match * (forward ? 1 : -1);
                     match = 0;
                     CurrentFindingPosition = pos;
                     continue;
@@ -1828,7 +1828,7 @@ namespace Be.Windows.Forms
 
                 if (match == buffer1Length)
                 {
-                    long bytePos = pos - (backward ? buffer1Length - 1 : 0);
+                    long bytePos = pos - (forward ? buffer1Length - 1 : 0);
                     Select(bytePos, buffer1Length);
                     ScrollByteIntoView(_bytePos + _selectionLength);
                     ScrollByteIntoView(_bytePos);
@@ -1937,7 +1937,8 @@ namespace Be.Windows.Forms
         /// <summary>
         /// Replaces the current selection in the hex box with the contents of the Clipboard.
         /// </summary>
-        public void Paste()
+        /// <param name="dataHexStr">Determines whether the copied content-type is a Hex string</param>
+        public void Paste(bool dataHexStr = false)
         {
             if (!CanPaste()) return;
 
@@ -1952,7 +1953,14 @@ namespace Be.Windows.Forms
             else if (da.GetDataPresent(typeof(string)))
             {
                 string sBuffer = (string)da.GetData(typeof(string));
-                buffer = System.Text.Encoding.ASCII.GetBytes(sBuffer);
+                if (dataHexStr)
+                {
+                    sBuffer = sBuffer.Replace(" ", "").Replace("-", "").Replace("_", "");
+                    if (sBuffer.Length % 2 == 1) sBuffer = "0" + sBuffer;
+                    buffer = new byte[sBuffer.Length / 2];
+                    for (int idx = 0; idx < buffer.Length; idx++) buffer[idx] = Convert.ToByte(sBuffer.Substring(idx * 2, 2), 16);
+                }
+                else buffer = System.Text.Encoding.ASCII.GetBytes(sBuffer);
             }
             else return;
 

@@ -218,9 +218,7 @@ namespace Be.HexEditor
             // RadioBtnBackward
             // 
             resources.ApplyResources(this.RadioBtnBackward, "RadioBtnBackward");
-            this.RadioBtnBackward.Checked = true;
             this.RadioBtnBackward.Name = "RadioBtnBackward";
-            this.RadioBtnBackward.TabStop = true;
             this.RadioBtnBackward.UseVisualStyleBackColor = true;
             // 
             // RadioBtnPanel
@@ -233,7 +231,9 @@ namespace Be.HexEditor
             // RadioBtnForward
             // 
             resources.ApplyResources(this.RadioBtnForward, "RadioBtnForward");
+            this.RadioBtnForward.Checked = true;
             this.RadioBtnForward.Name = "RadioBtnForward";
+            this.RadioBtnForward.TabStop = true;
             this.RadioBtnForward.UseVisualStyleBackColor = true;
             // 
             // ChkAutoClose

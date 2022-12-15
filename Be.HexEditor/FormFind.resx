@@ -421,13 +421,28 @@
     <value>hexFind</value>
   </data>
   <data name="&gt;&gt;hexFind.Type" xml:space="preserve">
-    <value>Be.Windows.Forms.HexBox, Be.Windows.Forms.HexBox, Version=1.7.9.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Be.Windows.Forms.HexBox, Be.Windows.Forms.HexBox, Version=1.7.11.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hexFind.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;hexFind.ZOrder" xml:space="preserve">
     <value>8</value>
+  </data>
+  <data name="line.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="line.Location" type="System.Drawing.Point, System.Drawing">
+    <value>36, 10</value>
+  </data>
+  <data name="line.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 10, 3, 3</value>
+  </data>
+  <data name="line.Size" type="System.Drawing.Size, System.Drawing">
+    <value>462, 1</value>
+  </data>
+  <data name="line.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
   <data name="&gt;&gt;line.Name" xml:space="preserve">
     <value>line</value>
@@ -468,33 +483,6 @@
   <data name="&gt;&gt;flowLayoutPanel1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="line.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="line.Location" type="System.Drawing.Point, System.Drawing">
-    <value>36, 10</value>
-  </data>
-  <data name="line.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 10, 3, 3</value>
-  </data>
-  <data name="line.Size" type="System.Drawing.Size, System.Drawing">
-    <value>462, 1</value>
-  </data>
-  <data name="line.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;line.Name" xml:space="preserve">
-    <value>line</value>
-  </data>
-  <data name="&gt;&gt;line.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;line.Parent" xml:space="preserve">
-    <value>flowLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;line.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="flowLayoutPanel2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
@@ -529,7 +517,7 @@
     <value>NoControl</value>
   </data>
   <data name="RadioBtnBackward.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>82, 3</value>
   </data>
   <data name="RadioBtnBackward.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 17</value>
@@ -551,6 +539,24 @@
   </data>
   <data name="&gt;&gt;RadioBtnBackward.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="RadioBtnForward.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RadioBtnForward.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RadioBtnForward.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="RadioBtnForward.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 17</value>
+  </data>
+  <data name="RadioBtnForward.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="RadioBtnForward.Text" xml:space="preserve">
+    <value>Forward</value>
   </data>
   <data name="&gt;&gt;RadioBtnForward.Name" xml:space="preserve">
     <value>RadioBtnForward</value>
@@ -584,36 +590,6 @@
   </data>
   <data name="&gt;&gt;RadioBtnPanel.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="RadioBtnForward.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="RadioBtnForward.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="RadioBtnForward.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 3</value>
-  </data>
-  <data name="RadioBtnForward.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 17</value>
-  </data>
-  <data name="RadioBtnForward.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="RadioBtnForward.Text" xml:space="preserve">
-    <value>Forward</value>
-  </data>
-  <data name="&gt;&gt;RadioBtnForward.Name" xml:space="preserve">
-    <value>RadioBtnForward</value>
-  </data>
-  <data name="&gt;&gt;RadioBtnForward.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioBtnForward.Parent" xml:space="preserve">
-    <value>RadioBtnPanel</value>
-  </data>
-  <data name="&gt;&gt;RadioBtnForward.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="ChkAutoClose.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -682,6 +658,6 @@
     <value>FormFind</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Be.HexEditor.Core.FormEx, Be.HexEditor, Version=1.7.9.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Be.HexEditor.Core.FormEx, Be.HexEditor, Version=1.7.11.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

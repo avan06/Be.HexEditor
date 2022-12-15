@@ -36,6 +36,10 @@ namespace Be.Windows.Forms
         /// </summary>
         ToolStripMenuItem _pasteToolStripMenuItem;
         /// <summary>
+        /// Contains the "Paste"-ToolStripMenuItem object.
+        /// </summary>
+        ToolStripMenuItem _pasteHexToolStripMenuItem;
+        /// <summary>
         /// Contains the "Select All"-ToolStripMenuItem object.
         /// </summary>
         ToolStripMenuItem _selectAllToolStripMenuItem;
@@ -82,6 +86,9 @@ namespace Be.Windows.Forms
 
                 _pasteToolStripMenuItem = new ToolStripMenuItem(PasteMenuItemTextInternal, PasteMenuItemImage, new EventHandler(PasteMenuItem_Click));
                 cms.Items.Add(_pasteToolStripMenuItem);
+
+                _pasteHexToolStripMenuItem = new ToolStripMenuItem(PasteHexMenuItemTextInternal, PasteMenuItemImage, new EventHandler(PasteHexMenuItem_Click));
+                cms.Items.Add(_pasteHexToolStripMenuItem);
 
                 cms.Items.Add(new ToolStripSeparator());
 
@@ -140,6 +147,13 @@ namespace Be.Windows.Forms
         void PasteMenuItem_Click(object sender, EventArgs e) => this._hexBox.Paste();
 
         /// <summary>
+        /// The handler for the "PasteHex"-Click event
+        /// </summary>
+        /// <param name="sender">the sender object</param>
+        /// <param name="e">the event data</param>
+        void PasteHexMenuItem_Click(object sender, EventArgs e) => this._hexBox.Paste(true);
+
+        /// <summary>
         /// The handler for the "Select All"-Click event
         /// </summary>
         /// <param name="sender">the sender object</param>
@@ -191,6 +205,17 @@ namespace Be.Windows.Forms
         string _pasteMenuItemText;
 
         /// <summary>
+        /// Gets or sets the custom text of the "PasteHex" ContextMenuStrip item.
+        /// </summary>
+        [Category("BuiltIn-ContextMenu"), DefaultValue(null), Localizable(true)]
+        public string PasteHexMenuItemText
+        {
+            get => _pasteHexMenuItemText;
+            set => _pasteHexMenuItemText = value;
+        }
+        string _pasteHexMenuItemText;
+
+        /// <summary>
         /// Gets or sets the custom text of the "Select All" ContextMenuStrip item.
         /// </summary>
         [Category("BuiltIn-ContextMenu"), DefaultValue(null), Localizable(true)]
@@ -217,6 +242,10 @@ namespace Be.Windows.Forms
         /// Gets the text of the "Paste" ContextMenuStrip item.
         /// </summary>
         internal string PasteMenuItemTextInternal => !string.IsNullOrEmpty(PasteMenuItemText) ? PasteMenuItemText : "Paste";
+        /// <summary>
+        /// Gets the text of the "Paste" ContextMenuStrip item.
+        /// </summary>
+        internal string PasteHexMenuItemTextInternal => !string.IsNullOrEmpty(PasteHexMenuItemText) ? PasteHexMenuItemText : "Paste Hex";
         /// <summary>
         /// Gets the text of the "Select All" ContextMenuStrip item.
         /// </summary>
@@ -306,6 +335,14 @@ namespace Be.Windows.Forms
         {
             if (_contextMenuStrip == null) CheckBuiltInContextMenu();
             return _pasteToolStripMenuItem;
+        }
+        /// <summary>
+        /// Contains the "Paste"-ToolStripMenuItem object.
+        /// </summary>
+        public ToolStripMenuItem GetPasteHexToolStripMenuItem()
+        {
+            if (_contextMenuStrip == null) CheckBuiltInContextMenu();
+            return _pasteHexToolStripMenuItem;
         }
         /// <summary>
         /// Contains the "Select All"-ToolStripMenuItem object.

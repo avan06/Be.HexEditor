@@ -23,13 +23,13 @@ namespace Be.Windows.Forms
     public enum Direction
     {
         /// <summary>
-        /// find backward
-        /// </summary>
-        Backward,
-        /// <summary>
         /// find forward
         /// </summary>
         Forward,
+        /// <summary>
+        /// find backward
+        /// </summary>
+        Backward,
     }
 
     /// <summary>
