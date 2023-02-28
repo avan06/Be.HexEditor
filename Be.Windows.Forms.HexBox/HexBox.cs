@@ -2678,6 +2678,20 @@ namespace Be.Windows.Forms
             return res;
         }
 
+        /// <summary>Get changed position set</summary>
+        public HashSet<long> GetChangedPosSet() => changedPosSet;
+
+        /// <summary>Get changed finish position set</summary>
+        public HashSet<long> GetChangedFinishPosSet() => changedFinishPosSet;
+
+        /// <summary>Get changed and finish position list</summary>
+        public List<long> GetChangedFinishPosList()
+        {
+            HashSet<long> changedAndFinishPosSetSet = new HashSet<long>(changedFinishPosSet);
+            changedAndFinishPosSetSet.UnionWith(changedPosSet);
+            return new List<long>(changedAndFinishPosSetSet);
+        }
+
         /// <summary>
         /// Set to finish for changed position, these position are saved when editing bytes value
         /// </summary>
