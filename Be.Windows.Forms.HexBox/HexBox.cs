@@ -2220,14 +2220,14 @@ namespace Be.Windows.Forms
             if (number is float numF)
             {
                 if (numF == 0) result = "0";
-                else if(numF > -1 && numF < 1) result = String.Format("{0:E4}", numF);
+                else if(numF > -1 && numF < 1) result = String.Format("{0:0.###}", numF);
                 else if(numF > int.MaxValue || numF < int.MinValue) result = String.Format("{0:E4}", numF);
                 else result = String.Format("{0:0.###}", numF);
             }
             else if (number is double numD)
             {
                 if (numD == 0) result = "0";
-                else if (numD > -1 && numD < 1) result = String.Format("{0:E8}", numD);
+                else if (numD > -1 && numD < 1) result = String.Format("{0:0.#####}", numD);
                 else if (numD > long.MaxValue || numD < long.MinValue) result = String.Format("{0:E8}", numD);
                 else result = String.Format("{0:0.#####}", numD);
             }
