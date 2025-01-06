@@ -1,7 +1,9 @@
 ﻿Be.HexEditor
 ============
 
-This repository mirrors source code of [Be.HexEditor](http://sourceforge.net/projects/hexbox/) project created by Bernhard Elbl.
+This repository mirrors source code of [Be.HexEditor](http://sourceforge.net/projects/hexbox/) project created by Bernhard Elbl.  
+Be.HexEditor is a small, fast and simple hex editor. It contains a reusable hex edit control called HexBox.  
+Be.Windows.Forms.HexBox is a UserControl written in .Net Framework 4.8 and .NET 8.  
 
 ___
 
